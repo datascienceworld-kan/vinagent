@@ -1,0 +1,28 @@
+name: FastAPI MVC Project Generator (No DB)
+version: 0.0.1
+schema: v1
+prompts:
+  - name: Generate FastAPI Project (No Database)
+    description: Generate a modular FastAPI project using MVC and OOP principles, without any database
+    prompt: >
+      Generate a modular FastAPI project structure using the MVC pattern and object-oriented principles (OOP), without any database integration. The project should include:
+
+      1. An `app/` directory with subfolders:
+         - `models/`: for internal data models (non-database, e.g., in-memory or business logic classes)
+         - `controllers/`: for core application logic
+         - `routes/`: for defining API endpoints using APIRouter
+         - `services/`: optional, for reusable service-layer logic
+         - `core/`: configuration, app startup logic
+         - `schemas/`: for request/response Pydantic models
+         - `utils/`: utility/helper functions
+
+      2. A main `main.py` file that starts the FastAPI application.
+
+      3. Include an example use case:
+         - A simple "Task" management API with endpoints to create, list, and delete tasks.
+         - Tasks should be stored in an in-memory list (simulate persistence without using a database).
+         - Use FastAPI's dependency injection pattern with `Depends` if needed.
+         - Apply proper separation of concerns across MVC layers.
+         - Include error handling and response models.
+
+      Follow Python 3.10+ syntax and FastAPI best practices. The code should be clean, modular, and easy to extend. Do not include any database code or third-party database libraries.
