@@ -151,18 +151,18 @@ class ToolManager:
             raise ValueError(f"Failed to load module {module_path}: {str(e)}")
 
         prompt = (
-            "Analyze this module and return a list of tools in JSON format:"
-            "- Module code:"
-            f"{module_source}"
-            "Format: Let's return a list of json format without further explaination and without ```json characters markdown and keep module_path unchange."
-            "[{{"
-            '"tool_name": "The function",'
-            '"arguments": "A dictionary of keyword-arguments to execute tool. Let\'s keep default value if it was set",'
-            '"return": "Return value of this tool",'
-            '"docstring": "Docstring of this tool",'
-            '"dependencies": "List of libraries need to run this tool",'
-            f'"module_path": "{module_path}"'
-            "}}]"
+            "Analyze this module and return a list of tools in JSON format:\n"
+            "- Module code:\n"
+            f"{module_source}\n"
+            "- Format: Let's return a list of json format without further explaination and without ```json characters markdown and keep module_path unchange.\n"
+            "[{{\n"
+            '"tool_name": "The function",\n'
+            '"arguments": "A dictionary of keyword-arguments to execute tool. Let\'s keep default value if it was set",\n'
+            '"return": "Return value of this tool",\n'
+            '"docstring": "Docstring of this tool",\n'
+            '"dependencies": "List of libraries need to run this tool",\n'
+            f'"module_path": "{module_path}"\n'
+            "}}]\n"
         )
 
         response = llm.invoke(prompt)

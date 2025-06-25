@@ -55,7 +55,7 @@ agent = Agent(
     tools = ['vinagent.tools.websearch_tools',
              'vinagent.tools.yfinance_tools'],
     tools_path = 'templates/tools.json', # Place to save tools. Default is 'templates/tools.json'
-    is_reset_tools = True # If True, will reset tools every time. Default is False
+    is_reset_tools = True # If True, it will reset tools every time reinitializing an agent. Default is False
 )
 
 # Step 2: invoke the agent
@@ -634,13 +634,71 @@ agent.compiled_graph
 
 ![](asset/langgraph_function_output.png)
 
-# 8. License
+# 10. Agent Observability
+
+Vinagent provides a local server that can be used to visualize the workflow and debug the agent. We leverage mlflow observability to track the agent's progress and performance. To use the local server, run the following command:
+
+- Step 1: Start the local mlflow server.
+
+```
+mlflow ui
+```
+This command will deploy a local loging server on port 5000 to your agent connect to.
+
+- Step 2: Initialize an experiment to auto-log messages for agent
+
+```
+import mlflow
+from vinagent.mlflow import autolog
+
+# Enable Vinagent autologging
+autolog.autolog()
+
+# Optional: Set tracking URI and experiment
+mlflow.set_tracking_uri("http://localhost:5000")
+mlflow.set_experiment("Vinagent")
+```
+
+After this step, one hooking function will be registered after agent invoking.
+
+- Step 3: Run your agent
+
+```
+from langchain_together import ChatTogether 
+from vinagent.agent.agent import Agent
+from dotenv import load_dotenv
+load_dotenv()
+
+llm = ChatTogether(
+    model="meta-llama/Llama-3.3-70B-Instruct-Turbo-Free"
+)
+
+agent = Agent(
+    description="You are an Expert who can answer any general questions.",
+    llm = llm,
+    skills = [
+        "Searching information from external search engine\n",
+        "Summarize the main information\n"],
+    tools = ['vinagent.tools.websearch_tools'],
+    tools_path = 'templates/tools.json',
+    memory_path = 'templates/memory.json'
+)
+
+result = agent.invoke(query="What is the weather today in Ha Noi?")
+```
+
+You can watch the video below to learn more about Agent observability feature:
+
+[![Watch the video](https://img.youtube.com/vi/UgZLhoIgc94/0.jpg)](https://youtu.be/UgZLhoIgc94?si=qidf9fX3i4Cf0ETp)
+
+
+# 9. License
 `vinagent` is released under the MIT License. You are free to use, modify, and distribute the code for both commercial and non-commercial purposes.
 
-# 9. Contributing
+# 10. Contributing
 We welcome contributions from the community. If you would like to contribute, please read our [Contributing Guide](https://github.com/datascienceworld-kan/vinagent/blob/main/CONTRIBUTING.md). If you have any questions or need help, feel free to join [Discord Channel](https://discord.com/channels/1036147288994758717/1358017320970358864).
 
-# 10. Credits
+# 11. Credits
 
 We acknowledge the contributions of previous open-source library and platform that inspired the development of `vinagent`:
 

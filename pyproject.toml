@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "vinagent"
-version = "0.0.3"
+version = "0.0.4.post1"
 description = ""
 authors = ["phamdinhkhanh <phamdinhkhanh.tkt53.neu@gmail.com>"]
 readme = "README.md"
@@ -21,6 +21,8 @@ tavily-python = { version = "^0.3.1", optional = true }
 googlenewsdecoder = "0.1.7"
 aucodb = {extras = ["graph"], version = "0.1.7" }
 mcp = "1.9.0"
+mlflow = "3.1.0"
+mlflow-skinny = "3.1.0"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.7.1"

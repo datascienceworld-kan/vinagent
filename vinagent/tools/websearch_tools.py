@@ -4,15 +4,12 @@ from tavily import TavilyClient
 from dataclasses import dataclass
 from typing import Union, Any
 
-# load environment variables from .env file
 _ = load_dotenv()
 
 
 @dataclass
 class WebSearchClient:
-    # connect
     tavily_client = TavilyClient(api_key=os.environ.get("TAVILY_API_KEY"))
-    # run search
 
     def call_api(self, query: Union[str, dict[str, str]]):
         if isinstance(query, dict):
@@ -20,7 +17,6 @@ class WebSearchClient:
         else:
             query_string = query
         result = self.tavily_client.search(query_string, include_answer=True)
-        # print the answer
         return result["answer"]
 
 
