@@ -67,7 +67,7 @@ from vinagent.graph.graph import (
     Send,
 )
 
-from langgraph.graph.schema_utils import SchemaCoercionMapper
+from vinagent.graph.schema_utils import SchemaCoercionMapper
 from langgraph.managed.base import (
     ChannelKeyPlaceholder,
     ChannelTypePlaceholder,

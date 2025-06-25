@@ -1,26 +1,118 @@
 {
-    "add": {
-        "tool_name": "add",
+    "fetch_stock_data": {
+        "tool_name": "fetch_stock_data",
         "arguments": {
-            "a": "integer",
-            "b": "integer"
+            "symbol": "str",
+            "start_date": "2020-01-01",
+            "end_date": "2025-01-01",
+            "output_size": "full"
         },
-        "return": "content_and_artifact",
-        "docstring": "Add two numbers",
-        "module_path": "__mcp__",
-        "tool_type": "mcp",
-        "tool_call_id": "tool_e25d9a0c-ec8c-483b-ada7-70779a23c668"
+        "return": "pd.DataFrame",
+        "docstring": "None",
+        "dependencies": [
+            "vinagent.config.logger_config",
+            "vinagent.cache.redis_cache",
+            "alpha_vantage.timeseries",
+            "pandas"
+        ],
+        "module_path": "vinagent.tools.alpha_vantage_tools",
+        "tool_type": "module",
+        "tool_call_id": "tool_42628cd9-ff52-41db-ae44-ac8fb4e71691"
     },
-    "multiply": {
-        "tool_name": "multiply",
+    "visualize_stock_data": {
+        "tool_name": "visualize_stock_data",
         "arguments": {
-            "a": "integer",
-            "b": "integer"
+            "symbol": "str",
+            "start_date": "2020-01-01",
+            "end_date": "2025-01-01",
+            "output_size": "full",
+            "show_static": "True",
+            "show_interactive": "True"
         },
-        "return": "content_and_artifact",
-        "docstring": "Multiply two numbers",
-        "module_path": "__mcp__",
-        "tool_type": "mcp",
-        "tool_call_id": "tool_088b618f-093b-4d29-a8ed-1836cd474486"
+        "return": "Optional[go.Figure]",
+        "docstring": "None",
+        "dependencies": [
+            "vinagent.config.logger_config",
+            "vinagent.cache.redis_cache",
+            "alpha_vantage.timeseries",
+            "pandas",
+            "matplotlib.pyplot",
+            "plotly.subplots",
+            "plotly.graph_objects"
+        ],
+        "module_path": "vinagent.tools.alpha_vantage_tools",
+        "tool_type": "module",
+        "tool_call_id": "tool_48c1364e-2a5a-435b-8202-253dd51365f2"
+    },
+    "plot_returns": {
+        "tool_name": "plot_returns",
+        "arguments": {
+            "symbol": "str",
+            "start_date": "2020-01-01",
+            "end_date": "2025-01-01",
+            "output_size": "full"
+        },
+        "return": "Optional[go.Figure]",
+        "docstring": "Visualize cumulative returns of the stock.",
+        "dependencies": [
+            "vinagent.config.logger_config",
+            "vinagent.cache.redis_cache",
+            "alpha_vantage.timeseries",
+            "pandas",
+            "plotly.graph_objects"
+        ],
+        "module_path": "vinagent.tools.alpha_vantage_tools",
+        "tool_type": "module",
+        "tool_call_id": "tool_d2946766-fd62-4052-a54e-acc919d0a8d2"
+    },
+    "_fetch_data": {
+        "tool_name": "_fetch_data",
+        "arguments": {
+            "symbol": "str",
+            "output_size": "full",
+            "redis_client": "None"
+        },
+        "return": "Tuple[pd.DataFrame, dict[str, str]]",
+        "docstring": "Fetch daily stock data from Alpha Vantage via TimeSeries API.",
+        "dependencies": [
+            "vinagent.config.logger_config",
+            "vinagent.cache.redis_cache",
+            "alpha_vantage.timeseries",
+            "pandas"
+        ],
+        "module_path": "vinagent.tools.alpha_vantage_tools",
+        "tool_type": "module",
+        "tool_call_id": "tool_5d98c9b0-05ff-48b4-ac58-e65ce5f89788"
+    },
+    "_plot_static_chart": {
+        "tool_name": "_plot_static_chart",
+        "arguments": {
+            "df": "pd.DataFrame",
+            "symbol": "str"
+        },
+        "return": "None",
+        "docstring": "None",
+        "dependencies": [
+            "matplotlib.pyplot"
+        ],
+        "module_path": "vinagent.tools.alpha_vantage_tools",
+        "tool_type": "module",
+        "tool_call_id": "tool_a1396e47-3849-44c1-8a46-e5ad1f3a2bad"
+    },
+    "_plot_interactive_chart": {
+        "tool_name": "_plot_interactive_chart",
+        "arguments": {
+            "df": "pd.DataFrame",
+            "symbol": "str"
+        },
+        "return": "go.Figure",
+        "docstring": "None",
+        "dependencies": [
+            "plotly.subplots",
+            "plotly.graph_objects"
+        ],
+        "module_path": "vinagent.tools.alpha_vantage_tools",
+        "tool_type": "module",
+        "tool_call_id": "tool_94472441-3542-428e-8055-c1d2278204b1"
     }
 }
