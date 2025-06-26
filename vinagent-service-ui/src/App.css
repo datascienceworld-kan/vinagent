@@ -1,0 +1,20 @@
+/* src/App.css */
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden; /* Rất quan trọng: Ngăn thanh cuộn chính của trình duyệt */
+  font-family: sans-serif;
+}
+
+/* You might remove or adjust other default create-react-app App.css styles if they conflict */
+.App {
+  /* This div wraps all your fixed elements, but it doesn't need specific layout styles itself
+     since all its children are positioned fixed. */
+  /* Just in case, ensure it also doesn't introduce scrollbars if it somehow overflows */
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}

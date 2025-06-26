@@ -3,7 +3,7 @@ import vinagent.tools
 import importlib.resources as pkg_resources
 from typing import List
 
-logger = setup_logger("tool_discovery", "vinagent.log")
+logger = setup_logger(__name__, "vinagent.log")
 
 class ToolService:
     @staticmethod

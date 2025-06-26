@@ -1,0 +1,30 @@
+:root {
+  --primary-color: #0D47A1; /* Deep blue - chuyên nghiệp */
+  --secondary-color: #2E7D32; /* Dark green - tăng trưởng/tích cực */
+  --negative-color: #C62828; /* Dark red - tiêu cực/suy giảm */
+  --background-color: #F4F6F9; /* Nền sáng nhẹ */
+  --panel-bg-color: #FFFFFF; /* Nền panel trắng */
+  --header-bg-color: #263238; /* Blue-grey đậm cho header */
+  --text-color: #212121; /* Màu chữ chính */
+  --border-color: #CFD8DC; /* Light blue-grey border */
+  --hover-color: #1565C0; /* Blue đậm hơn cho hover */
+
+  /* Màu cho nhãn User/Agent */
+  --user-label-color: #555;
+  --agent-label-color: #0D47A1;
+}
+
+
+body {
+  margin: 0;
+  display: flex;
+  padding: 0;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+

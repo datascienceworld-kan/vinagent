@@ -14,7 +14,7 @@ import plotly.graph_objects as go
 
 # load environment variables from .env file
 _ = load_dotenv()
-logger = setup_logger()
+logger = setup_logger(__name__,"vinagent_analysis.log")
 redis_client = RedisCache()
 
 def fetch_stock_data(

@@ -4,7 +4,7 @@ import pickle
 from vinagent.config.logger_config import setup_logger
 from typing import Any
 
-logger = setup_logger() 
+logger = setup_logger(__name__,"vinagent_analysis.log") 
 
 class RedisCache:
     def __init__(self, host='localhost', port=6379, db=0, default_ttl=3600):

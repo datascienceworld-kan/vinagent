@@ -1,0 +1,28 @@
+/* src/components/ArtifactPanel.css */
+.artifact-panel {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    width: 50%;
+    height: calc(100vh - 80px - 60px);
+    border: 1px solid var(--border-color);
+    background-color: var(--panel-bg-color);
+    padding: 20px;
+    box-sizing: border-box;
+    z-index: 90;
+}
+
+.artifact-panel  {
+    border-left: none;
+}
+
+.artifact-panel h2 {
+    margin-top: 0;
+    color: var(--text-color);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+    font-weight: 500;
+    flex-shrink: 0;
+}

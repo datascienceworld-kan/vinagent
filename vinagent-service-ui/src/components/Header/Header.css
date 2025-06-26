@@ -1,0 +1,58 @@
+/* src/components/Header.css */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background-color: var(--header-bg-color);
+    color: white;
+    padding: 0 20px;
+    box-sizing: border-box;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-content {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1,
+.header p {
+    margin: 0;
+    line-height: 1.2;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 1.8em;
+    font-weight: 500;
+    text-align: center;
+    flex-grow: 1;
+}
+
+.header p {
+    font-size: 0.9em;
+    opacity: 0.8;
+}
+
+.settings-icon {
+    position: absolute;
+    font-size: 1.5em;
+    cursor: pointer;
+    margin-left: 20px;
+    flex-shrink: 0;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+.settings-icon:hover {
+    opacity: 0.8;
+}
