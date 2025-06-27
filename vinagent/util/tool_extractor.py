@@ -23,8 +23,6 @@ class ToolMetadataExtractor:
             raise
         
         
-        
-
     def extract_imports(self) -> list[str]:
         logger.info(f"Extracting imports from '{self.module_file}'")
         try:

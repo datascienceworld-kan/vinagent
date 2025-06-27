@@ -49,7 +49,7 @@ export type OutgoingWebSocketMessage = OutgoingQueryMessage;
 export interface IncomingWebSocketMessagePayload {
     query_id: string;
     chat_message?: {
-        from: 'user' | 'agent';
+        from_: 'user' | 'agent';
         text: string;
     };
     artifact_data?: ArtifactDataPayload | null;

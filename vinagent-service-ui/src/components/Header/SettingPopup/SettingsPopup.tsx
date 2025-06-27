@@ -35,7 +35,7 @@ const SettingsPopup: React.FC<SettingsPopupProps> = ({ onClose}) => {
         severity: 'info',
     });
 
-    const {agentDescription, agentSkills, refetch } = useModelContext();
+    const {agentDescription, agentSkills, toolsPath, isResetTool ,refetch } = useModelContext();
 
     const modelsTabRef = useRef<ModelsTabRef>(null);
     const settingTabRef = useRef<SettingTabRef>(null);
@@ -129,7 +129,10 @@ const SettingsPopup: React.FC<SettingsPopupProps> = ({ onClose}) => {
                 <Box sx={{ display: activeTab === 1 ? 'block' : 'none' }}>
                     <SettingTab ref={settingTabRef}
                                 initialDescription={agentDescription}
-                                initialSkills={agentSkills}/>
+                                initialSkills={agentSkills}
+                                initialToolPath={toolsPath}
+                                initialResetTool={isResetTool}
+                                />
                 </Box>
 
             </DialogContent>

@@ -18,6 +18,8 @@ interface ModelContextType {
     models: Model[];
     agentDescription: string | null;
     agentSkills: string[] | null;
+    toolsPath: string | null;
+    isResetTool: boolean | false;
     loading: boolean;
     error: string | null;
     refetch: () => void;
@@ -27,6 +29,8 @@ const ModelContext = createContext<ModelContextType>({
     models: [],
     agentDescription: null,
     agentSkills: null,
+    toolsPath: null,
+    isResetTool: false,
     loading: false,
     error: null,
     refetch: () => {},
@@ -37,6 +41,8 @@ export const useModelContext = () => useContext(ModelContext);
 export const ModelProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [models, setModels] = useState<Model[]>([]);
     const [agentDescription, setAgentDescription] = useState<string | null>(null);
+    const [toolsPath, setToolsPath] = useState<string | null>(null);
+    const [isResetTool, setIsResetTool] = useState<boolean>(false)
     const [agentSkills, setAgentSkills] = useState<string[] | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -45,12 +51,16 @@ export const ModelProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         setLoading(true);
         setAgentDescription(null);
         setAgentSkills(null);
+        setToolsPath(null);
+        setIsResetTool(false);
         try {
             const data = await fetchModelsData();
             if (Array.isArray(data.models)) {
                 setModels(data.models);
                 setAgentDescription(data.agent_description ?? null);
                 setAgentSkills(data.agent_skills ?? null);
+                setToolsPath(data.tools_path ?? null);
+                setIsResetTool(data.is_reset_tools)
                 setError(null);
             } else {
                 // Log the unexpected data structure if 'models' is not an array
@@ -66,6 +76,8 @@ export const ModelProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             setModels([]);
             setAgentDescription(null);
             setAgentSkills(null);
+            setToolsPath(null)
+            setIsResetTool(false)
             console.error("Error fetching models:", err);
         } finally {
             setLoading(false);
@@ -78,7 +90,7 @@ export const ModelProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }, []);
 
     return (
-        <ModelContext.Provider value={{ models, agentDescription, agentSkills, loading, error, refetch: fetchModels }}>
+        <ModelContext.Provider value={{ models, agentDescription, agentSkills, toolsPath, isResetTool ,loading, error, refetch: fetchModels }}>
             {children}
         </ModelContext.Provider>
     );

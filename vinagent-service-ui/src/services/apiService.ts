@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:8000/api';
+const API_BASE_URL = 'http://localhost:8888/api';
 
 interface ConfigurationData {
     model_id: string | null;
@@ -21,6 +21,8 @@ interface ModelsApiResponse {
     }>;
     agent_description?: string | null;
     agent_skills?: string[] | null;
+    tools_path?: string | null;
+    is_reset_tools: boolean;
 }
 
 export const fetchAgentTools = async (): Promise<string[]> => {

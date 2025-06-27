@@ -28,4 +28,6 @@ class ModelService:
 
         return ModelSetting(models=filtered_models, 
                             agent_description=settings.agent_description, 
-                            agent_skills=settings.agent_skills)
+                            agent_skills=settings.agent_skills,
+                            tools_path=settings.tools_path,
+                            is_reset_tools=settings.is_reset_tools)

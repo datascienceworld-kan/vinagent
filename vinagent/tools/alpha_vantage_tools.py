@@ -1,7 +1,6 @@
 from vinagent.config.logger_config import setup_logger
 from vinagent.cache.redis_cache import RedisCache
 from typing import Tuple, Optional
-import pickle
 from alpha_vantage.timeseries import TimeSeries
 from dotenv import load_dotenv
 import pandas as pd
@@ -15,8 +14,6 @@ import plotly.graph_objects as go
 # load environment variables from .env file
 _ = load_dotenv()
 logger = setup_logger(__name__,"vinagent_analysis.log")
-redis_client = RedisCache()
-
 def fetch_stock_data(
     symbol: str,
     start_date: str = "2020-01-01",
@@ -158,8 +155,6 @@ def _fetch_data(
     Returns:
         Tuple of (dataframe, metadata)
     """
-
-    # Use provided or default Redis cache
     if redis_client is None:
         redis_client = RedisCache()
 
@@ -172,8 +167,9 @@ def _fetch_data(
 
         if cached:
             logger.info(f"Loaded '{symbol}' from Redis cache")
-            cached_obj = pickle.loads(cached)
-            return cached_obj['data'], cached_obj['meta_data']
+            # cached_obj = pickle.loads(cached)
+            # return cached_obj['data'], cached_obj['meta_data']
+            return cached['data'], cached['meta_data']
         
         # Cache miss → fetch from API
         logger.info(f"Fetching '{symbol}' from Alpha Vantage...")
@@ -187,8 +183,9 @@ def _fetch_data(
         data.index = pd.to_datetime(data.index)
         data = data.sort_index(ascending=False)
 
-        serialized = pickle.dumps({'data': data, 'meta_data': meta_data})
-        redis_client.set(redis_key, serialized)
+        # serialized = pickle.dumps({'data': data, 'meta_data': meta_data})
+        # redis_client.set(redis_key, serialized)
+        redis_client.set(redis_key, {'data': data, 'meta_data': meta_data})
 
         logger.info(f"Successfully fetched and processed data for {symbol}")
         return data, meta_data

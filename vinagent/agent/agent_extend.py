@@ -1,31 +1,26 @@
 import json
-from pathlib import Path
 from typing import Any
 from vinagent.agent import Agent
 from vinagent.config.logger_config import setup_logger
-from vinagent.util.tool_extractor import ToolMetadataExtractor
 from langchain_core.messages.tool import ToolMessage
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 import importlib
+from pathlib import Path
+from vinagent.util.tool_extractor import ToolMetadataExtractor
 
 logger = setup_logger(__name__,"vinagent_analysis.log")
 
 class VinAgent(Agent):
     
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.tool_dir = Path("templates")
-        self.tool_dir.mkdir(parents=True, exist_ok=True)
+    def __init__(self, tools_path: Path, *args, **kwargs):
+        super().__init__(*args, tools_path=tools_path, **kwargs)
         self.tools_metadata = self._load_or_generate_tool_metadata()
 
     def _load_or_generate_tool_metadata(self) -> dict:
         tools_metadata = {}
-
         for module_path in self.tools:
             try:
-                module_name = module_path.split(".")[-1]
-                tool_file = self.tool_dir / f"{module_name}.json"
-
+                tool_file = self.tools_path
                 if tool_file.exists():
                     with open(tool_file, "r", encoding="utf-8") as f:
                         metadata = json.load(f)
@@ -48,19 +43,58 @@ class VinAgent(Agent):
         messages = self._build_prompt_messages(query, self.tools_metadata)
         try:
             response = await self.llm.ainvoke(messages)
-            tool_data = self._extract_json(response.content)
+            tool_data = self.tools_manager.extract_tool(response.content)
 
             if not tool_data or ("None" in tool_data) or (tool_data == "{}"):
                 return response
             
             tool_call = json.loads(tool_data)
 
-            return self._execute_tool(
-                tool_call["tool_name"], tool_call["arguments"], tool_call["module_path"]
+            # return self._execute_tool(
+            #     tool_call["tool_name"], tool_call["arguments"], tool_call["module_path"]
+            # )
+            return await self._execute_tool(
+                tool_name=tool_call["tool_name"],
+                tool_type=tool_call.get("tool_type", "module"),  # fallback
+                arguments=tool_call["arguments"],
+                module_path=tool_call["module_path"],
             )
         except (json.JSONDecodeError, KeyError, ValueError) as e:
             logger.error(f"[VinAgent] Async tool calling failed: {str(e)}")
             return AIMessage(content=f"[VinAggent] Failed to invoke agent: {str(e)}")
+
+
+    # async def invoke_with_tool_async(self, query: str) -> AsyncGenerator[Any, None]:
+    #     """
+    #     Streaming version of invoke_with_tool_async.
+    #     Yields streamed LLM chunks, then tool result if applicable.
+    #     """
+    #     messages = self._build_prompt_messages(query, self.tools_metadata)
+    #     full_content = AIMessageChunk(content="")
+    #     try:
+    #         # Stream LLM response
+    #         async for chunk in self.llm.astream(messages):
+    #             full_content += chunk
+    #             yield chunk  # Yield each streamed chunk immediately
+
+    #         # After streaming is done, extract tool call
+    #         tool_data = self.tools_manager.extract_tool(full_content.content)
+    #         if not tool_data or ("None" in tool_data) or (tool_data == "{}"):
+    #             return
+            
+    #         tool_call = json.loads(tool_data)
+
+    #         # Execute tool
+    #         tool_message = await self._execute_tool(
+    #             tool_name=tool_call["tool_name"],
+    #             tool_type=tool_call.get("tool_type", "module"),
+    #             arguments=tool_call["arguments"],
+    #             module_path=tool_call["module_path"]
+    #         )
+    #         yield tool_message # Yield the tool result
+    #     except Exception as e:
+    #         logger.error(f"[VinAgent] Streaming async tool calling failed: {str(e)}")
+    #         yield AIMessage(content=f"[VinAgent] Streaming failed: {str(e)}")
         
 
     def _build_prompt_messages(self, query: str, tools: dict) -> list:
@@ -85,7 +119,7 @@ class VinAgent(Agent):
             HumanMessage(content=prompt),
         ]
 
-    def _execute_tool(self, tool_name: str, arguments: dict, module_path: str) -> Any:
+    async def _execute_tool(self, tool_name: str, arguments: dict, module_path: str, tool_type: str = "module") -> Any:
         """""
         Override: Execute the specified tool with given arguments, without relying on ToolManager
         """""

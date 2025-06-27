@@ -8,4 +8,5 @@ def get_config():
     agent_description = config.agent_description
     agent_skills = config.agent_skills
     llm_model = config.llm_model
-    return AgentConfig(model=llm_model,tools=[],description=agent_description, skils=agent_skills)
+    tools_path = config.tools_path
+    return AgentConfig(model=llm_model,tools=[],description=agent_description, skils=agent_skills, tools_path=tools_path)

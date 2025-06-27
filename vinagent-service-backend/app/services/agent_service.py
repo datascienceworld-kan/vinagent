@@ -20,6 +20,7 @@ class AgentService:
         self.config = config
         self.agent_description = config.description
         self.agent_skills = config.skils
+        self.tools_path = config.tools_path
 
     def create_agent(self, tools: List[str]) -> VinAgent:
         llm_instance = LLMFactory.create_llm(self.config.model)
@@ -28,6 +29,7 @@ class AgentService:
             llm=llm_instance,
             skills=self.agent_skills,
             tools=tools,
+            tools_path=self.tools_path
         )
     
     async def invoke_agent_async(self, agent: VinAgent, query: str) -> Any:

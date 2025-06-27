@@ -12,6 +12,9 @@ class Settings:
             os.getenv("AGENT_SKILLS", "")
         )
         self.textbin_path: str = os.getenv("TEXBIN_PATH","")
+        self.frontend_origin: str = os.getenv("FRONTEND_ORIGIN","http://localhost:3000")
+        self.tools_path: str = os.getenv("TOOLS_PATH","templates/tools.json")
+        self.is_reset_tools = _parse_bool(os.getenv("IS_RESET_TOOLS", "False"))
 
     def _parse_skills(self, skills_str: str) -> List[str]:
         return [s.strip() for s in skills_str.split(",") if s.strip()]
@@ -24,3 +27,6 @@ def get_settings() -> Settings:
 def reset_settings_cache():
     get_settings.cache_clear()
     load_dotenv(override=True)
+
+def _parse_bool(value: str)->bool:
+    return value.lower() in ["1", "true", "yes"]

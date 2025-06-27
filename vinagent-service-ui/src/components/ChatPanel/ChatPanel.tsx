@@ -159,10 +159,14 @@ const ChatPanel: React.FC<ChatPanelProps> = ({ setDisplayedArtifactData }) => {
                 typingMessageIdRef.current = null; // Reset ref
             }
 
-            if (data.chat_message && data.chat_message.from && data.chat_message.text !== undefined) {
+            console.log(data.chat_message)
+            console.log(data.chat_message?.from_)
+            console.log(data.chat_message?.text)
+
+            if (data.chat_message && data.chat_message?.from_ && data.chat_message?.text !== undefined) {
                 const newMessage: ChatMessage = {
                     id: data.query_id || uuidv4(),
-                    sender: data.chat_message.from === 'user' ? 'user' : 'agent',
+                    sender: data.chat_message.from_ === 'user' ? 'user' : 'agent',
                     text: data.chat_message.text,
                     timestamp: new Date(),
                     artifactLink: data.artifact_data

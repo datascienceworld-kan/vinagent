@@ -70,7 +70,7 @@ class VinagentController:
             raise e
 
     
-    async def websocket_handler(websocket: WebSocket):
+    async def websocket_handler(self,websocket: WebSocket):
         await websocket.accept()
         logger.info("WebSocket connected")
         try:
@@ -79,7 +79,7 @@ class VinagentController:
                 try:
                     payload = json.loads(data)
                     response_payload = await agent_service.process_payload(payload)
-                    await websocket.send_text(json.dumps(response_payload))
+                    await websocket.send_text(response_payload.model_dump_json())
                 except json.JSONDecodeError:
                     logger.error(f"Received invalid JSON: {data}")
                     error_payload = QueryResponse(
@@ -87,7 +87,7 @@ class VinagentController:
                         chat_message=ChatMessage(from_="agent", text="[Error]: Invalid JSON format"),
                         artifact_data=None
                     )
-                    await websocket.send_text(json.dumps(error_payload))
+                    await websocket.send_text(error_payload.model_dump_json())
         except WebSocketDisconnect:
             logger.info("WebSocket disconnected")
         except Exception as e:

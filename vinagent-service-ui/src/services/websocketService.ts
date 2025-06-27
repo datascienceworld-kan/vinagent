@@ -127,6 +127,6 @@ class WebSocketService {
 
 }
 
-const websocketService = new WebSocketService('ws://localhost:8000/ws/agent');
+const websocketService = new WebSocketService('ws://localhost:8888/ws/agent');
 
 export default websocketService;

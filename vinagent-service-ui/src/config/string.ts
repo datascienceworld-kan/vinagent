@@ -18,6 +18,8 @@ interface AppStrings {
             closeButtonLabel: string;
             skillLabel: string;
             descriptionLabel: string;
+            toolPathLabel: string;
+            resetToolLabel: string;
         }
     };
     leftPanel: {
@@ -106,7 +108,9 @@ const appStrings: AppStrings = {
             findByDisplayNameLabel: 'Find by Display Name',
             closeButtonLabel: 'Close',
             skillLabel: 'Select skills',
-            descriptionLabel: 'Description'
+            descriptionLabel: 'Description',
+            toolPathLabel: 'Tool Path',
+            resetToolLabel: 'Reset Tools'
         }
     },
     leftPanel: {
@@ -168,13 +172,14 @@ const appStrings: AppStrings = {
     },
 
     toolNameMapping: {
-        "agentools.tools.deepsearch_opt": "Deep Search Tool",
-        "agentools.tools.yfinance_tools": "Financial Data (Yahoo Finance)",
-        "agentools.tools.trending_news": "Trending News",
-        "agentools.tools.computer_tools": "Computer Tools",
-        "agentools.tools.websearch_tools": "Web Search",
-        "agentools.tools.terminal_tools": "Terminal Access",
-        "agentools.tools.alpha_vantage_tools": "Financial Data (Alpha Vantage)",
+        "vinagent.tools.deepsearch_opt": "Deep Search Tool (new)",
+        "vinagent.tools.deepsearch": "Deep Search Tool",
+        "vinagent.tools.yfinance_tools": "Financial Data (Yahoo Finance)",
+        "vinagent.tools.trending_news": "Trending News",
+        "vinagent.tools.computer_tools": "Computer Tools",
+        "vinagent.tools.websearch_tools": "Web Search",
+        "vinagent.tools.terminal_tools": "Terminal Access",
+        "vinagent.tools.alpha_vantage_tools": "Financial Data (Alpha Vantage)",
     },
 
 
