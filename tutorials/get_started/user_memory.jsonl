@@ -1,0 +1,15 @@
+{"head": "Kan", "head_type": "Person", "relation": "BORN_IN", "relation_properties": "in 1993", "tail": "Thanh Hoa Province, Vietnam", "tail_type": "Location"}
+{"head": "Kan", "head_type": "Person", "relation": "WORKS_FOR", "relation_properties": "since 2021", "tail": "FPT Software", "tail_type": "Company"}
+{"head": "Kan", "head_type": "Person", "relation": "WORKS_FOR", "relation_properties": "since 2022", "tail": "NEU", "tail_type": "University"}
+{"head": "Kan", "head_type": "Person", "relation": "STUDIED_AT", "relation_properties": "", "tail": "High School for Gifted Students, VNU University", "tail_type": "School"}
+{"head": "Kan", "head_type": "Person", "relation": "STUDIED_AT", "relation_properties": "graduated in 2015", "tail": "NEU University", "tail_type": "University"}
+{"head": "Kan", "head_type": "Person", "relation": "RESEARCHED_AT", "relation_properties": "", "tail": "FPT AIC", "tail_type": "Institution"}
+{"head": "Kan", "head_type": "Person", "relation": "RECEIVED_AWARD", "relation_properties": "in 2025", "tail": "Nvidia GTC Global Conference", "tail_type": "Conference"}
+{"head": "Kan", "head_type": "Person", "relation": "FOUNDED", "relation_properties": "", "tail": "DataScienceWorld.Kan", "tail_type": "Organization"}
+{"head": "Kan", "head_type": "Person", "relation": "PARTICIPATED_IN", "relation_properties": "since 2024", "tail": "Google GDSC", "tail_type": "Event"}
+{"head": "Kan", "head_type": "Person", "relation": "PARTICIPATED_IN", "relation_properties": "since 2024", "tail": "Google I/O", "tail_type": "Event"}
+{"head": "Kan", "head_type": "Person", "relation": "HAS_MOTTO", "relation_properties": "", "tail": "Make the world better with data and models", "tail_type": "Motto"}
+{"head": "Kan", "head_type": "Person", "relation": "RECEIVED_AWARD", "relation_properties": "at Nvidia GTC Global Conference 2025", "tail": "paper award on Generative AI and LLMs", "tail_type": "Award"}
+{"head": "Kan", "head_type": "Person", "relation": "TEACHES_AT", "relation_properties": "since 2022", "tail": "NEU university", "tail_type": "University"}
+{"head": "DataScienceWorld.Kan", "head_type": "Organization", "relation": "OFFERS", "relation_properties": "", "tail": "Build Generative AI Applications", "tail_type": "Course"}
+{"head": "DataScienceWorld.Kan", "head_type": "Organization", "relation": "OFFERS", "relation_properties": "", "tail": "MLOps \u2013 Machine Learning in Production", "tail_type": "Course"}
