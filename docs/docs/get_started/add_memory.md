@@ -13,7 +13,7 @@ Install `vinagent` package
 
 
 ```python
-%pip install vinagent
+%pip install -U vinagent
 ```
 
 Write environment variable
@@ -21,8 +21,7 @@ Write environment variable
 
 ```python
 %%writefile .env
-TOGETHER_API_KEY="Your together API key"
-TAVILY_API_KEY="Your Tavily API key"
+OPENAI_API_KEY="Your together API key"
 ```
 
 ## Initialize Memory
@@ -45,18 +44,19 @@ Prerequisites
 - Python Packages: Install required dependencies:
 
 ```
-pip install langchain-together neo4j python-dotenv
+pip install langchain-openai neo4j python-dotenv
 ```
 
 ```python
-from langchain_together.chat_models import ChatTogether
+from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv, find_dotenv
 from vinagent.memory import Memory
 
 load_dotenv(find_dotenv('.env'))
 
-llm = ChatTogether(
-    model="meta-llama/Llama-3.3-70B-Instruct-Turbo-Free"
+llm = ChatOpenAI(
+    model="gpt-4o-mini",   # fast & cheap
+    temperature=0.7
 )
 
 memory = Memory(
@@ -146,16 +146,17 @@ Asking agent with user_id = 'Kan'
 ```
 import os
 import sys
-from langchain_together import ChatTogether 
+from langchain_openai import ChatOpenAI
 from vinagent.agent import Agent
 from vinagent.memory.memory import Memory
 from pathlib import Path
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 
-load_dotenv()
+load_dotenv(find_dotenv('.env'))
 
-llm = ChatTogether(
-    model="meta-llama/Llama-3.3-70B-Instruct-Turbo-Free"
+llm = ChatOpenAI(
+    model="gpt-4o-mini",   # fast & cheap
+    temperature=0.7
 )
 
 # Step 1: Create Agent with tools
@@ -270,7 +271,7 @@ Install dependency `AucoDB` library to ingest knowledge graph to `Neo4j` databas
 Initialze client instance
 
 ```python
-from langchain_together.chat_models import ChatTogether
+from langchain_openai import ChatOpenAI
 from aucodb.graph.neo4j_client import AucoDBNeo4jClient
 from aucodb.graph import LLMGraphTransformer
 from dotenv import load_dotenv

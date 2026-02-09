@@ -193,9 +193,9 @@ class Agent(AgentMeta):
         self.memory_path = (
             Path(memory_path) if isinstance(memory_path, str) else memory_path
         )
-        if self.memory_path and (self.memory_path.suffix != ".json"):
+        if self.memory_path and (self.memory_path.suffix not in [".json", ".jsonl"]):
             raise ValueError(
-                "memory_path must be json format ending with .json. For example, 'templates/memory.json'"
+                "memory_path must be json format ending with .json or .jsonl. For example, 'templates/memory.json'"
             )
         self.is_reset_memory = is_reset_memory
         self.memory = None
