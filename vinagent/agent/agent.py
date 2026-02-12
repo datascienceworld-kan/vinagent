@@ -24,7 +24,7 @@ from vinagent.mcp.client import DistributedMCPClient
 from vinagent.graph.function_graph import FunctionStateGraph
 from vinagent.graph.operator import FlowStateGraph
 from vinagent.oauth2.client import AuthenCard
-
+from vinagent.guardrail import GuardRailBase, GuardrailDecision, OutputGuardrailDecision, GuardrailManager
 # Setup logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -101,6 +101,9 @@ class Agent(AgentMeta):
         mcp_server_name: str = None,
         is_pii: bool = False,
         authen_card: AuthenCard = None,
+        input_guardrail: GuardrailDecision = None,
+        output_guardrail: OutputGuardrailDecision = None,
+        guardrail_manager: GuardrailManager = None,
         *args,
         **kwargs,
     ):
@@ -152,6 +155,15 @@ class Agent(AgentMeta):
 
         authen_card: AuthenCard, optional
             An instance of AuthenCard used to authenticate the assistant. Defaults to None.
+
+        input_guardrail: GuardrailDecision, optional
+            An instance of GuardrailDecision used to decide whether the input is safe. Defaults to None.
+
+        output_guardrail: OutputGuardrailDecision, optional
+            An instance of OutputGuardrailDecision used to decide whether the output is safe. Defaults to None.
+
+        guardrail_manager: GuardrailManager, optional
+            An instance of GuardrailManager used to manage the guardrails. Defaults to None.
 
         *args, **kwargs : Any
             Additional arguments passed to the superclass or future extensions.
@@ -215,6 +227,10 @@ class Agent(AgentMeta):
 
         # OAuth2 authentication if enabled
         self.authen_card = authen_card
+
+        self.input_guardrail = input_guardrail
+        self.output_guardrail = output_guardrail
+        self.guardrail_manager = guardrail_manager
 
     def authenticate(self):
         if self.authen_card is None:
@@ -357,6 +373,38 @@ class Agent(AgentMeta):
         )
         return {"input": input_state, "config": config}
 
+    def check_input_guardrail(self, query: str):
+        if self.guardrail_manager:
+            decision = self.guardrail_manager.validate_input(self.llm, query)
+            if not decision.allowed:
+                raise ValueError(decision.reason)
+        else:
+            if self.input_guardrail:
+                decision = self.input_guardrail.validate(self.llm, query)
+                if not decision.allowed:
+                    raise ValueError(decision.reason)
+        return True
+
+    def check_output_guardrail(self, output_text: str):
+        if self.guardrail_manager:
+            decision = self.guardrail_manager.validate_output(self.llm, output_text)
+            if not decision.allowed:
+                raise ValueError(decision.reason)
+        else:
+            if self.output_guardrail:
+                decision = self.output_guardrail.validate(self.llm, output_text)
+                logger.info(decision)
+                if not decision.allowed:
+                    raise ValueError(decision.reason)
+        return True
+
+    def check_tool_guardrail(self, tool_name: str):
+        if self.guardrail_manager:
+            decision = self.guardrail_manager.validate_tools(tool_name)
+            if not decision.allowed:
+                raise ValueError(decision.reason)
+        return True
+    
     def invoke(
         self,
         query: str,
@@ -397,6 +445,10 @@ class Agent(AgentMeta):
         if self.memory and is_save_memory:
             self.save_memory(query, user_id=self._user_id)
 
+        # Check guardrail
+        self.check_input_guardrail(query)
+            
+        # Question and answering
         try:
             if hasattr(self, "compiled_graph"):
                 thread_id = (
@@ -408,6 +460,7 @@ class Agent(AgentMeta):
 
                 try:
                     result = self.compiled_graph.invoke(**input_state)
+                    self.check_output_guardrail(result)
                     self.in_conversation_history.add_message(result)
                     if self.memory and is_save_memory:
                         self.save_memory(message=result, user_id=self._user_id)
@@ -454,6 +507,7 @@ class Agent(AgentMeta):
                         logger.info(
                             f"No more tool calls needed. Completed in {iteration} iterations."
                         )
+                        self.check_output_guardrail(response)
                         if self.memory and is_save_memory:
                             self.save_memory(message=response, user_id=self._user_id)
                         return response
@@ -463,6 +517,7 @@ class Agent(AgentMeta):
                     logger.info(f"Executing tool call: {tool_call}")
                     # Adapt tool-call for gpt4o model by adding tool_calls argument into response
                     # Note: It must be preceded to adding tool_message into history.
+                    self.check_tool_guardrail(tool_name=tool_call.get("name"))
                     response = self.adapter_ai_response_with_tool_calls(
                         response, tool_call
                     )
@@ -504,7 +559,8 @@ class Agent(AgentMeta):
                     self.in_conversation_history.add_message(final_message)
                 else:
                     final_message = tool_message
-
+                
+                self.check_output_guardrail(final_message)
                 # Save memory
                 if self.memory and is_save_memory:
                     self.save_memory(message=final_message, user_id=self._user_id)
@@ -553,6 +609,7 @@ class Agent(AgentMeta):
         if self.memory and is_save_memory:
             self.save_memory(query, user_id=self._user_id)
 
+        self.check_input_guardrail(query)
         try:
             if hasattr(self, "compiled_graph"):
                 result = []
@@ -568,6 +625,9 @@ class Agent(AgentMeta):
                         if v:
                             result += v["messages"]
                             yield v
+                            
+                self.check_output_guardrail(result)
+                # Save memory
                 if self.memory and is_save_memory:
                     self.save_memory(message=result, user_id=self._user_id)
                 yield result
@@ -620,6 +680,7 @@ class Agent(AgentMeta):
                         logger.info(
                             f"No more tool calls needed. Completed in {iteration} iterations."
                         )
+                        self.check_output_guardrail(response)
                         final_result = full_content
                         if self.memory and is_save_memory:
                             self.save_memory(
@@ -631,6 +692,7 @@ class Agent(AgentMeta):
                     tool_call = json.loads(tool_data)
                     # Adapt tool-call for gpt4o model by adding tool_calls argument into response
                     # Note: It must be preceded to adding tool_message into history.
+                    self.check_tool_guardrail(tool_name=tool_call.get("name"))
                     response = self.adapter_ai_response_with_tool_calls(
                         response, tool_call
                     )
@@ -677,6 +739,7 @@ class Agent(AgentMeta):
                         self.in_conversation_history.add_message(full_content)
                     else:
                         full_content = tool_message
+                        self.check_output_guardrail(full_content)
                     if self.memory and is_save_memory:
                         # Create a message from the streamed content for memory
                         self.save_memory(message=full_content, user_id=self._user_id)
@@ -722,6 +785,7 @@ class Agent(AgentMeta):
             self._user_id = user_id
         logger.info(f"I'am chatting with {self._user_id}")
 
+        self.check_input_guardrail(query)
         if self.memory and is_save_memory:
             self.save_memory(query, user_id=self._user_id)
 
@@ -737,6 +801,7 @@ class Agent(AgentMeta):
                 try:
                     result = await self.compiled_graph.ainvoke(**input_state)
                     self.in_conversation_history.add_message(result)
+                    self.check_output_guardrail(result)
                     if self.memory and is_save_memory:
                         self.save_memory(message=result, user_id=self._user_id)
                     return result
@@ -784,6 +849,7 @@ class Agent(AgentMeta):
                         logger.info(
                             f"No more tool calls needed. Completed in {iteration} iterations."
                         )
+                        self.check_output_guardrail(response)
                         if self.memory and is_save_memory:
                             self.save_memory(message=response, user_id=self._user_id)
                         return response
@@ -793,6 +859,7 @@ class Agent(AgentMeta):
                     logger.info(f"Executing async tool call: {tool_call}")
                     # Adapt tool-call for gpt4o model by adding tool_calls argument into response
                     # Note: It must be preceded to adding tool_message into history.
+                    self.check_tool_guardrail(tool_name=tool_call.get("name"))
                     response = self.adapter_ai_response_with_tool_calls(
                         response, tool_call
                     )
@@ -832,6 +899,7 @@ class Agent(AgentMeta):
                     self.in_conversation_history.add_message(final_message)
                 else:
                     final_message = tool_message
+                self.check_output_guardrail(final_message)
                 if self.memory and is_save_memory:
                     self.save_memory(message=final_message, user_id=self._user_id)
 
