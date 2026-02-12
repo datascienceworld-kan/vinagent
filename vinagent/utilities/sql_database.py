@@ -1,5 +1,7 @@
 """SQLAlchemy wrapper around a database."""
+
 """Reference from: https://python.langchain.com/api_reference/_modules/langchain_community/utilities/sql_database.html#SQLDatabase"""
+from __future__ import annotations
 import re
 from typing import Any, Dict, Iterable, List, Literal, Optional, Sequence, Union
 
@@ -445,7 +447,8 @@ class SQLDatabase:
         """
         parameters = parameters or {}
         execution_options = execution_options or {}
-        with self._engine.begin() as connection:  # type: Connection  # type: ignore[name-defined]
+        with self._engine.begin() as connection:
+            # type: Connection and type: ignore[name-defined]
             if self._schema is not None:
                 if self.dialect == "snowflake":
                     connection.exec_driver_sql(
