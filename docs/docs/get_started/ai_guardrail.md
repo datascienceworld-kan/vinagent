@@ -6,8 +6,11 @@ As an AI system become increasingly autonomous, they introduce significant risks
 Therefore, AI guardrail is very critical for ensure a responsible AI system that can serve as essential safety mechanisms to prevent harmful behaviors while maintaining system safety.
 
 To address theses challenges comprehensively, we propose a three-layered guardrail system including:
-- Input Guardrail: that validate the user query carefully before processing.
+
+s- Input Guardrail: that validate the user query carefully before processing.
+
 - Output Guardrail: that screen and check policy-adaptation before returning to user.
+
 - Tool Guardrail: that ensure agent can trigger AI execution with assigned proper authority.
 
 These guardrail layers are ensembled as following diagram:
@@ -420,13 +423,6 @@ agent = Agent(
 message = agent.invoke("Let send a message to customer's phone number +8497460xxxx to for a happy birthday congratulation!")
 print(message)
 ```
-
-    INFO:vinagent.agent.agent:No authentication card provided, skipping authentication
-    INFO:vinagent.agent.agent:I'am chatting with unknown_user
-    INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
-
-
-
     ---------------------------------------------------------------------------
 
     ValueError                                Traceback (most recent call last)
@@ -492,13 +488,6 @@ agent = Agent(
 message = agent.invoke("What is the business email in this message: I am writing to inform you regarding the email address nguyenvana@example.com. Please note that this address has been referenced in our recent communications and documentation. Kindly review and confirm whether this is the correct contact email to be used for future correspondence.")
 print(message)
 ```
-
-    INFO:vinagent.agent.agent:No authentication card provided, skipping authentication
-    INFO:vinagent.agent.agent:I'am chatting with unknown_user
-    INFO:vinagent.agent.agent:Tool calling iteration 1/10
-    INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
-    INFO:vinagent.agent.agent:No more tool calls needed. Completed in 1 iterations.
-    INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
     INFO:vinagent.agent.agent:allowed=False action='block' rewrite_prompt=None reason='Contains personal identifiable information (PII).' rewrite_output=None pii=OutputPIIGuardrail(name='Email Address Detected', reason='The output contains a personal email address which is PII.') toxicity=None hallucination=None
     ERROR:vinagent.agent.agent:Tool calling failed: Contains personal identifiable information (PII).
 
