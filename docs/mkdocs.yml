@@ -84,7 +84,7 @@ plugins:
         python:
           paths: [".."]
           import:
-            - https://docs.python.org/3/objects.inv
+            - url: https://docs.python.org/3/objects.inv
           options:
             preload_modules:
               - vinagent
