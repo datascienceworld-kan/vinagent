@@ -83,8 +83,6 @@ plugins:
       handlers:
         python:
           paths: [".."]
-          import:
-            - url: https://docs.python.org/3/objects.inv
           options:
             preload_modules:
               - vinagent
