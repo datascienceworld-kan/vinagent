@@ -1,4 +1,4 @@
-# AI Guardrail
+## AI Guardrail
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/datascienceworld-kan/vinagent/blob/main/docs/docs/tutorials/get_started/ai_guardrail.ipynb)
 
 As an AI system become increasingly autonomous, they introduce significant risks including including containing personally identifiable information (PII), unintended harmful outputs, privacy violations, prompt injection attacks. These risks are critical in agentic AI systems that can make decisions, use tools, and take actions with minimal human oversight.
@@ -13,9 +13,9 @@ To address theses challenges comprehensively, we propose a three-layered guardra
 These guardrail layers are ensembled as following diagram:
 
 
-![](/Users/phamdinhkhanh/Documents/Courses/Manus/vinagent/docs/docs/asset/ai_guardrail.png)
+![](../asset/ai_guardrail.png)
 
-# Setup
+## Setup
 
 Install dependent libraries
 
@@ -39,7 +39,7 @@ llm = llm = ChatOpenAI(
 )
 ```
 
-# Input Guardrail
+## Input Guardrail
 
 We define four default input guardrails to ensure safe, secure, and context-aligned interactions that you can directly import and use in your agentic AI system.
 
@@ -106,7 +106,7 @@ for user_input in list_input:
     allowed=True action='allow' rewrite_prompt=None reason='The request is within the allowed scope for stock price information.' pii=None scope=ScopeGuardrail(name='Scope Validation', reason=None, agent_scope=('Searching information about stock price',)) toxicity=None prompt_injection=None
 
 
-# Output Guardrail
+## Output Guardrail
 
 Similarly, to ensure the seamless integration of guardrails in model responses, we provide three default output guardrails that validate and refine generated content before it is returned to the user:
 
@@ -154,7 +154,7 @@ for user_output in list_output:
     allowed=True action='allow' rewrite_prompt=None reason='No critical violations detected.' rewrite_output=None pii=None toxicity=None hallucination=None
 
 
-# Authentication Guardrail
+## Authentication Guardrail
 
 A strictly policy-based AI system will require pre-authentication of accessing to tools and databases. Therefore, we offer `Authentication Guardrail` as a special class for authenticating user's access token to a certain domain of tool server or database. The following steps demonstrate the demo feature:
 
@@ -237,7 +237,7 @@ for user_input in list_input:
     allowed=False action='block' rewrite_prompt=None reason='Authentication failed' authentication=AuthenticationGuardrail(name='AuthenticationGuardrail', reason='Authentication failed', secret_path=None, access_token=None, api_url=None)
 
 
-# Template of Guardrail
+## Template of Guardrail
 
 To facilitate management of guardrail layers for an certain agent over all layers: `input, output, and tools`, we offer yaml template that you can define each guardrail class in each layers with its relevant parameters like:
 
@@ -331,7 +331,7 @@ print(tool_results)
     {'weather_tool': AuthenticationGuardrailResult(allowed=True, reason='Valid access token.'), 'sql_tool': AuthenticationGuardrailResult(allowed=False, reason='Authentication failed')}
 
 
-# Customized Guardrail
+## Customized Guardrail
 
 You can customize a guardrail to adapt to your specific needs. The new class should inherit from the GuardrailBase class and override two required methods: `prompt_selection()` — which defines the set of guardrail rules — and `result_field()` — which specifies the unique name of the guardrail.
 
@@ -383,7 +383,7 @@ for user_input in list_input:
     allowed=False action='block' rewrite_prompt=None reason='Input includes a phone number which is considered sensitive information.' my_guardrail=None
 
 
-# Integrate with Agent
+## Integrate with Agent
 
 With vinagent, all guardrail steps can be integrated into an initialized vinagent agent by stating following parameters accordingly:
 `input_guardrail` - guardrail for input, `output_guardrail` - guardrail for output. The following demo demonstrates the use of it.

@@ -45,7 +45,7 @@ nav:
         - 7. Observability: get_started/observability.md
       - Run local ReactJS App: get_started/local_run.md
     - AI Guardrail: 
-      - Secure AI with guardrail: get_started/ai_guardrail.md
+      - The Foundation of Responsible AI: get_started/ai_guardrail.md
     - Agent Development:
       - Workflow & Agent: get_started/workflow_and_agent.md
       - Agent RAG: get_started/agent_rag.md
