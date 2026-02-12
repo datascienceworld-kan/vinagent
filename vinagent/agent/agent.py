@@ -24,7 +24,13 @@ from vinagent.mcp.client import DistributedMCPClient
 from vinagent.graph.function_graph import FunctionStateGraph
 from vinagent.graph.operator import FlowStateGraph
 from vinagent.oauth2.client import AuthenCard
-from vinagent.guardrail import GuardRailBase, GuardrailDecision, OutputGuardrailDecision, GuardrailManager
+from vinagent.guardrail import (
+    GuardRailBase,
+    GuardrailDecision,
+    OutputGuardrailDecision,
+    GuardrailManager,
+)
+
 # Setup logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -404,7 +410,7 @@ class Agent(AgentMeta):
             if not decision.allowed:
                 raise ValueError(decision.reason)
         return True
-    
+
     def invoke(
         self,
         query: str,
@@ -447,7 +453,7 @@ class Agent(AgentMeta):
 
         # Check guardrail
         self.check_input_guardrail(query)
-            
+
         # Question and answering
         try:
             if hasattr(self, "compiled_graph"):
@@ -559,7 +565,7 @@ class Agent(AgentMeta):
                     self.in_conversation_history.add_message(final_message)
                 else:
                     final_message = tool_message
-                
+
                 self.check_output_guardrail(final_message)
                 # Save memory
                 if self.memory and is_save_memory:
@@ -625,7 +631,7 @@ class Agent(AgentMeta):
                         if v:
                             result += v["messages"]
                             yield v
-                            
+
                 self.check_output_guardrail(result)
                 # Save memory
                 if self.memory and is_save_memory:

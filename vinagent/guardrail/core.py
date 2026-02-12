@@ -4,9 +4,10 @@ from typing import Optional, Literal, List, Type, ClassVar
 from vinagent.guardrail.basemodel import GuardRailBase, OutputGuardRailBase
 from vinagent.guardrail.authen import AuthenticationGuardrail
 
+
 class PIIGuardrail(GuardRailBase):
     name: str = "pii"
-    
+
     def prompt_section(self) -> str:
         return """
 PII VALIDATION
@@ -19,6 +20,7 @@ Detect whether the input contains Personal Identifiable Information (PII), inclu
 
     def result_field(self) -> str:
         return "pii"
+
 
 class ScopeGuardrail(GuardRailBase):
     name: str = "scope"
@@ -34,6 +36,7 @@ Determine whether the request is within this scope.
 
     def result_field(self) -> str:
         return "scope"
+
 
 class ToxicityGuardrail(GuardRailBase):
     name: str = "toxicity"
@@ -53,6 +56,7 @@ Detect harmful intent including:
     def result_field(self) -> str:
         return "toxicity"
 
+
 class PromptInjectionGuardrail(GuardRailBase):
     name: str = "prompt_injection"
 
@@ -69,22 +73,21 @@ Examples:
     def result_field(self) -> str:
         return "prompt_injection"
 
+
 class BaseGuardrailDecision(BaseModel):
-    allowed: bool = Field(
-        description="Final decision whether the input is allowed"
-    )
+    allowed: bool = Field(description="Final decision whether the input is allowed")
     action: Literal["allow", "block", "rewrite"]
     rewrite_prompt: Optional[str] = None
     reason: str
 
     _enabled_guardrails: ClassVar[List[GuardRailBase]] = []
 
+
 class GuardrailDecision(BaseGuardrailDecision):
 
     @classmethod
     def add_guardrails(
-        cls,
-        guardrails: List[GuardRailBase]
+        cls, guardrails: List[GuardRailBase]
     ) -> Type["GuardrailDecision"]:
         """
         Returns a GuardrailDecision subclass with selected guardrails enabled.
@@ -95,25 +98,21 @@ class GuardrailDecision(BaseGuardrailDecision):
             field_name = g.result_field()
             field_type = type(g)
             fields[field_name] = (Optional[field_type], None)
-        
+
         # Build a dynamic subclass
         DynamicDecision = create_model(
-            "DynamicGuardrailDecision",
-            __base__=cls,
-            **fields
+            "DynamicGuardrailDecision", __base__=cls, **fields
         )
-        
+
         DynamicDecision._enabled_guardrails = guardrails
         return DynamicDecision
-    
+
     @classmethod
     def build_prompt(cls, user_input: str) -> str:
         if not cls._enabled_guardrails:
             raise ValueError("No guardrails enabled")
 
-        sections = "\n".join(
-            g.prompt_section() for g in cls._enabled_guardrails
-        )
+        sections = "\n".join(g.prompt_section() for g in cls._enabled_guardrails)
 
         return f"""
 You are an AI Input Guardrail.
@@ -134,7 +133,7 @@ User input:
 {user_input}
 \"\"\"
 """
-    
+
     @classmethod
     def validate(cls, llm, user_input: str):
         prompt = cls.build_prompt(user_input)
@@ -155,6 +154,7 @@ Detect whether the assistant's output contains personal identifiable information
     def result_field(self) -> str:
         return "pii"
 
+
 class OutputToxicityGuardrail(OutputGuardRailBase):
     name: str = "toxicity"
 
@@ -166,7 +166,8 @@ Detect harmful, abusive, or hateful language in the assistant's output.
 
     def result_field(self) -> str:
         return "toxicity"
-    
+
+
 class HallucinationGuardrail(OutputGuardRailBase):
     name: str = "hallucination"
 
@@ -178,6 +179,7 @@ Determine whether the output contains claims not supported by the given context 
 
     def result_field(self) -> str:
         return "hallucination"
+
 
 class OutputGuardrailDecision(GuardrailDecision):
     allowed: bool

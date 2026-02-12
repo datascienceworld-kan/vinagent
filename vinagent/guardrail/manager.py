@@ -1,7 +1,18 @@
 from typing import List
 import yaml
-from vinagent.guardrail import AuthenticationGuardrail, GuardrailDecision, PIIGuardrail, ScopeGuardrail, ToxicityGuardrail, PromptInjectionGuardrail, OutputPIIGuardrail, OutputToxicityGuardrail, HallucinationGuardrail
-    
+from vinagent.guardrail import (
+    AuthenticationGuardrail,
+    GuardrailDecision,
+    PIIGuardrail,
+    ScopeGuardrail,
+    ToxicityGuardrail,
+    PromptInjectionGuardrail,
+    OutputPIIGuardrail,
+    OutputToxicityGuardrail,
+    HallucinationGuardrail,
+)
+
+
 class GuardrailManager:
 
     def __init__(self, yaml_path: str):
@@ -20,7 +31,7 @@ class GuardrailManager:
         name = item["name"]
         params = item.get("params", {})
         if tool_name:
-            params['name'] = tool_name
+            params["name"] = tool_name
 
         try:
             cls = globals()[name]
@@ -43,14 +54,11 @@ class GuardrailManager:
         # Tools
         for tool_name, guardrails in gr_config.get("tools", {}).items():
             self.tool_guardrails[tool_name] = [
-                self._instantiate(item, tool_name)
-                for item in guardrails
+                self._instantiate(item, tool_name) for item in guardrails
             ]
 
-    def add_guardrails(self, guardrails: List| None = None, **kwargs):
-        DecisionModel = GuardrailDecision.add_guardrails(
-            guardrails
-        )
+    def add_guardrails(self, guardrails: List | None = None, **kwargs):
+        DecisionModel = GuardrailDecision.add_guardrails(guardrails)
         return DecisionModel
 
     def validate_input(self, llm, user_input: str, **kwargs):
@@ -63,12 +71,12 @@ class GuardrailManager:
             authen_guardrail = self.tool_guardrails[tool_name]
             result = authen_guardrail[0].validate()
             return result
-        
+
         result = {}
-        for (tool_name, authen_list) in self.tool_guardrails.items():
+        for tool_name, authen_list in self.tool_guardrails.items():
             result[tool_name] = authen_list[0].validate()
         return result
-    
+
     def validate_output(self, llm, output_text: str, **kwargs):
         DecisionModel = self.add_guardrails(self.input_guardrails)
         result = DecisionModel.validate(llm, output_text)
