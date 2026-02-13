@@ -1,13 +1,13 @@
 ## AI Guardrail
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/datascienceworld-kan/vinagent/blob/main/docs/docs/tutorials/get_started/ai_guardrail.ipynb)
 
-As an AI system become increasingly autonomous, they introduce significant risks including including containing personally identifiable information (PII), unintended harmful outputs, privacy violations, prompt injection attacks. These risks are critical in agentic AI systems that can make decisions, use tools, and take actions with minimal human oversight.
+As an AI system become increasingly autonomous, they introduce significant risks containing personally identifiable information (PII), unintended harmful outputs, privacy violations, prompt injection attacks. These risks are critical in agentic AI systems that can make decisions, use tools, and take actions with minimal human oversight.
 
 Therefore, AI guardrail is very critical for ensure a responsible AI system that can serve as essential safety mechanisms to prevent harmful behaviors while maintaining system safety.
 
 To address theses challenges comprehensively, we propose a three-layered guardrail system including:
 
-s- Input Guardrail: that validate the user query carefully before processing.
+- Input Guardrail: that validate the user query carefully before processing.
 
 - Output Guardrail: that screen and check policy-adaptation before returning to user.
 
