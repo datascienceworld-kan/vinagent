@@ -1,0 +1,23 @@
+guardrails:
+  input:
+    - name: PIIGuardrail
+    - name: ScopeGuardrail
+      params:
+        agent_scope: ["Deeply analyzing financial markets"]
+    - name: ToxicityGuardrail
+    - name: PromptInjectionGuardrail
+
+  tools:
+    weather_tool:
+      - name: AuthenticationGuardrail
+        params:
+          secret_path: "/Users/phamdinhkhanh/Documents/Courses/Manus/vinagent/vinagent/oauth2/authen/secret.json"
+    sql_tool:
+      - name: AuthenticationGuardrail
+        params:
+          access_token: "abcxyz"
+          api_url: "http://localhost:8000/verify-token"
+
+  output:
+    - name: OutputPIIGuardrail
+    - name: HallucinationGuardrail
