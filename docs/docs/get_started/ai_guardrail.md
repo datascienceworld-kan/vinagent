@@ -236,8 +236,7 @@ for user_input in list_input:
     -------------------
     
     Hello, how are you?
-    HTTP error occurred: 401 Client Error: Unauthorized for url: http://localhost:8000/verify-token
-    allowed=False action='block' rewrite_prompt=None reason='Authentication failed' authentication=AuthenticationGuardrail(name='AuthenticationGuardrail', reason='Authentication failed', secret_path=None, access_token=None, api_url=None)
+    allowed=True action='allow' rewrite_prompt=None reason='Valid access token.' authentication=None
 
 
 ## Template of Guardrail
@@ -260,7 +259,7 @@ guardrails:
     weather_tool:
       - name: AuthenticationGuardrail
         params:
-          secret_path: "/Users/phamdinhkhanh/Documents/Courses/Manus/vinagent/vinagent/oauth2/authen/secret.json"
+          secret_path: "[Your_Direct_Authen_Path]/authen/secret.json"
     sql_tool:
       - name: AuthenticationGuardrail
         params:
@@ -333,6 +332,7 @@ print(tool_results)
     HTTP error occurred: 401 Client Error: Unauthorized for url: http://localhost:8000/verify-token
     {'weather_tool': AuthenticationGuardrailResult(allowed=True, reason='Valid access token.'), 'sql_tool': AuthenticationGuardrailResult(allowed=False, reason='Authentication failed')}
 
+It validates all tools and realizes that `sql_tool` has an invalid access token whereas `weather_tool` accepted 
 
 ## Customized Guardrail
 
