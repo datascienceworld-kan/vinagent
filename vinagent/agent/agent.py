@@ -523,7 +523,7 @@ class Agent(AgentMeta):
                     logger.info(f"Executing tool call: {tool_call}")
                     # Adapt tool-call for gpt4o model by adding tool_calls argument into response
                     # Note: It must be preceded to adding tool_message into history.
-                    self.check_tool_guardrail(tool_name=tool_call.get("name"))
+                    self.check_tool_guardrail(tool_name=tool_call.get("tool_name"))
                     response = self.adapter_ai_response_with_tool_calls(
                         response, tool_call
                     )
@@ -698,7 +698,7 @@ class Agent(AgentMeta):
                     tool_call = json.loads(tool_data)
                     # Adapt tool-call for gpt4o model by adding tool_calls argument into response
                     # Note: It must be preceded to adding tool_message into history.
-                    self.check_tool_guardrail(tool_name=tool_call.get("name"))
+                    self.check_tool_guardrail(tool_name=tool_call.get("tool_name"))
                     response = self.adapter_ai_response_with_tool_calls(
                         response, tool_call
                     )
@@ -865,7 +865,7 @@ class Agent(AgentMeta):
                     logger.info(f"Executing async tool call: {tool_call}")
                     # Adapt tool-call for gpt4o model by adding tool_calls argument into response
                     # Note: It must be preceded to adding tool_message into history.
-                    self.check_tool_guardrail(tool_name=tool_call.get("name"))
+                    self.check_tool_guardrail(tool_name=tool_call.get("tool_name"))
                     response = self.adapter_ai_response_with_tool_calls(
                         response, tool_call
                     )

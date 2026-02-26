@@ -78,6 +78,6 @@ class GuardrailManager:
         return result
 
     def validate_output(self, llm, output_text: str, **kwargs):
-        DecisionModel = self.add_guardrails(self.input_guardrails)
+        DecisionModel = self.add_guardrails(self.output_guardrails)
         result = DecisionModel.validate(llm, output_text)
         return result
