@@ -38,6 +38,7 @@ To use a list of default tools inside [vinagent.tools](vinagent/tools/) you shou
 ```
 TOGETHER_API_KEY="Your together API key"
 TAVILY_API_KEY="Your Tavily API key"
+OPENAI_API_KEY="Your OpenAI API key"
 ```
 Let's create your acounts first and then create your relevant key for each website.
 
@@ -48,13 +49,22 @@ Let's create your acounts first and then create your relevant key for each websi
 
 ```python
 from langchain_together import ChatTogether 
+from langchain_openai import ChatOpenAI
 from vinagent.agent.agent import Agent
 from dotenv import load_dotenv
 load_dotenv()
 
+# You can use togetherai model
 llm = ChatTogether(
     model="meta-llama/Llama-3.3-70B-Instruct-Turbo-Free"
 )
+
+# Or you can you OpenAI model
+llm = ChatOpenAI(
+    model="gpt-4o-mini",
+    temperature=0.7
+)
+
 
 # Step 1: Create Agent with tools
 agent = Agent(
