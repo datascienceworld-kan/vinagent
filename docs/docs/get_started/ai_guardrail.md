@@ -36,7 +36,7 @@ from vinagent.oauth2.client import AuthenCard
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv('.env'))
 
-llm = llm = ChatOpenAI(
+llm = ChatOpenAI(
     model="gpt-4o-mini",
     temperature=0.7
 )
