@@ -340,7 +340,11 @@ def backtest_alpha_strategy(
         import numpy as np
 
         df = fetch_stock_data_vn(symbol, start_date, end_date)
-        if df is None or (isinstance(df, pd.DataFrame) and df.empty) or isinstance(df, str):
+        if (
+            df is None
+            or (isinstance(df, pd.DataFrame) and df.empty)
+            or isinstance(df, str)
+        ):
             return {"error": f"No data found for {symbol}"}
 
         df["returns"] = df["close"].pct_change()
@@ -401,4 +405,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
