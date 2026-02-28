@@ -250,18 +250,6 @@ def fetch_btc_market_data() -> str:
     except Exception as e:
         return f"Error fetching BTC price: {e}"
 
-def main():
-    symbol = "FPT"
-    start_date = "2022-01-01"
-    end_date = "2022-12-31"
-    interval = "1d"
-    df = fetch_stock_data_vn(symbol, start_date, end_date, interval)
-    print(df)
-    print("Visualizing stock data...")
-    visualize_stock_data_vn(symbol, start_date, end_date, interval)
-    print("Plotting returns...")
-    plot_returns_vn(symbol, start_date, end_date, interval)
-
 
 @primary_function
 def calculate_black_litterman(symbols: list, priors: list, views: list, tau: float = 0.05) -> dict:
@@ -395,6 +383,17 @@ def calculate_equilibrium_returns(symbols: list, risk_free_rate: float = 0.03, m
     except Exception as e:
         return {"error": str(e)}
 
+def main():
+    symbol = "FPT"
+    start_date = "2022-01-01"
+    end_date = "2022-12-31"
+    interval = "1d"
+    df = fetch_stock_data_vn(symbol, start_date, end_date, interval)
+    print(df)
+    print("Visualizing stock data...")
+    visualize_stock_data_vn(symbol, start_date, end_date, interval)
+    print("Plotting returns...")
+    plot_returns_vn(symbol, start_date, end_date, interval)
+
 if __name__ == "__main__":
     main()
-    
