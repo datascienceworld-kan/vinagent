@@ -216,7 +216,11 @@ def fetch_btc_market_data() -> str:
     try:
         response = requests.get(
             "https://data-api.coindesk.com/index/cc/v1/latest/tick",
-            params={"market": "cadli", "instruments": "BTC-USD", "apply_mapping": "true"},
+            params={
+                "market": "cadli",
+                "instruments": "BTC-USD",
+                "apply_mapping": "true",
+            },
             headers={"Content-type": "application/json; charset=UTF-8"},
         )
         data = response.json()["Data"]["BTC-USD"]
@@ -265,9 +269,7 @@ def calculate_black_litterman(
                     P[i, symbols.index(s)] = w
             Q[i, 0], Omega[i, i] = v["return"], (1.001 - v["confidence"]) * 0.1
         ts_inv, o_inv = np.linalg.inv(tau * sigma), np.linalg.inv(Omega)
-        res = np.linalg.inv(ts_inv + P.T @ o_inv @ P) @ (
-            ts_inv @ pi + P.T @ o_inv @ Q
-        )
+        res = np.linalg.inv(ts_inv + P.T @ o_inv @ P) @ (ts_inv @ pi + P.T @ o_inv @ Q)
         return {symbols[i]: round(float(res[i, 0]), 4) for i in range(n)}
     except Exception as e:
         return {"error": str(e)}
