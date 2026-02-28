@@ -1,0 +1,2124 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://datascienceworld-kan.github.io/vinagent/guides/paper_research/">
+      
+      
+        <link rel="prev" href="../banking_agent/">
+      
+      
+        <link rel="next" href="../legal_assistant/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../asset/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.3">
+    
+    
+      
+        <title>Research Agent - Vinagent</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/navigation_title_ovverides.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/version_admonitions.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/sticky_navigation.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <meta property="og:title" content="Vinagent">
+  <meta property="og:description" content="An AI Agent library.">
+  <meta property="og:image" content="https://datascienceworld-kan.github.io/vinagent/assets/images/favicon.png">
+  <meta property="og:image:alt" content="Vinagent Thumbnail">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://datascienceworld-kan.github.io/vinagent">
+
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#academic-paper-research-with-vinagent" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Vinagent" class="md-header__button md-logo" aria-label="Vinagent" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Vinagent
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Research Agent
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/datascienceworld-kan/vinagent" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  
+    
+  
+  Get started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../analyze_stock_trending/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Guidelines
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../reference/agent/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../contributing/contributing/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Contributing
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Vinagent" class="md-nav__button md-logo" aria-label="Vinagent" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Vinagent
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/datascienceworld-kan/vinagent" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../.." class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get started
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guidelines
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guidelines
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Financial Usercase
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Financial Usercase
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../analyze_stock_trending/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visualize and Analyze Stock
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../trending_news/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Find Trending New
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Banking Agent
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Banking Agent
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../banking_agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Banking SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Research Usercase
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Research Usercase
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Research Agent
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Research Agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of Content">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of Content
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#environment-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment Setup
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agent-creation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Agent Creation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-case-1-topic-based-paper-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use Case 1: Topic-based Paper Search
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-case-2-paper-analysis-by-id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use Case 2: Paper Analysis by ID
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-case-3-comparative-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use Case 3: Comparative Analysis
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-case-4-literature-review-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use Case 4: Literature Review Generation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-case-5-multi-domain-research" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use Case 5: Multi-domain Research
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conclusion
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Legal Field
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Legal Field
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../legal_assistant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Legal Agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ecommerce Usercase
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Ecommerce Usercase
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../customer_care/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Customer Care Multi-Agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RAG
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    RAG
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../agent_rag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent RAG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../reference/agent/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../contributing/contributing/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of Content">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of Content
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#environment-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment Setup
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agent-creation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Agent Creation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-case-1-topic-based-paper-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use Case 1: Topic-based Paper Search
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-case-2-paper-analysis-by-id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use Case 2: Paper Analysis by ID
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-case-3-comparative-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use Case 3: Comparative Analysis
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-case-4-literature-review-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use Case 4: Literature Review Generation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-case-5-multi-domain-research" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use Case 5: Multi-domain Research
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conclusion
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+      
+        
+  
+  
+    
+    
+      
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../analyze_stock_trending/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Guidelines
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="./" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Research Usercase
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/datascienceworld-kan/vinagent/edit/main/docs/docs/guides/paper_research.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="academic-paper-research-with-vinagent">Academic Paper Research with vinagent<a class="headerlink" href="#academic-paper-research-with-vinagent" title="Permanent link">&para;</a></h1>
+<p><em>Contributor: Thanh Lam</em></p>
+<p><a href="https://colab.research.google.com/github/datascienceworld-kan/vinagent/blob/main/docs/docs/tutorials/guides/3.Paper_Research.ipynb"><img alt="Open in Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>In this tutorial, let's study Researcher Agent, which is an AI-powered tool designed to streamline the process of academic research by leveraging the vast repository of papers on arXiv. This agent automates tasks such as searching for relevant papers, extracting key information, analyzing methodologies, and generating comprehensive literature reviews. Its importance lies in its ability to save researchers time, enhance the efficiency of literature reviews, and provide insights into interdisciplinary and emerging research trends. By integrating with arXiv, the agent ensures access to cutting-edge research across various domains, making it an invaluable tool for academics, students, and professionals seeking to stay updated or dive deep into specific topics.</p>
+<p>This tutorial outlines the step-by-step process of designing a Researcher Agent using Vinagent, focusing on its application for studying research topics sourced from arXiv. We will explore the design process, present coherent use cases with real-world scenarios, and provide detailed explanations of each step before diving into the implementation.</p>
+<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">vinagent</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">arxiv</span><span class="o">==</span><span class="mf">2.1.3</span> <span class="n">langchain</span><span class="o">-</span><span class="n">groq</span><span class="o">==</span><span class="mf">0.2.8</span> <span class="n">python</span><span class="o">-</span><span class="n">dotenv</span><span class="o">==</span><span class="mf">1.0.1</span>
+</span></code></pre></div>
+<h2 id="environment-setup">Environment Setup<a class="headerlink" href="#environment-setup" title="Permanent link">&para;</a></h2>
+<p>Set up your API key for the LLM provider. This tutorial uses <a href="https://console.groq.com/keys">Groq API</a> for optimal performance in academic text processing.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="o">%%</span><span class="n">writefile</span> <span class="o">.</span><span class="n">env</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">GROQ_API_KEY</span><span class="o">=</span><span class="n">your_api_key</span>
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code>Overwriting .env
+</code></pre></div>
+<h2 id="agent-creation">Agent Creation<a class="headerlink" href="#agent-creation" title="Permanent link">&para;</a></h2>
+<p>Create a specialized Paper Research Agent with built-in search and analysis capabilities.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">langchain_groq</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatGroq</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">vinagent.agent.agent</span><span class="w"> </span><span class="kn">import</span> <span class="n">Agent</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span><span class="p">,</span> <span class="n">find_dotenv</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">load_dotenv</span><span class="p">(</span><span class="n">find_dotenv</span><span class="p">(</span><span class="s1">&#39;.env&#39;</span><span class="p">))</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">llm</span> <span class="o">=</span> <span class="n">ChatGroq</span><span class="p">(</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;meta-llama/llama-4-scout-17b-16e-instruct&quot;</span><span class="p">,</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="p">)</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="n">paper_agent</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;You are an academic research assistant specialized in finding and analyzing papers from arXiv.&quot;</span><span class="p">,</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>    <span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>    <span class="n">skills</span><span class="o">=</span><span class="p">[</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>        <span class="s2">&quot;Search academic papers by topic and keywords&quot;</span><span class="p">,</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>        <span class="s2">&quot;Extract detailed paper information using arXiv IDs&quot;</span><span class="p">,</span> 
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>        <span class="s2">&quot;Analyze and compare research approaches&quot;</span><span class="p">,</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>        <span class="s2">&quot;Create literature reviews and summaries&quot;</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>    <span class="p">],</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>    <span class="n">tools</span><span class="o">=</span><span class="p">[</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>        <span class="s1">&#39;vinagent.tools.paper_research_tools&#39;</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>    <span class="p">],</span>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>    <span class="n">tools_path</span><span class="o">=</span><span class="s1">&#39;templates/tools.json&#39;</span><span class="p">,</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>    <span class="n">is_reset_tools</span><span class="o">=</span><span class="kc">True</span>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="p">)</span>
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Paper Research Agent initialized&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code>INFO:httpx:HTTP Request: POST https://api.groq.com/openai/v1/chat/completions &quot;HTTP/1.1 200 OK&quot;
+INFO:vinagent.register.tool:Registered paper_research:
+{&#39;tool_name&#39;: &#39;paper_research&#39;, &#39;arguments&#39;: {&#39;topic&#39;: &#39;str&#39;, &#39;max_results&#39;: 5}, &#39;return&#39;: &#39;Dict[str, Any]&#39;, &#39;docstring&#39;: &#39;Search for academic papers on arXiv and return paper information.&#39;, &#39;dependencies&#39;: [&#39;arxiv&#39;, &#39;typing&#39;], &#39;module_path&#39;: &#39;vinagent.tools.paper_research_tools&#39;, &#39;tool_type&#39;: &#39;module&#39;, &#39;tool_call_id&#39;: &#39;tool_4efcb2c4-8b01-4949-930c-0185cd81d483&#39;}
+INFO:vinagent.register.tool:Completed registration for module vinagent.tools.paper_research_tools
+
+
+--------------------------------------------------
+Paper Research Agent initialized
+</code></pre></div>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Test the unified paper research tool that returns both IDs and info</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">test_response</span> <span class="o">=</span> <span class="n">paper_agent</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="s2">Search for 2 papers about &#39;machine learning&#39; using the paper research tool.</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="s2">The tool will return both paper IDs and detailed information in one call.</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Unified Paper Research Tool Result:&quot;</span><span class="p">)</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="nb">print</span><span class="p">(</span><span class="n">test_response</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code>INFO:vinagent.agent.agent:No authentication card provided, skipping authentication
+INFO:vinagent.agent.agent:I&#39;am chatting with unknown_user
+INFO:vinagent.agent.agent:Tool calling iteration 1/10
+INFO:httpx:HTTP Request: POST https://api.groq.com/openai/v1/chat/completions &quot;HTTP/1.1 200 OK&quot;
+INFO:vinagent.agent.agent:Executing tool call: {&#39;tool_name&#39;: &#39;paper_research&#39;, &#39;tool_type&#39;: &#39;module&#39;, &#39;module_path&#39;: &#39;vinagent.tools.paper_research_tools&#39;, &#39;arguments&#39;: {&#39;topic&#39;: &#39;machine learning&#39;, &#39;max_results&#39;: 2}}
+INFO:arxiv:Requesting page (first: True, try: 0): https://export.arxiv.org/api/query?search_query=machine+learning&amp;id_list=&amp;sortBy=relevance&amp;sortOrder=descending&amp;start=0&amp;max_results=100
+INFO:arxiv:Got first page: 100 of 421560 total results
+INFO:vinagent.register.tool:Completed executing module tool paper_research({&#39;topic&#39;: &#39;machine learning&#39;, &#39;max_results&#39;: 2})
+INFO:vinagent.agent.agent:Tool calling iteration 2/10
+INFO:httpx:HTTP Request: POST https://api.groq.com/openai/v1/chat/completions &quot;HTTP/1.1 200 OK&quot;
+INFO:vinagent.agent.agent:No more tool calls needed. Completed in 2 iterations.
+
+
+--------------------------------------------------
+Unified Paper Research Tool Result:
+Two papers about &#39;machine learning&#39; were found.
+
+The first paper is titled &quot;Lecture Notes: Optimization for Machine Learning&quot; with the paper ID &#39;1909.03550v1&#39;. It was published on 2019-09-08 and written by Elad Hazan. The summary of this paper is about lecture notes on optimization for machine learning, derived from a course at Princeton University and tutorials given in MLSS, Buenos Aires, as well as Simons Foundation, Berkeley.
+
+The second paper is titled &quot;An Optimal Control View of Adversarial Machine Learning&quot; with the paper ID &#39;1811.04422v1&#39;. It was published on 2018-11-11 and written by Xiaojin Zhu. The summary of this paper is about an optimal control view of adversarial machine learning, where the dynamical system is the machine learner, the input are adversarial actions, and the control costs are defined by the adversary&#39;s goals to do harm and be hard to detect.
+
+You can access the papers at http://arxiv.org/pdf/1909.03550v1 and http://arxiv.org/pdf/1811.04422v1 respectively.
+</code></pre></div>
+<p>The following use cases demonstrate how the Researcher Agent can be applied to real-world research scenarios. They are arranged  from basic search tasks to complex interdisciplinary analyses.</p>
+<h2 id="use-case-1-topic-based-paper-search">Use Case 1: Topic-based Paper Search<a class="headerlink" href="#use-case-1-topic-based-paper-search" title="Permanent link">&para;</a></h2>
+<p>If you are a graduate student, who is starting a thesis on transformer architectures and needs to quickly identify recent, relevant papers to understand the state of the field. They lack the time to manually sift through thousands of arXiv papers.</p>
+<p>This use case involves querying <code>arXiv</code> for papers on a specific topic, retrieving metadata (e.g., titles, authors, summaries), and summarizing key findings. The agent uses the <code>paper_research</code> tool to fetch results and generates a concise summary, saving the researcher hours of manual work.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Search for transformer papers - tool returns both IDs and detailed info</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">transformer_search</span> <span class="o">=</span> <span class="n">paper_agent</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="s2">Search for 3 papers on &#39;transformer architecture&#39;. </span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="s2">The tool returns complete information including paper IDs, titles, authors, summaries, and publication dates.</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="s2">Please summarize the key findings from these papers.</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Transformer Architecture Papers:&quot;</span><span class="p">)</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="nb">print</span><span class="p">(</span><span class="n">transformer_search</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code>INFO:vinagent.agent.agent:No authentication card provided, skipping authentication
+INFO:vinagent.agent.agent:I&#39;am chatting with unknown_user
+INFO:vinagent.agent.agent:Tool calling iteration 1/10
+INFO:httpx:HTTP Request: POST https://api.groq.com/openai/v1/chat/completions &quot;HTTP/1.1 200 OK&quot;
+INFO:vinagent.agent.agent:Executing tool call: {&#39;tool_name&#39;: &#39;paper_research&#39;, &#39;tool_type&#39;: &#39;module&#39;, &#39;arguments&#39;: {&#39;topic&#39;: &#39;transformer architecture&#39;, &#39;max_results&#39;: 3}, &#39;module_path&#39;: &#39;vinagent.tools.paper_research_tools&#39;}
+INFO:arxiv:Requesting page (first: True, try: 0): https://export.arxiv.org/api/query?search_query=transformer+architecture&amp;id_list=&amp;sortBy=relevance&amp;sortOrder=descending&amp;start=0&amp;max_results=100
+INFO:arxiv:Got first page: 100 of 245170 total results
+INFO:vinagent.register.tool:Completed executing module tool paper_research({&#39;topic&#39;: &#39;transformer architecture&#39;, &#39;max_results&#39;: 3})
+INFO:vinagent.agent.agent:Tool calling iteration 2/10
+INFO:httpx:HTTP Request: POST https://api.groq.com/openai/v1/chat/completions &quot;HTTP/1.1 200 OK&quot;
+INFO:vinagent.agent.agent:No more tool calls needed. Completed in 2 iterations.
+
+
+--------------------------------------------------
+Transformer Architecture Papers:
+--------------------------------------------------
+The search results provide information on three papers related to the transformer architecture. Here are the key findings from each paper:
+
+1. **TurboViT: Generating Fast Vision Transformers via Generative Architecture Search** (arXiv ID: 2308.11421v1)
+   - **Authors**: Alexander Wong, Saad Abbasi, Saeejith Nair
+   - **Summary**: This paper introduces TurboViT, a highly efficient hierarchical vision transformer architecture designed using generative architecture search (GAS). TurboViT achieves a strong balance between accuracy and computational efficiency, outperforming state-of-the-art efficient vision transformer networks. It demonstrates significantly lower architectural and computational complexity while maintaining high accuracy on the ImageNet-1K dataset.
+
+2. **Differentiable Neural Architecture Transformation for Reproducible Architecture Improvement** (arXiv ID: 2006.08231v1)
+   - **Authors**: Do-Guk Kim, Heung-Chang Lee
+   - **Summary**: The authors propose a differentiable neural architecture transformation method that is reproducible and efficient. This method improves upon Neural Architecture Transformer (NAT) by addressing its limitations in reproducibility. The proposed approach shows stable performance across various architectures and datasets, including CIFAR-10 and Tiny Imagenet.
+
+3. **Interpretation of the Transformer and Improvement of the Extractor** (arXiv ID: 2311.12678v1)
+   - **Author**: Zhe Chen
+   - **Summary**: This paper provides a comprehensive interpretation of the Transformer architecture and its components, particularly focusing on the Extractor—a drop-in replacement for the multi-head self-attention mechanism. The author proposes an improvement to a type of Extractor that outperforms the self-attention mechanism without introducing additional trainable parameters. Experimental results demonstrate the improved performance of the proposed Extractor.
+
+These papers contribute to the advancement of transformer architectures, focusing on efficiency, reproducibility, and interpretation of the Transformer model.
+</code></pre></div>
+<p>The agent returns a structured summary of three papers, including their arXiv IDs, titles, authors, publication dates, and key findings, such as advancements in efficiency or novel attention mechanisms.</p>
+<h2 id="use-case-2-paper-analysis-by-id">Use Case 2: Paper Analysis by ID<a class="headerlink" href="#use-case-2-paper-analysis-by-id" title="Permanent link">&para;</a></h2>
+<p>A researcher is preparing a conference presentation and wants to dive deep into the seminal “Attention Is All You Need” paper and its recent derivatives to discuss advancements in attention mechanisms.</p>
+<p>This use case focuses on extracting detailed information from specific papers using their arXiv IDs. The agent retrieves comprehensive metadata and analyzes the content to highlight key contributions, recent improvements, and applications across domains.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Search papers about attention mechanisms to get comprehensive info</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">attention_papers</span> <span class="o">=</span> <span class="n">paper_agent</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="s2">Search for papers about &#39;attention mechanism transformer&#39; and focus on:</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="s2">1. The seminal &quot;Attention Is All You Need&quot; paper if found</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="s2">2. Recent improvements to attention mechanisms</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="s2">3. Applications of attention in different domains</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Attention Mechanism Papers:&quot;</span><span class="p">)</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="nb">print</span><span class="p">(</span><span class="n">attention_papers</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code>INFO:vinagent.agent.agent:No authentication card provided, skipping authentication
+INFO:vinagent.agent.agent:I&#39;am chatting with unknown_user
+INFO:vinagent.agent.agent:Tool calling iteration 1/10
+INFO:httpx:HTTP Request: POST https://api.groq.com/openai/v1/chat/completions &quot;HTTP/1.1 200 OK&quot;
+INFO:vinagent.agent.agent:Executing tool call: {&#39;tool_name&#39;: &#39;paper_research&#39;, &#39;tool_type&#39;: &#39;module&#39;, &#39;arguments&#39;: {&#39;topic&#39;: &#39;attention mechanism transformer&#39;, &#39;max_results&#39;: 5}, &#39;module_path&#39;: &#39;vinagent.tools.paper_research_tools&#39;}
+INFO:arxiv:Requesting page (first: True, try: 0): https://export.arxiv.org/api/query?search_query=attention+mechanism+transformer&amp;id_list=&amp;sortBy=relevance&amp;sortOrder=descending&amp;start=0&amp;max_results=100
+INFO:arxiv:Got first page: 100 of 472692 total results
+INFO:vinagent.register.tool:Completed executing module tool paper_research({&#39;topic&#39;: &#39;attention mechanism transformer&#39;, &#39;max_results&#39;: 5})
+INFO:vinagent.agent.agent:Tool calling iteration 2/10
+INFO:httpx:HTTP Request: POST https://api.groq.com/openai/v1/chat/completions &quot;HTTP/1.1 200 OK&quot;
+INFO:vinagent.agent.agent:No more tool calls needed. Completed in 2 iterations.
+
+
+Attention Mechanism Papers:
+--------------------------------------------------
+Based on the search results, here&#39;s a report addressing the given question:
+
+### Seminal &quot;Attention Is All You Need&quot; Paper
+
+The seminal paper &quot;Attention Is All You Need&quot; is not directly found in the search results. However, the results provide insights into various attention mechanisms and their applications.
+
+### Recent Improvements to Attention Mechanisms
+
+1. **Generalized Probabilistic Attention Mechanism (GPAM)**: The paper &quot;Generalized Probabilistic Attention Mechanism in Transformers&quot; (arXiv ID: 2410.15578v1) introduces a novel class of attention mechanisms, GPAM, which addresses issues like rank-collapse and gradient vanishing in conventional attention mechanisms.
+2. **Adaptive Sparse and Monotonic Attention**: &quot;Adaptive Sparse and Monotonic Attention for Transformer-based Automatic Speech Recognition&quot; (arXiv ID: 2209.15176v1) integrates sparse attention and monotonic attention into Transformer-based ASR, improving the attention mechanism in speech recognition tasks.
+3. **Continuous-Time Attention**: &quot;Continuous-Time Attention: PDE-Guided Mechanisms for Long-Sequence Transformers&quot; (arXiv ID: 2505.20666v1) proposes a novel framework that infuses partial differential equations (PDEs) into the Transformer&#39;s attention mechanism, addressing challenges with extremely long input sequences.
+
+### Applications of Attention in Different Domains
+
+1. **Vision Transformers**: &quot;Self-attention in Vision Transformers Performs Perceptual Grouping, Not Attention&quot; (arXiv ID: 2303.01542v1) studies the role of attention mechanisms in vision transformers, finding that they perform similarity grouping rather than attention.
+2. **Automatic Speech Recognition**: &quot;Adaptive Sparse and Monotonic Attention for Transformer-based Automatic Speech Recognition&quot; (arXiv ID: 2209.15176v1) applies attention mechanisms to improve Transformer-based ASR.
+3. **Compact Self-Attention for Vision Transformers**: &quot;Armour: Generalizable Compact Self-Attention for Vision Transformers&quot; (arXiv ID: 2108.01778v1) introduces a compact self-attention mechanism for vision transformers, enhancing efficiency and accuracy.
+
+These papers represent recent advancements and applications of attention mechanisms in various domains, including natural language processing, computer vision, and speech recognition.
+</code></pre></div>
+<p>The agent provides a detailed report, noting if the seminal paper was found, summarizing improvements like probabilistic attention or sparse attention, and listing applications in vision, speech, and NLP.</p>
+<h2 id="use-case-3-comparative-analysis">Use Case 3: Comparative Analysis<a class="headerlink" href="#use-case-3-comparative-analysis" title="Permanent link">&para;</a></h2>
+<p>A professor is designing a course module on reinforcement learning and needs to compare different approaches, such as Deep Q-Learning and Double Q-Learning, to teach students about their strengths and limitations.</p>
+<p>This use case involves searching for papers on a specific domain, comparing methodologies, performance metrics, and advantages/limitations. The agent synthesizes information from multiple papers to provide a structured comparison.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Compare reinforcement learning approaches</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">rl_comparison</span> <span class="o">=</span> <span class="n">paper_agent</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="s2">Search for papers on &#39;reinforcement learning&#39; and &#39;deep Q-learning&#39;. </span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="s2">Compare the approaches and identify:</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="s2">1. Different methodologies used</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="s2">2. Performance metrics</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="s2">3. Advantages and limitations of each approach</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Reinforcement Learning Comparison:&quot;</span><span class="p">)</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="nb">print</span><span class="p">(</span><span class="n">rl_comparison</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code>INFO:vinagent.agent.agent:No authentication card provided, skipping authentication
+INFO:vinagent.agent.agent:I&#39;am chatting with unknown_user
+INFO:vinagent.agent.agent:Tool calling iteration 1/10
+INFO:httpx:HTTP Request: POST https://api.groq.com/openai/v1/chat/completions &quot;HTTP/1.1 200 OK&quot;
+INFO:vinagent.agent.agent:Executing tool call: {&#39;tool_name&#39;: &#39;paper_research&#39;, &#39;tool_type&#39;: &#39;module&#39;, &#39;arguments&#39;: {&#39;topic&#39;: &#39;reinforcement learning deep Q-learning&#39;, &#39;max_results&#39;: 10}, &#39;module_path&#39;: &#39;vinagent.tools.paper_research_tools&#39;}
+INFO:arxiv:Requesting page (first: True, try: 0): https://export.arxiv.org/api/query?search_query=reinforcement+learning+deep+Q-learning&amp;id_list=&amp;sortBy=relevance&amp;sortOrder=descending&amp;start=0&amp;max_results=100
+INFO:arxiv:Got first page: 100 of 448206 total results
+INFO:vinagent.register.tool:Completed executing module tool paper_research({&#39;topic&#39;: &#39;reinforcement learning deep Q-learning&#39;, &#39;max_results&#39;: 10})
+INFO:vinagent.agent.agent:Tool calling iteration 2/10
+INFO:httpx:HTTP Request: POST https://api.groq.com/openai/v1/chat/completions &quot;HTTP/1.1 200 OK&quot;
+INFO:vinagent.agent.agent:No more tool calls needed. Completed in 2 iterations.
+
+
+Reinforcement Learning Comparison:
+--------------------------------------------------
+## Literature Review and Summary of Reinforcement Learning and Deep Q-Learning
+
+### Introduction
+
+Reinforcement learning (RL) is a subfield of machine learning that focuses on training agents to make decisions in complex, uncertain environments. Deep Q-learning, a type of RL, has gained significant attention in recent years due to its ability to learn from raw sensory inputs and make decisions in high-dimensional spaces. This literature review aims to provide an overview of the different methodologies, performance metrics, advantages, and limitations of various approaches in reinforcement learning and deep Q-learning.
+
+### Methodologies
+
+1. **Double Q-Learning:** This approach, used in papers such as &quot;Double Q-learning for Value-based Deep Reinforcement Learning, Revisited&quot; (arXiv ID: 2507.00275v1) and &quot;Decorrelated Double Q-learning&quot; (arXiv ID: 2006.06956v1), aims to reduce overestimation of Q-values by training two Q-functions and using both to de-correlate action-selection and action-evaluation in bootstrap targets.
+2. **Deep Q-Networks (DQN):** This foundational approach, used in papers such as &quot;Human-level control through deep reinforcement learning&quot; (arXiv ID: 1312.5602) and &quot;Rainbow: Combining Improvements in Deep Reinforcement Learning&quot; (arXiv ID: 1806.00568), uses a deep neural network to approximate the Q-function and has been widely used in various applications.
+3. **Dueling Networks:** This approach, used in papers such as &quot;Expert Q-learning: Deep Reinforcement Learning with Coarse State Values from Offline Expert Examples&quot; (arXiv ID: 2106.14642v5), separates the estimation of value and advantage functions, which can improve learning stability.
+4. **Prioritized Experience Replay:** This technique, used in papers such as &quot;Rainbow: Combining Improvements in Deep Reinforcement Learning&quot; (arXiv ID: 1806.00568), prioritizes experiences based on their importance, which can improve learning efficiency.
+
+### Performance Metrics
+
+1. **Atari Games:** Many papers, such as &quot;Deep Reinforcement Learning with Double Q-Learning&quot; (arXiv ID: 1509.06461) and &quot;Rainbow: Combining Improvements in Deep Reinforcement Learning&quot; (arXiv ID: 1806.00568), evaluate their performance on Atari2600 games, which provide a standard benchmark for RL algorithms.
+2. **Continuous Control Tasks:** Some papers, such as &quot;Decorrelated Double Q-learning&quot; (arXiv ID: 2006.06956v1) and &quot;A Deep Reinforcement Learning Approach to Learn Transferable Policies&quot; (arXiv ID: 1805.10209), evaluate their performance on robotic control tasks, which require learning complex control policies.
+
+### Advantages and Limitations
+
+1. **Double Q-Learning:** Advantages - reduces overestimation of Q-values; Limitations - can be computationally expensive.
+2. **DQN:** Advantages - simple and effective; Limitations - can suffer from overestimation of Q-values.
+3. **Dueling Networks:** Advantages - improves learning stability; Limitations - requires careful tuning of hyperparameters.
+4. **Prioritized Experience Replay:** Advantages - focuses on important experiences; Limitations - can introduce bias into the learning process.
+
+### Conclusion
+
+Reinforcement learning and deep Q-learning have made significant progress in recent years, with various approaches being proposed to improve learning efficiency and performance. This literature review provides an overview of the different methodologies, performance metrics, advantages, and limitations of various approaches in reinforcement learning and deep Q-learning. By understanding the strengths and weaknesses of each approach, researchers and practitioners can develop more effective RL algorithms and apply them to complex real-world problems.
+</code></pre></div>
+<p>The agent generates a comparative analysis, detailing methodologies (e.g., DQN, Double Q-Learning), performance metrics (e.g., Atari game scores), and pros/cons (e.g., computational cost vs. stability).</p>
+<h2 id="use-case-4-literature-review-generation">Use Case 4: Literature Review Generation<a class="headerlink" href="#use-case-4-literature-review-generation" title="Permanent link">&para;</a></h2>
+<p>A postdoctoral researcher is writing a grant proposal on computer vision and object detection and needs a comprehensive literature review to justify the novelty of their work.</p>
+<p>This use case requires the agent to find key papers, organize them chronologically, summarize developments, and identify trends. The agent ensures the review is structured and covers significant advancements in the field.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Generate literature review for computer vision</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">cv_review</span> <span class="o">=</span> <span class="n">paper_agent</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="s2">Create a literature review for &#39;computer vision&#39; and &#39;object detection&#39;:</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="s2">1. Find 5-6 important papers</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="s2">2. Organize them chronologically</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="s2">3. Summarize key developments</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="s2">4. Identify research trends</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Computer Vision Literature Review:&quot;</span><span class="p">)</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="nb">print</span><span class="p">(</span><span class="n">cv_review</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code>INFO:vinagent.agent.agent:No authentication card provided, skipping authentication
+INFO:vinagent.agent.agent:I&#39;am chatting with unknown_user
+INFO:vinagent.agent.agent:Tool calling iteration 1/10
+INFO:httpx:HTTP Request: POST https://api.groq.com/openai/v1/chat/completions &quot;HTTP/1.1 200 OK&quot;
+INFO:vinagent.agent.agent:Executing tool call: {&#39;tool_name&#39;: &#39;paper_research&#39;, &#39;tool_type&#39;: &#39;module&#39;, &#39;arguments&#39;: {&#39;topic&#39;: &#39;computer vision object detection&#39;, &#39;max_results&#39;: 6}, &#39;module_path&#39;: &#39;vinagent.tools.paper_research_tools&#39;}
+INFO:arxiv:Requesting page (first: True, try: 0): https://export.arxiv.org/api/query?search_query=computer+vision+object+detection&amp;id_list=&amp;sortBy=relevance&amp;sortOrder=descending&amp;start=0&amp;max_results=100
+INFO:arxiv:Got first page: 100 of 952433 total results
+INFO:vinagent.register.tool:Completed executing module tool paper_research({&#39;topic&#39;: &#39;computer vision object detection&#39;, &#39;max_results&#39;: 6})
+INFO:vinagent.agent.agent:Tool calling iteration 2/10
+INFO:httpx:HTTP Request: POST https://api.groq.com/openai/v1/chat/completions &quot;HTTP/1.1 200 OK&quot;
+INFO:vinagent.agent.agent:No more tool calls needed. Completed in 2 iterations.
+
+
+Computer Vision Literature Review:
+--------------------------------------------------
+## Literature Review: Computer Vision and Object Detection
+
+### Introduction
+Computer vision and object detection are rapidly evolving fields within the broader domain of artificial intelligence. This literature review aims to highlight key developments, research trends, and important papers in the area of computer vision and object detection.
+
+### Important Papers
+
+1. **A Review of 3D Object Detection with Vision-Language Models** ([arxiv_id: 2504.18738v1](http://arxiv.org/pdf/2504.18738v1), Published: 2025-04-25)
+   - Authors: Ranjan Sapkota, Konstantinos I Roumeliotis, Rahul Harsha Cheppally, Marco Flores Calero, Manoj Karkee
+   - Summary: This review provides a systematic analysis of 3D object detection with vision-language models, a rapidly advancing area at the intersection of 3D vision and multimodal AI.
+
+2. **PROB: Probabilistic Objectness for Open World Object Detection** ([arxiv_id: 2212.01424v1](http://arxiv.org/pdf/2212.01424v1), Published: 2022-12-02)
+   - Authors: Orr Zohar, Kuan-Chieh Wang, Serena Yeung
+   - Summary: Introduces a novel probabilistic framework for objectness estimation, allowing for the detection of unknown objects in open-world settings.
+
+3. **Detect-and-describe: Joint learning framework for detection and description of objects** ([arxiv_id: 2204.08828v1](http://arxiv.org/pdf/2204.08828v1), Published: 2022-04-19)
+   - Authors: Addel Zafar, Umar Khalid
+   - Summary: Presents a new approach to simultaneously detect objects and infer their attributes, extending object detection to object attribute prediction.
+
+4. **Real-time Object Detection: YOLOv1 Re-Implementation in PyTorch** ([arxiv_id: 2305.17786v1](http://arxiv.org/pdf/2305.17786v1), Published: 2023-05-28)
+   - Author: Michael Shenoda
+   - Summary: A re-implementation of the YOLOv1 architecture using PyTorch for real-time object detection.
+
+5. **Visual Concept Detection and Real Time Object Detection** ([arxiv_id: 1104.0582v1](http://arxiv.org/pdf/1104.0582v1), Published: 2011-04-04)
+   - Author: Ran Tao
+   - Summary: Explores the bag-of-words model for visual concept detection and real-time object detection using SIFT and RANSAC.
+
+6. **Template Matching based Object Detection Using HOG Feature Pyramid** ([arxiv_id: 1406.7120v1](http://arxiv.org/pdf/1406.7120v1), Published: 2014-06-27)
+   - Author: Anish Acharya
+   - Summary: Provides a step-by-step development of designing an object detection scheme using the HOG-based Feature Pyramid aligned with the concept of Template Matching.
+
+### Chronological Organization
+
+1. 2011 - Visual Concept Detection and Real Time Object Detection ([arxiv_id: 1104.0582v1](http://arxiv.org/pdf/1104.0582v1))
+2. 2014 - Template Matching based Object Detection Using HOG Feature Pyramid ([arxiv_id: 1406.7120v1](http://arxiv.org/pdf/1406.7120v1))
+3. 2022 - PROB: Probabilistic Objectness for Open World Object Detection ([arxiv_id: 2212.01424v1](http://arxiv.org/pdf/2212.01424v1))
+4. 2022 - Detect-and-describe: Joint learning framework for detection and description of objects ([arxiv_id: 2204.08828v1](http://arxiv.org/pdf/2204.08828v1))
+5. 2023 - Real-time Object Detection: YOLOv1 Re-Implementation in PyTorch ([arxiv_id: 2305.17786v1](http://arxiv.org/pdf/2305.17786v1))
+6. 2025 - A Review of 3D Object Detection with Vision-Language Models ([arxiv_id: 2504.18738v1](http://arxiv.org/pdf/2504.18738v1))
+
+### Key Developments
+
+- **Advancements in Deep Learning**: The use of deep learning techniques has significantly improved object detection accuracy and efficiency.
+- **Real-Time Object Detection**: Methods like YOLO have enabled real-time object detection, crucial for applications requiring immediate decision-making.
+- **Open-World Object Detection**: The development of models like PROB, which can detect unknown objects in open-world settings, marks a significant shift towards more practical applications.
+- **Vision-Language Models**: The integration of vision-language models for 3D object detection represents a cutting-edge advancement, combining multimodal AI with 3D vision.
+
+### Research Trends
+
+- **Increased Focus on Deep Learning**: The field continues to leverage deep learning for improved object detection performance.
+- **Real-Time and Efficient Detection**: Research is trending towards developing more efficient models that can detect objects in real-time without compromising accuracy.
+- **Open-World and 3D Object Detection**: There is a growing interest in open-world object detection and 3D object detection, reflecting the need for more versatile and applicable models.
+
+This literature review highlights the significant progress made in computer vision and object detection, from traditional methods to the latest advancements in deep learning and multimodal models.
+</code></pre></div>
+<p>The agent produces a literature review with a chronological list of 5-6 papers, summaries of key developments (e.g., YOLO, vision-language models), and trends like real-time detection or 3D object detection.</p>
+<h2 id="use-case-5-multi-domain-research">Use Case 5: Multi-domain Research<a class="headerlink" href="#use-case-5-multi-domain-research" title="Permanent link">&para;</a></h2>
+<p>A data scientist at a tech company is exploring interdisciplinary applications combining NLP and computer vision for a new product feature, such as automated image captioning or visual question answering.</p>
+<p>This use case involves searching for papers that bridge multiple domains, comparing approaches, and listing applications. The agent identifies interdisciplinary papers and synthesizes their contributions to highlight practical use cases.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Research across multiple domains</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">multi_domain</span> <span class="o">=</span> <span class="n">paper_agent</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="s2">Search papers that combine &#39;natural language processing&#39; and &#39;computer vision&#39;:</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="s2">1. Identify interdisciplinary papers</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="s2">2. Compare approaches that use both NLP and CV</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="s2">3. List applications and use cases</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Multi-domain Research:&quot;</span><span class="p">)</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="nb">print</span><span class="p">(</span><span class="n">multi_domain</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code>INFO:vinagent.agent.agent:No authentication card provided, skipping authentication
+INFO:vinagent.agent.agent:I&#39;am chatting with unknown_user
+INFO:vinagent.agent.agent:Tool calling iteration 1/10
+INFO:httpx:HTTP Request: POST https://api.groq.com/openai/v1/chat/completions &quot;HTTP/1.1 200 OK&quot;
+INFO:vinagent.agent.agent:Executing tool call: {&#39;tool_name&#39;: &#39;paper_research&#39;, &#39;tool_type&#39;: &#39;module&#39;, &#39;module_path&#39;: &#39;vinagent.tools.paper_research_tools&#39;, &#39;arguments&#39;: {&#39;topic&#39;: &#39;natural language processing AND computer vision&#39;, &#39;max_results&#39;: 5}}
+INFO:arxiv:Requesting page (first: True, try: 0): https://export.arxiv.org/api/query?search_query=natural+language+processing+AND+computer+vision&amp;id_list=&amp;sortBy=relevance&amp;sortOrder=descending&amp;start=0&amp;max_results=100
+INFO:arxiv:Got first page: 100 of 166559 total results
+INFO:vinagent.register.tool:Completed executing module tool paper_research({&#39;topic&#39;: &#39;natural language processing AND computer vision&#39;, &#39;max_results&#39;: 5})
+INFO:vinagent.agent.agent:Tool calling iteration 2/10
+INFO:httpx:HTTP Request: POST https://api.groq.com/openai/v1/chat/completions &quot;HTTP/1.1 200 OK&quot;
+INFO:vinagent.agent.agent:No more tool calls needed. Completed in 2 iterations.
+
+
+Multi-domain Research:
+--------------------------------------------------
+## Interdisciplinary Papers
+
+Based on the search results from the &quot;paper_research&quot; tool, here are the interdisciplinary papers that combine &#39;natural language processing&#39; and &#39;computer vision&#39;:
+
+1. **Attributes as Semantic Units between Natural Language and Visual Recognition** ([arXiv:1604.03249v1](http://arxiv.org/pdf/1604.03249v1))
+   - **Summary**: This paper discusses how attributes allow exchanging information between NLP and CV, enabling interaction on a semantic level. It covers using knowledge mined from language resources for recognizing novel visual categories, generating sentence descriptions about images and video, grounding natural language in visual content, and answering natural language questions about images.
+
+2. **Vision and Language: from Visual Perception to Content Creation** ([arXiv:1912.11872v1](http://arxiv.org/pdf/1912.11872v1))
+   - **Summary**: This paper reviews recent advances in &quot;vision to language&quot; and &quot;language to vision.&quot; It discusses tasks like image/video captioning, visual question answering, visual dialog, and language navigation. The paper also elaborates on the real-world deployment and services of vision and language.
+
+3. **Vision Language Transformers: A Survey** ([arXiv:2307.03254v1](http://arxiv.org/pdf/2307.03254v1))
+   - **Summary**: This survey provides a broad synthesis of research on vision language transformer models. It discusses their strengths, limitations, and open questions, highlighting their potential to advance tasks that require both vision and language.
+
+4. **Curriculum learning for language modeling** ([arXiv:2108.02170v1](http://arxiv.org/pdf/2108.02170v1))
+   - **Summary**: While primarily focused on language models, this paper explores curriculum learning in NLP, which can have implications for multimodal learning combining NLP and CV.
+
+5. **Vision-Language Pre-training with Object Contrastive Learning for 3D Scene Understanding** ([arXiv:2305.10714v1](http://arxiv.org/pdf/2305.10714v1))
+   - **Summary**: This paper proposes a vision-language pre-training framework for 3D scene understanding. It introduces object-level contrastive learning tasks to align objects with descriptions and distinguish different objects in the scene.
+
+## Approaches Comparison
+
+- **Attribute-based models** (e.g., [arXiv:1604.03249v1](http://arxiv.org/pdf/1604.03249v1)): Use attributes to bridge NLP and CV, enabling semantic-level interactions.
+- **Vision-language transformers** (e.g., [arXiv:2307.03254v1](http://arxiv.org/pdf/2307.03254v1)): Leverage transformer architectures for vision-language tasks, achieving state-of-the-art performance through pre-training and fine-tuning.
+- **Multimodal pre-training frameworks** (e.g., [arXiv:2305.10714v1](http://arxiv.org/pdf/2305.10714v1)): Focus on pre-training models that can handle 3D vision-language tasks, using object-level contrastive learning.
+
+## Applications and Use Cases
+
+1. **Image Captioning**: Automatically generating captions for images.
+2. **Visual Question Answering (VQA)**: Answering questions about images.
+3. **Multimodal Sentiment Analysis**: Analyzing sentiment from text and visual data.
+4. **3D Scene Understanding**: Interpreting and understanding 3D scenes using vision and language.
+5. **Visual Dialog**: Engaging in dialog about images.
+
+These papers and approaches highlight the growing interest in combining NLP and CV to enable more comprehensive understanding and interaction with visual and textual data.
+</code></pre></div>
+<p>The agent delivers a report listing interdisciplinary papers, comparing approaches (e.g., attribute-based models vs. vision-language transformers), and detailing applications like image captioning or 3D scene understanding.</p>
+<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h2>
+<p>The Researcher Agent built with Vinagent facilitates academic research by automating the discovery, analysis, and synthesis of arXiv papers. By following a structured design process and addressing real-world use cases, the agent empowers researchers to tackle complex tasks efficiently. From topic-based searches to interdisciplinary analyses, this tool provides a scalable and user-friendly solution for navigating the vast landscape of academic literature.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../banking_agent/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Banking SQL">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Banking SQL
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../legal_assistant/" class="md-footer__link md-footer__link--next" aria-label="Next: Legal Agent">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Legal Agent
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 DataScienceWorld.Kan, Inc | <a href="#__consent">Consent Preferences</a>
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "announce.dismiss", "content.code.annotate", "content.code.select", "content.tabs.link", "content.action.edit", "content.tooltips", "toc.follow", "navigation.indexes", "navigation.expand", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.footer", "navigation.path", "navigation.prune", "navigation.tracking", "search.highlight", "search.share", "search.suggest"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

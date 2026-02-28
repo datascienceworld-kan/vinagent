@@ -1,0 +1,15 @@
+{"head": "Kan", "head_type": "Person", "relation": "WORKS_FOR", "relation_properties": "since 2024", "tail": "FPT Software", "tail_type": "Company"}
+{"head": "Kan", "head_type": "Person", "relation": "WORKS_FOR", "relation_properties": "since 2022", "tail": "Orient Software", "tail_type": "Company"}
+{"head": "Kan", "head_type": "Person", "relation": "WORKED_FOR", "relation_properties": "starting in 2017", "tail": "Vingroup", "tail_type": "Company"}
+{"head": "Kan", "head_type": "Person", "relation": "WORKED_FOR", "relation_properties": "in 2015", "tail": "Techcombank", "tail_type": "Company"}
+{"head": "Kan", "head_type": "Person", "relation": "WORKED_FOR", "relation_properties": "in 2015", "tail": "VNDIRECT", "tail_type": "Company"}
+{"head": "Kan", "head_type": "Person", "relation": "HAS_AWARD", "relation_properties": "at the Nvidia GTC Global Conference 2025", "tail": "paper award", "tail_type": "Award"}
+{"head": "Kan", "head_type": "Person", "relation": "FOUNDED", "relation_properties": "", "tail": "DataScienceWorld.Kan", "tail_type": "Organization"}
+{"head": "DataScienceWorld.Kan", "head_type": "Organization", "relation": "OFFERS_COURSES", "relation_properties": "", "tail": "Deep Learning", "tail_type": "Course"}
+{"head": "DataScienceWorld.Kan", "head_type": "Organization", "relation": "OFFERS_COURSES", "relation_properties": "", "tail": "Machine Learning Handson with Python", "tail_type": "Course"}
+{"head": "DataScienceWorld.Kan", "head_type": "Organization", "relation": "OFFERS_COURSES", "relation_properties": "", "tail": "Build Generative AI Applications", "tail_type": "Course"}
+{"head": "DataScienceWorld.Kan", "head_type": "Organization", "relation": "OFFERS_COURSES", "relation_properties": "", "tail": "MLOps \u2013 Machine Learning in Production", "tail_type": "Course"}
+{"head": "Kan", "head_type": "Person", "relation": "DESIGNED_COURSES", "relation_properties": "", "tail": "6 specialized courses about Deep Learning and Machine Learning", "tail_type": "Course"}
+{"head": "Kan", "head_type": "Person", "relation": "PARTICIPATED_IN", "relation_properties": "since 2024", "tail": "Google GDSC", "tail_type": "Organization"}
+{"head": "Kan", "head_type": "Person", "relation": "PUBLISHED", "relation_properties": "", "tail": "Machine Learning Algorithms to Practice", "tail_type": "eBook"}
+{"head": "Machine Learning Algorithms to Practice", "head_type": "eBook", "relation": "PUBLISHED_ON", "relation_properties": "", "tail": "phamdinhkhanh.github.io/deepai-book", "tail_type": "Website"}

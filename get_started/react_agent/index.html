@@ -1,0 +1,1882 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://datascienceworld-kan.github.io/vinagent/get_started/react_agent/">
+      
+      
+        <link rel="prev" href="../streaming/">
+      
+      
+        <link rel="next" href="../authen_layer/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../asset/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.3">
+    
+    
+      
+        <title>5. Prebuilt Agent - Vinagent</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/navigation_title_ovverides.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/version_admonitions.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/sticky_navigation.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <meta property="og:title" content="Vinagent">
+  <meta property="og:description" content="An AI Agent library.">
+  <meta property="og:image" content="https://datascienceworld-kan.github.io/vinagent/assets/images/favicon.png">
+  <meta property="og:image:alt" content="Vinagent Thumbnail">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://datascienceworld-kan.github.io/vinagent">
+
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#react-agent" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Vinagent" class="md-header__button md-logo" aria-label="Vinagent" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Vinagent
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              5. Prebuilt Agent
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/datascienceworld-kan/vinagent" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  
+    
+  
+  Get started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../guides/analyze_stock_trending/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Guidelines
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../reference/agent/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../contributing/contributing/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Contributing
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Vinagent" class="md-nav__button md-logo" aria-label="Vinagent" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Vinagent
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/datascienceworld-kan/vinagent" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../.." class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get started
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Get started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1_2" id="__nav_1_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quick Start
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../basic_agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Start with basic Agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_2_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1_2_2" id="__nav_1_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build a customization
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_1_2_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Build a customization
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../add_tool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Add tools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../add_memory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Add memory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../async_invoke/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Async Invoking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../streaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Streaming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Prebuilt Agent
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Prebuilt Agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of Content">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of Content
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-an-react-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create an ReAct Agent
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reasoning-over-history" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reasoning over history
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reasoning-with-search-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reasoning with search engine
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../authen_layer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../observability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Observability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../local_run/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Run local ReactJS App
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_3" id="__nav_1_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Guardrail
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI Guardrail
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai_guardrail/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The Foundation of Responsible AI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_4" id="__nav_1_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent Development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agent Development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../workflow_and_agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflow & Agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../agent_rag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent RAG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_5" id="__nav_1_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-Agent Development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Multi-Agent Development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../multi_agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Start with basic Multi-Agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    
+  
+  
+  
+    <a href="../../guides/analyze_stock_trending/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guidelines
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../reference/agent/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../contributing/contributing/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of Content">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of Content
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-an-react-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create an ReAct Agent
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reasoning-over-history" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reasoning over history
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reasoning-with-search-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reasoning with search engine
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../.." class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Get started
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../basic_agent/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Quick Start
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../add_tool/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Build a customization
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/datascienceworld-kan/vinagent/edit/main/docs/docs/get_started/react_agent.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="react-agent">ReAct Agent<a class="headerlink" href="#react-agent" title="Permanent link">&para;</a></h1>
+<p><a href="https://colab.research.google.com/github/datascienceworld-kan/vinagent/blob/main/docs/docs/tutorials/get_started/react_agent.ipynb"><img alt="Open in Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>In reality, many complex use cases require combining reasoning and acting advancements to enable language models to solve various reasoning and decision-making tasks. Language models are getting better at both reasoning and acting, but these two directions have largely remained separate.</p>
+<p>ReAct enables language models to generate both verbal reasoning traces and textual actions in an interleaved manner. While actions lead to observational feedback from an external environment (referred to as “Env” in the figure below), reasoning traces do not affect the external environment. Instead, they influence the model’s internal state by reasoning over the context and updating it with useful information to support future reasoning and actions.</p>
+<p><img alt="" src="../images/react_diagram.png" /></p>
+<p>ReAct is particularly useful in many use cases, such as solving math, logic, coding, and writing problems. That is why Vinagent offers a default ReAct Agent to facilitate their initialization for handling complex tasks that require interleaved reasoning and acting. You can learn more about ReAct in the original paper: <a href="https://arxiv.org/abs/2210.03629">ReAct: Synergizing Reasoning and Acting in Language Models, Yao et al., 2022</a>.</p>
+<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
+<p>Let's install <code>vinagent</code> package and write environment variables to <code>.env</code> file.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">vinagent</span>
+</span></code></pre></div>
+<p>Set environment varibles inside <code>.env</code> including <code>TOGETHER_API_KEY</code> to use llm models at <a href="https://api.together.ai/signin">togetherai</a> site and <code>TAVILY_API_KEY</code> to use tavily websearch tool at <a href="https://app.tavily.com/home">tavily</a> site:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="o">%%</span><span class="n">writefile</span> <span class="o">.</span><span class="n">env</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">TOGETHER_API_KEY</span><span class="o">=</span><span class="s2">&quot;Your together API key&quot;</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">TAVILY_API_KEY</span><span class="o">=</span><span class="s2">&quot;Your Tavily API key&quot;</span>
+</span></code></pre></div>
+<h2 id="create-an-react-agent">Create an ReAct Agent<a class="headerlink" href="#create-an-react-agent" title="Permanent link">&para;</a></h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">langchain_together</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatTogether</span> 
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">vinagent.agent.prebuilt</span><span class="w"> </span><span class="kn">import</span> <span class="n">ReactAgent</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">load_dotenv</span><span class="p">()</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="n">llm</span> <span class="o">=</span> <span class="n">ChatTogether</span><span class="p">(</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;meta-llama/Llama-3.3-70B-Instruct-Turbo-Free&quot;</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>To demonstrate the efficient of ReAct Agent, let's assume we need to compute two dog weights average is <code>Husky</code> and <code>Bulldog</code>.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="o">%%</span><span class="n">writefile</span> <span class="n">vinagent</span><span class="o">/</span><span class="n">tools</span><span class="o">/</span><span class="n">average_dogs</span><span class="o">.</span><span class="n">py</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">weight_of_bulldog</span><span class="p">():</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;The weight of a bulldog&quot;&quot;&quot;</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="k">return</span> <span class="mi">25</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="k">def</span><span class="w"> </span><span class="nf">weight_of_husky</span><span class="p">():</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;The weight of a husky&quot;&quot;&quot;</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="k">return</span> <span class="mi">20</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="k">def</span><span class="w"> </span><span class="nf">average_weight_of_two_dogs</span><span class="p">(</span><span class="n">weight1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">weight2</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;The average weight of two dogs&quot;&quot;&quot;</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>    <span class="k">return</span> <span class="p">(</span><span class="n">weight1</span> <span class="o">+</span> <span class="n">weight2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+</span></code></pre></div>
+<p>Let's initialize the ReAct Agent and pass in the tools and the description of the agent.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">agent</span> <span class="o">=</span> <span class="n">ReactAgent</span><span class="p">(</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>    <span class="n">decription</span><span class="o">=</span><span class="s2">&quot;You are a helpful assistant.&quot;</span><span class="p">,</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="n">skills</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Search on internet&quot;</span><span class="p">],</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    <span class="n">tools</span><span class="o">=</span><span class="p">[</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>        <span class="s1">&#39;vinagent.tools.average_dogs&#39;</span><span class="p">,</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>        <span class="s1">&#39;vinagent.tools.websearch_tools&#39;</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    <span class="p">],</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="n">num_buffered_messages</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    <span class="n">llm</span><span class="o">=</span><span class="n">llm</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code>INFO:vinagent.register.tool:Registered weight_of_bulldog:
+{&#39;tool_name&#39;: &#39;weight_of_bulldog&#39;, &#39;arguments&#39;: {}, &#39;return&#39;: &#39;25&#39;, &#39;docstring&#39;: &#39;The weight of a bulldog&#39;, &#39;dependencies&#39;: [], &#39;module_path&#39;: &#39;vinagent.tools.average_dogs&#39;, &#39;tool_type&#39;: &#39;module&#39;, &#39;tool_call_id&#39;: &#39;tool_154b5559-0e7e-436b-9f9e-741df44e8416&#39;}
+INFO:vinagent.register.tool:Registered weight_of_husky:
+{&#39;tool_name&#39;: &#39;weight_of_husky&#39;, &#39;arguments&#39;: {}, &#39;return&#39;: &#39;20&#39;, &#39;docstring&#39;: &#39;The weight of a husky&#39;, &#39;dependencies&#39;: [], &#39;module_path&#39;: &#39;vinagent.tools.average_dogs&#39;, &#39;tool_type&#39;: &#39;module&#39;, &#39;tool_call_id&#39;: &#39;tool_b4804fad-30cd-4a62-a019-869c70bd86ab&#39;}
+INFO:vinagent.register.tool:Registered average_weight_of_two_dogs:
+{&#39;tool_name&#39;: &#39;average_weight_of_two_dogs&#39;, &#39;arguments&#39;: {&#39;weight1&#39;: 0.0, &#39;weight2&#39;: 0.0}, &#39;return&#39;: &#39;None&#39;, &#39;docstring&#39;: &#39;The average weight of two dogs&#39;, &#39;dependencies&#39;: [], &#39;module_path&#39;: &#39;vinagent.tools.average_dogs&#39;, &#39;tool_type&#39;: &#39;module&#39;, &#39;tool_call_id&#39;: &#39;tool_b77b87ff-1fef-4ee1-8a62-ebbde8dcfc00&#39;}
+INFO:vinagent.register.tool:Completed registration for module vinagent.tools.average_dogs
+INFO:vinagent.register.tool:Registered search_api:
+{&#39;tool_name&#39;: &#39;search_api&#39;, &#39;arguments&#39;: {&#39;query&#39;: &#39;{}&#39;}, &#39;return&#39;: &#39;Any&#39;, &#39;docstring&#39;: &#39;Search for an answer from a query string\n    Args:\n        query (dict[str, str]):  The input query to search\n    Returns:\n        The answer from search query&#39;, &#39;dependencies&#39;: [&#39;os&#39;, &#39;dotenv&#39;, &#39;tavily&#39;, &#39;dataclasses&#39;, &#39;typing&#39;], &#39;module_path&#39;: &#39;vinagent.tools.websearch_tools&#39;, &#39;tool_type&#39;: &#39;module&#39;, &#39;tool_call_id&#39;: &#39;tool_2ec9aaa3-8585-4aec-b5f2-f86335c1f99a&#39;}
+INFO:vinagent.register.tool:Completed registration for module vinagent.tools.websearch_tools
+</code></pre></div>
+<p>Let's ask the average weight of two dogs.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">answer</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="s2">&quot;What is the average weight of two dogs Husky and Bulldog?&quot;</span><span class="p">)</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">answer</span>
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code>INFO:vinagent.agent.agent:Tool calling iteration 1/10
+INFO:vinagent.agent.agent:Executing tool call: {&#39;tool_name&#39;: &#39;weight_of_husky&#39;, &#39;tool_type&#39;: &#39;module&#39;, &#39;arguments&#39;: {}, &#39;module_path&#39;: &#39;vinagent.tools.average_dogs&#39;}
+INFO:vinagent.register.tool:Completed executing module tool weight_of_husky({})
+INFO:vinagent.agent.agent:Tool calling iteration 2/10
+INFO:vinagent.agent.agent:Executing tool call: {&#39;tool_name&#39;: &#39;weight_of_bulldog&#39;, &#39;tool_type&#39;: &#39;module&#39;, &#39;arguments&#39;: {}, &#39;module_path&#39;: &#39;vinagent.tools.average_dogs&#39;}
+INFO:vinagent.register.tool:Completed executing module tool weight_of_bulldog({})
+INFO:vinagent.agent.agent:Tool calling iteration 3/10
+INFO:vinagent.agent.agent:Executing tool call: {&#39;tool_name&#39;: &#39;average_weight_of_two_dogs&#39;, &#39;tool_type&#39;: &#39;module&#39;, &#39;arguments&#39;: {&#39;weight1&#39;: 20.0, &#39;weight2&#39;: 25.0}, &#39;module_path&#39;: &#39;vinagent.tools.average_dogs&#39;}
+INFO:vinagent.register.tool:Completed executing module tool average_weight_of_two_dogs({&#39;weight1&#39;: 20.0, &#39;weight2&#39;: 25.0})
+INFO:vinagent.agent.agent:Tool calling iteration 4/10
+
+AIMessage(content=&#39;I now know the final answer\nFinal Answer: The average weight of a Husky and a Bulldog is 22.5.&#39;, additional_kwargs={&#39;refusal&#39;: None}, response_metadata={&#39;token_usage&#39;: {&#39;completion_tokens&#39;: 28, &#39;prompt_tokens&#39;: 3179, &#39;total_tokens&#39;: 3207, &#39;completion_tokens_details&#39;: None, &#39;prompt_tokens_details&#39;: None, &#39;cached_tokens&#39;: 0}, &#39;model_name&#39;: &#39;meta-llama/Llama-3.3-70B-Instruct-Turbo-Free&#39;, &#39;system_fingerprint&#39;: None, &#39;finish_reason&#39;: &#39;stop&#39;, &#39;logprobs&#39;: None}, id=&#39;run--c2183de6-749b-4a3e-9331-74820095dc18-0&#39;, usage_metadata={&#39;input_tokens&#39;: 3179, &#39;output_tokens&#39;: 28, &#39;total_tokens&#39;: 3207, &#39;input_token_details&#39;: {}, &#39;output_token_details&#39;: {}})
+</code></pre></div>
+<h2 id="reasoning-over-history">Reasoning over history<a class="headerlink" href="#reasoning-over-history" title="Permanent link">&para;</a></h2>
+<p>The ReAct agent can save the user's chat history. This enables the agent to reason over the retained conversational context, which often contains important information in previous interactions. In this case, we set <code>num_buffered_messages=10</code>, meaning it can store up to 10 messages in the chat history. In the following example, we assume the Husky's weight has changed. The ReAct agent will reason over the chat history to determine the new average weight.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">answer</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="s2">&quot;If the average weight of a Husky is 30 kilograms, by how many kilograms does the average weight of the two dogs increase?&quot;</span><span class="p">)</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">answer</span>
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code>INFO:vinagent.agent.agent:Tool calling iteration 1/10
+INFO:vinagent.agent.agent:Executing tool call: {&#39;tool_name&#39;: &#39;weight_of_bulldog&#39;, &#39;tool_type&#39;: &#39;module&#39;, &#39;arguments&#39;: {}, &#39;module_path&#39;: &#39;vinagent.tools.average_dogs&#39;}
+INFO:vinagent.register.tool:Completed executing module tool weight_of_bulldog({})
+INFO:vinagent.agent.agent:Tool calling iteration 2/10
+INFO:vinagent.agent.agent:Executing tool call: {&#39;tool_name&#39;: &#39;average_weight_of_two_dogs&#39;, &#39;tool_type&#39;: &#39;module&#39;, &#39;arguments&#39;: {&#39;weight1&#39;: 30.0, &#39;weight2&#39;: 25.0}, &#39;module_path&#39;: &#39;vinagent.tools.average_dogs&#39;}
+INFO:vinagent.register.tool:Completed executing module tool average_weight_of_two_dogs({&#39;weight1&#39;: 30.0, &#39;weight2&#39;: 25.0})
+INFO:vinagent.agent.agent:Tool calling iteration 3/10
+INFO:vinagent.agent.agent:Executing tool call: {&#39;tool_name&#39;: &#39;average_weight_of_two_dogs&#39;, &#39;tool_type&#39;: &#39;module&#39;, &#39;arguments&#39;: {&#39;weight1&#39;: 20.0, &#39;weight2&#39;: 25.0}, &#39;module_path&#39;: &#39;vinagent.tools.average_dogs&#39;}
+INFO:vinagent.register.tool:Completed executing module tool average_weight_of_two_dogs({&#39;weight1&#39;: 20.0, &#39;weight2&#39;: 25.0})
+INFO:vinagent.agent.agent:Tool calling iteration 4/10
+INFO:vinagent.agent.agent:Executing tool call: {&#39;tool_name&#39;: &#39;search_api&#39;, &#39;tool_type&#39;: &#39;module&#39;, &#39;arguments&#39;: {&#39;query&#39;: &#39;27.5 - 22.5&#39;}, &#39;module_path&#39;: &#39;vinagent.tools.websearch_tools&#39;}
+INFO:vinagent.register.tool:Completed executing module tool search_api({&#39;query&#39;: &#39;27.5 - 22.5&#39;})
+INFO:vinagent.agent.agent:Tool calling iteration 5/10
+INFO:vinagent.agent.agent:No more tool calls needed. Completed in 5 iterations.
+
+AIMessage(content=&#39;The increase in the average weight of the two dogs is 5 kilograms.\n\nThought: I now know the final answer\nFinal Answer: The average weight of the two dogs increases by 5 kilograms.&#39;, additional_kwargs={&#39;refusal&#39;: None}, response_metadata={&#39;token_usage&#39;: {&#39;completion_tokens&#39;: 41, &#39;prompt_tokens&#39;: 3469, &#39;total_tokens&#39;: 3510, &#39;completion_tokens_details&#39;: None, &#39;prompt_tokens_details&#39;: None, &#39;cached_tokens&#39;: 0}, &#39;model_name&#39;: &#39;meta-llama/Llama-3.3-70B-Instruct-Turbo-Free&#39;, &#39;system_fingerprint&#39;: None, &#39;finish_reason&#39;: &#39;stop&#39;, &#39;logprobs&#39;: None}, id=&#39;run--4231bdd1-f0c4-492d-a716-af74a144b0ca-0&#39;, usage_metadata={&#39;input_tokens&#39;: 3469, &#39;output_tokens&#39;: 41, &#39;total_tokens&#39;: 3510, &#39;input_token_details&#39;: {}, &#39;output_token_details&#39;: {}})
+</code></pre></div>
+<h2 id="reasoning-with-search-engine">Reasoning with search engine<a class="headerlink" href="#reasoning-with-search-engine" title="Permanent link">&para;</a></h2>
+<p>Test with another use case that compares the populations of the three cities: <code>New York</code>, <code>Beijing</code>, and <code>Hanoi</code>.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">answer</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="s2">&quot;Which city has the greatest population among New York, Beijing, and Hanoi?&quot;</span><span class="p">)</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">answer</span>
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code>INFO:vinagent.agent.agent:No authentication card provided, skipping authentication
+INFO:vinagent.agent.agent:I&#39;am chatting with unknown_user
+INFO:vinagent.agent.agent:Tool calling iteration 1/10
+INFO:vinagent.agent.agent:Executing tool call: {&#39;tool_name&#39;: &#39;search_api&#39;, &#39;tool_type&#39;: &#39;module&#39;, &#39;arguments&#39;: {&#39;query&#39;: &#39;population of New York&#39;}, &#39;module_path&#39;: &#39;vinagent.tools.websearch_tools&#39;}
+INFO:vinagent.register.tool:Completed executing module tool search_api({&#39;query&#39;: &#39;population of New York&#39;})
+INFO:vinagent.agent.agent:Tool calling iteration 2/10
+INFO:vinagent.agent.agent:Executing tool call: {&#39;tool_name&#39;: &#39;search_api&#39;, &#39;tool_type&#39;: &#39;module&#39;, &#39;arguments&#39;: {&#39;query&#39;: &#39;population of Beijing&#39;}, &#39;module_path&#39;: &#39;vinagent.tools.websearch_tools&#39;}
+INFO:vinagent.register.tool:Completed executing module tool search_api({&#39;query&#39;: &#39;population of Beijing&#39;})
+INFO:vinagent.agent.agent:Tool calling iteration 3/10
+INFO:vinagent.agent.agent:Executing tool call: {&#39;tool_name&#39;: &#39;search_api&#39;, &#39;tool_type&#39;: &#39;module&#39;, &#39;arguments&#39;: {&#39;query&#39;: &#39;population of Hanoi&#39;}, &#39;module_path&#39;: &#39;vinagent.tools.websearch_tools&#39;}
+INFO:vinagent.register.tool:Completed executing module tool search_api({&#39;query&#39;: &#39;population of Hanoi&#39;})
+INFO:vinagent.agent.agent:Tool calling iteration 4/10 
+INFO:vinagent.agent.agent:No more tool calls needed. Completed in 4 iterations.
+
+AIMessage(content=&#39;We have the populations of New York, Beijing, and Hanoi. New York has a population of approximately 8.5 million, Beijing has a population of around 21.8 million, and Hanoi has a population of around 8,807,523.\n\nThought: Comparing these numbers, we can see that Beijing has the greatest population among the three cities.\n\nThought: I now know the final answer\nFinal Answer: Beijing has the greatest population among the three cities, with a population of approximately 21.8 million.&#39;, additional_kwargs={&#39;refusal&#39;: None}, response_metadata={&#39;token_usage&#39;: {&#39;completion_tokens&#39;: 109, &#39;prompt_tokens&#39;: 3331, &#39;total_tokens&#39;: 3440, &#39;completion_tokens_details&#39;: None, &#39;prompt_tokens_details&#39;: None, &#39;cached_tokens&#39;: 0}, &#39;model_name&#39;: &#39;meta-llama/Llama-3.3-70B-Instruct-Turbo-Free&#39;, &#39;system_fingerprint&#39;: None, &#39;finish_reason&#39;: &#39;stop&#39;, &#39;logprobs&#39;: None}, id=&#39;run--28a56b66-22bc-420e-8be8-914992b322fe-0&#39;, usage_metadata={&#39;input_tokens&#39;: 3331, &#39;output_tokens&#39;: 109, &#39;total_tokens&#39;: 3440, &#39;input_token_details&#39;: {}, &#39;output_token_details&#39;: {}})
+</code></pre></div>
+<p>Test with a math problem that requires reasoning and acting to be interleaved across multiple cycles.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">answer</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="s2">&quot;Vinagent is a community project of DataScienceWorld.Kan. It is an initiative by the founder of DataScienceWorld.Kan. Who is the leader of Vinagent?&quot;</span><span class="p">)</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">answer</span>
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code>INFO:vinagent.agent.agent:No authentication card provided, skipping authentication
+INFO:vinagent.agent.agent:I&#39;am chatting with unknown_user
+INFO:vinagent.agent.agent:Tool calling iteration 1/10
+INFO:vinagent.agent.agent:Executing tool call: {&#39;tool_name&#39;: &#39;search_api&#39;, &#39;tool_type&#39;: &#39;module&#39;, &#39;arguments&#39;: {&#39;query&#39;: &#39;DataScienceWorld.Kan founder&#39;}, &#39;module_path&#39;: &#39;vinagent.tools.websearch_tools&#39;}
+INFO:vinagent.register.tool:Completed executing module tool search_api({&#39;query&#39;: &#39;DataScienceWorld.Kan founder&#39;})
+INFO:vinagent.agent.agent:Tool calling iteration 2/10
+INFO:vinagent.agent.agent:No more tool calls needed. Completed in 2 iterations.
+
+AIMessage(content=&#39;Since Pham Đinh Khanh is the founder of DataScienceWorld.Kan and Vinagent is an initiative of this founder, we can conclude that Pham Đinh Khanh is the leader of Vinagent.\n\nThought: I now know the final answer\nFinal Answer: Pham Đinh Khanh is the leader of Vinagent.&#39;, additional_kwargs={&#39;refusal&#39;: None}, response_metadata={&#39;token_usage&#39;: {&#39;completion_tokens&#39;: 69, &#39;prompt_tokens&#39;: 2889, &#39;total_tokens&#39;: 2958, &#39;completion_tokens_details&#39;: None, &#39;prompt_tokens_details&#39;: None, &#39;cached_tokens&#39;: 0}, &#39;model_name&#39;: &#39;meta-llama/Llama-3.3-70B-Instruct-Turbo-Free&#39;, &#39;system_fingerprint&#39;: None, &#39;finish_reason&#39;: &#39;stop&#39;, &#39;logprobs&#39;: None}, id=&#39;run--b9a36ebc-aa2f-42c5-a6d8-2a3633da41e9-0&#39;, usage_metadata={&#39;input_tokens&#39;: 2889, &#39;output_tokens&#39;: 69, &#39;total_tokens&#39;: 2958, &#39;input_token_details&#39;: {}, &#39;output_token_details&#39;: {}})
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../streaming/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 4. Streaming">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                4. Streaming
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../authen_layer/" class="md-footer__link md-footer__link--next" aria-label="Next: 6. Security">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                6. Security
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 DataScienceWorld.Kan, Inc | <a href="#__consent">Consent Preferences</a>
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "announce.dismiss", "content.code.annotate", "content.code.select", "content.tabs.link", "content.action.edit", "content.tooltips", "toc.follow", "navigation.indexes", "navigation.expand", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.footer", "navigation.path", "navigation.prune", "navigation.tracking", "search.highlight", "search.share", "search.suggest"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

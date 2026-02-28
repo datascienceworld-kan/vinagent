@@ -1,0 +1,1434 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://datascienceworld-kan.github.io/vinagent/contributing/contributing/">
+      
+      
+        <link rel="prev" href="../../reference/authenticate/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../asset/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.3">
+    
+    
+      
+        <title>How to Contribute - Vinagent</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/navigation_title_ovverides.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/version_admonitions.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/sticky_navigation.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <meta property="og:title" content="Vinagent">
+  <meta property="og:description" content="An AI Agent library.">
+  <meta property="og:image" content="https://datascienceworld-kan.github.io/vinagent/assets/images/favicon.png">
+  <meta property="og:image:alt" content="Vinagent Thumbnail">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://datascienceworld-kan.github.io/vinagent">
+
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#contributing-to-vinagent" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Vinagent" class="md-header__button md-logo" aria-label="Vinagent" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Vinagent
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              How to Contribute
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/datascienceworld-kan/vinagent" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  
+    
+  
+  Get started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../guides/analyze_stock_trending/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Guidelines
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../reference/agent/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Contributing
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Vinagent" class="md-nav__button md-logo" aria-label="Vinagent" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Vinagent
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/datascienceworld-kan/vinagent" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../.." class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get started
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    
+  
+  
+  
+    <a href="../../guides/analyze_stock_trending/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guidelines
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../reference/agent/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Contributing
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How to Contribute
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How to Contribute
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of Content">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of Content
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i-have-a-question" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        I Have a Question
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i-want-to-contribute" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        I Want To Contribute
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="I Want To Contribute">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#legal-notice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Legal Notice
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reporting-bugs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reporting Bugs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reporting Bugs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#before-submitting-a-bug-report" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Before Submitting a Bug Report
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-do-i-submit-a-good-bug-report" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How Do I Submit a Good Bug Report?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#suggesting-enhancements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Suggesting Enhancements
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Suggesting Enhancements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#before-submitting-an-enhancement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Before Submitting an Enhancement
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-do-i-submit-a-good-enhancement-suggestion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How Do I Submit a Good Enhancement Suggestion?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#your-first-code-contribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Your First Code Contribution
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Your First Code Contribution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-requisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-requisites
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contributing-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contributing Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#improving-the-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Improving The Documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#styleguides" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Styleguides
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of Content">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of Content
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i-have-a-question" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        I Have a Question
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i-want-to-contribute" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        I Want To Contribute
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="I Want To Contribute">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#legal-notice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Legal Notice
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reporting-bugs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reporting Bugs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reporting Bugs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#before-submitting-a-bug-report" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Before Submitting a Bug Report
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-do-i-submit-a-good-bug-report" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How Do I Submit a Good Bug Report?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#suggesting-enhancements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Suggesting Enhancements
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Suggesting Enhancements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#before-submitting-an-enhancement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Before Submitting an Enhancement
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-do-i-submit-a-good-enhancement-suggestion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How Do I Submit a Good Enhancement Suggestion?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#your-first-code-contribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Your First Code Contribution
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Your First Code Contribution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-requisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-requisites
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contributing-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contributing Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#improving-the-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Improving The Documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#styleguides" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Styleguides
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/datascienceworld-kan/vinagent/edit/main/docs/docs/contributing/contributing.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="contributing-to-vinagent">Contributing to Vinagent<a class="headerlink" href="#contributing-to-vinagent" title="Permanent link">&para;</a></h1>
+<p>First off, thanks for taking the time to contribute!</p>
+<p>All types of contributions are encouraged and valued. See the <a href="#table-of-contents">Table of Contents</a>
+for different ways to help and details about how this project handles them. Please make sure to read
+the relevant section before making your contribution. It will make it a lot easier for us maintainers
+and smooth out the experience for all involved. The community looks forward to your contributions.</p>
+<blockquote>
+<p>And if you like the project, but just don't have time to contribute, that's fine. There are other easy
+ways to support the project and show your appreciation, which we would also be very happy about:
+- Star the project
+- Tweet about it
+- Refer this project in your project's readme
+- Mention the project at local meetups and tell your friends/colleagues</p>
+</blockquote>
+<!-- omit in toc -->
+<h2 id="table-of-contents">Table of Contents<a class="headerlink" href="#table-of-contents" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="#i-have-a-question">I Have a Question</a></li>
+<li><a href="#i-want-to-contribute">I Want To Contribute</a></li>
+<li><a href="#reporting-bugs">Reporting Bugs</a></li>
+<li><a href="#suggesting-enhancements">Suggesting Enhancements</a></li>
+<li><a href="#your-first-code-contribution">Your First Code Contribution</a></li>
+<li><a href="#improving-the-documentation">Improving The Documentation</a></li>
+<li><a href="#styleguides">Styleguides</a></li>
+<li><a href="#commit-messages">Commit Messages</a></li>
+</ul>
+<h2 id="i-have-a-question">I Have a Question<a class="headerlink" href="#i-have-a-question" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>If you want to ask a question, we assume that you have read the available
+<a href="https://github.com/datascienceworld-kan/vinagent/blob/main/README.md">Documentation</a>.</p>
+</blockquote>
+<p>Before you ask a question, it is best to search for existing <a href="https://github.com/datascienceworld-kan/vinagent/issues">Issues</a>
+that might help you. If you find a relevant issue that already exists and still need clarification, please add your question to that existing issue. We also recommend reaching out to the community in the vinagent <a href="https://discord.com/channels/1036147288994758717/1358017320970358864">Discord</a> server.</p>
+<p>If you then still feel the need to ask a question and need clarification, we recommend the following:</p>
+<ul>
+<li>Open an <a href="https://github.com/datascienceworld-kan/vinagent/issues/new">Issue</a>.</li>
+<li>Provide as much context as you can about what you're running into.</li>
+<li>Provide project and platform versions (python, OS, etc.), depending on what seems relevant.</li>
+</ul>
+<p>We (or someone in the community) will then take care of the issue as soon as possible.</p>
+<h2 id="i-want-to-contribute">I Want To Contribute<a class="headerlink" href="#i-want-to-contribute" title="Permanent link">&para;</a></h2>
+<blockquote>
+<h3 id="legal-notice">Legal Notice <!-- omit in toc --><a class="headerlink" href="#legal-notice" title="Permanent link">&para;</a></h3>
+<p>When contributing to this project, you must agree that you have authored 100% of the content, that
+you have the necessary rights to the content and that the content you contribute may be provided
+under the project license.</p>
+</blockquote>
+<h3 id="reporting-bugs">Reporting Bugs<a class="headerlink" href="#reporting-bugs" title="Permanent link">&para;</a></h3>
+<!-- omit in toc -->
+<h4 id="before-submitting-a-bug-report">Before Submitting a Bug Report<a class="headerlink" href="#before-submitting-a-bug-report" title="Permanent link">&para;</a></h4>
+<p>A good bug report shouldn't leave others needing to chase you up for more information. Therefore, we ask
+you to investigate carefully, collect information and describe the issue in detail in your report. Please
+complete the following steps in advance to help us fix any potential bug as fast as possible.</p>
+<ul>
+<li>Make sure that you are using the latest version.</li>
+<li>Determine if your bug is really a bug and not an error on your side e.g. using incompatible environment 
+  components/versions (Make sure that you have read the <a href="https://github.com/datascienceworld-kan/vinagent/blob/main/README.md">documentation</a>.
+  If you are looking for support, you might want to check <a href="#i-have-a-question">this section</a>).</li>
+<li>To see if other users have experienced (and potentially already solved) the same issue you are having,
+  check if there is not already a bug report existing for your bug or error in the <a href="https://github.com/datascienceworld-kan/vinagent?q=label%3Abug">bug tracker</a>.</li>
+<li>Also make sure to search the internet (including Stack Overflow) to see if users outside of the GitHub
+  community have discussed the issue.</li>
+<li>Collect information about the bug:</li>
+<li>Stack trace (Traceback)</li>
+<li>OS, Platform and Version (Windows, Linux, macOS, x86, ARM)</li>
+<li>Version of the interpreter, compiler, SDK, runtime environment, package manager, depending on
+    what seems relevant.</li>
+<li>Possibly your input and the output</li>
+<li>Can you reliably reproduce the issue? And can you also reproduce it with older versions?</li>
+</ul>
+<!-- omit in toc -->
+<h4 id="how-do-i-submit-a-good-bug-report">How Do I Submit a Good Bug Report?<a class="headerlink" href="#how-do-i-submit-a-good-bug-report" title="Permanent link">&para;</a></h4>
+<blockquote>
+<p>You must never report security related issues, vulnerabilities or bugs including sensitive information to
+the issue tracker, or elsewhere in public. Instead sensitive bugs must be sent by email to <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#100;&#97;&#116;&#97;&#115;&#99;&#105;&#101;&#110;&#99;&#101;&#119;&#111;&#114;&#108;&#100;&#46;&#107;&#97;&#110;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">&#100;&#97;&#116;&#97;&#115;&#99;&#105;&#101;&#110;&#99;&#101;&#119;&#111;&#114;&#108;&#100;&#46;&#107;&#97;&#110;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a>.</p>
+</blockquote>
+<!-- You may add a PGP key to allow the messages to be sent encrypted as well. -->
+
+<p>We use GitHub issues to track bugs and errors. If you run into an issue with the project:</p>
+<ul>
+<li>Open an <a href="https://github.com/datascienceworld-kan/vinagent/issues/new">Issue</a>. (Since we can't be sure at
+  this point whether it is a bug or not, we ask you not to talk about a bug yet and not to label the issue.)</li>
+<li>Explain the behavior you would expect and the actual behavior.</li>
+<li>Please provide as much context as possible and describe the <em>reproduction steps</em> that someone else can
+  follow to recreate the issue on their own. This usually includes your code. For good bug reports you
+  should isolate the problem and create a reduced test case.</li>
+<li>Provide the information you collected in the previous section.</li>
+</ul>
+<p>Once it's filed:</p>
+<ul>
+<li>The project team will label the issue accordingly.</li>
+<li>A team member will try to reproduce the issue with your provided steps. If there are no reproduction 
+  steps or no obvious way to reproduce the issue, the team will ask you for those steps and mark the
+  issue as <code>needs-repro</code>. Bugs with the <code>needs-repro</code> tag will not be addressed until they are reproduced.</li>
+<li>If the team is able to reproduce the issue, it will be marked <code>needs-fix</code>, as well as possibly other
+  tags (such as <code>critical</code>), and the issue will be left to be
+  <a href="#your-first-code-contribution">implemented by someone</a>.</li>
+</ul>
+<p>Please use the issue templates provided.</p>
+<h3 id="suggesting-enhancements">Suggesting Enhancements<a class="headerlink" href="#suggesting-enhancements" title="Permanent link">&para;</a></h3>
+<p>This section guides you through submitting an enhancement suggestion for vinagent,
+<strong>including completely new features and minor improvements to existing functionality</strong>. Following these
+guidelines will help maintainers and the community to understand your suggestion and find related suggestions.</p>
+<!-- omit in toc -->
+<h4 id="before-submitting-an-enhancement">Before Submitting an Enhancement<a class="headerlink" href="#before-submitting-an-enhancement" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Make sure that you are using the latest version.</li>
+<li>Read the <a href="https://github.com/datascienceworld-kan/vinagent/blob/main/README.md">documentation</a> carefully
+  and find out if the functionality is already covered, maybe by an individual configuration.</li>
+<li>Perform a <a href="https://github.com/datascienceworld-kan/vinagent/issues">search</a> to see if the enhancement has
+  already been suggested. If it has, add a comment to the existing issue instead of opening a new one.</li>
+<li>Find out whether your idea fits with the scope and aims of the project. It's up to you to make a strong
+  case to convince the project's developers of the merits of this feature. Keep in mind that we want features that will be useful to the majority of our users and not just a small subset. If you're just targeting a minority of users, consider writing an add-on/plugin library.</li>
+</ul>
+<!-- omit in toc -->
+<h4 id="how-do-i-submit-a-good-enhancement-suggestion">How Do I Submit a Good Enhancement Suggestion?<a class="headerlink" href="#how-do-i-submit-a-good-enhancement-suggestion" title="Permanent link">&para;</a></h4>
+<p>Enhancement suggestions are tracked as <a href="https://github.com/datascienceworld-kan/vinagent/issues">GitHub issues</a>.</p>
+<ul>
+<li>Use a <strong>clear and descriptive title</strong> for the issue to identify the suggestion.</li>
+<li>Provide a <strong>step-by-step description of the suggested enhancement</strong> in as many details as possible.</li>
+<li><strong>Describe the current behavior</strong> and <strong>explain which behavior you expected to see instead</strong> and why.
+  At this point you can also tell which alternatives do not work for you.</li>
+<li><strong>Explain why this enhancement would be useful</strong> to most Vinagent users. You may also want to
+  point out the other projects that solved it better and which could serve as inspiration.</li>
+</ul>
+<h3 id="your-first-code-contribution">Your First Code Contribution<a class="headerlink" href="#your-first-code-contribution" title="Permanent link">&para;</a></h3>
+<h4 id="pre-requisites">Pre-requisites<a class="headerlink" href="#pre-requisites" title="Permanent link">&para;</a></h4>
+<p>You should first <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo">fork</a>
+the <code>vinagent</code> repository and then clone your forked repository:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/&lt;YOUR_GITHUB_USER&gt;/vinagent.git
+</span></code></pre></div>
+<p>Once in the cloned repository directory, make a branch on the forked repository with your username and
+description of PR:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>git<span class="w"> </span>checkout<span class="w"> </span>-B<span class="w"> </span>&lt;username&gt;/&lt;description&gt;
+</span></code></pre></div></p>
+<p>Please install the development and test dependencies:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>poetry<span class="w"> </span>install<span class="w"> </span>--with<span class="w"> </span>dev,test
+</span></code></pre></div></p>
+<p><code>vinagent</code> uses pre-commit to ensure the formatting is consistent:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>pre-commit<span class="w"> </span>install
+</span></code></pre></div></p>
+<p><strong>Make suggested changes</strong></p>
+<p>Afterwards, our suite of formatting tests will run automatically before each <code>git commit</code>. You can also
+run these manually:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>pre-commit<span class="w"> </span>run<span class="w"> </span>--all-files
+</span></code></pre></div></p>
+<p>If a formatting test fails, it will fix the modified code in place and abort the <code>git commit</code>. After looking
+over the changes, you can <code>git add &lt;modified files&gt;</code> and then repeat the previous git commit command.</p>
+<p><strong>Note</strong>: a github workflow will check the files with the same formatter and reject the PR if it doesn't
+pass, so please make sure it passes locally.</p>
+<h4 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">&para;</a></h4>
+<p><code>vinagent</code> tracks unit tests. Pytest is used to execute said unit tests in <code>tests/</code>:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>poetry<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests
+</span></code></pre></div>
+<p>If your code changes implement a new function, please make a corresponding unit test to the <code>test/*</code> files.</p>
+<h4 id="contributing-workflow">Contributing Workflow<a class="headerlink" href="#contributing-workflow" title="Permanent link">&para;</a></h4>
+<p>We actively welcome your pull requests.</p>
+<ol>
+<li>Create your new branch from main in your forked repo, with your username and a name describing the work
+   you're completing e.g. user-123/add-feature-x.</li>
+<li>If you've added code that should be tested, add tests. Ensure all tests pass. See the testing section
+   for more information.</li>
+<li>If you've changed APIs, update the documentation.</li>
+<li>Make sure your code lints.</li>
+</ol>
+<h3 id="improving-the-documentation">Improving The Documentation<a class="headerlink" href="#improving-the-documentation" title="Permanent link">&para;</a></h3>
+<p>We welcome valuable contributions in the form of new documentation or revised documentation that provide
+further clarity or accuracy. Each function should be clearly documented. Well-documented code is easier
+to review and understand/extend.</p>
+<h2 id="styleguides">Styleguides<a class="headerlink" href="#styleguides" title="Permanent link">&para;</a></h2>
+<p>For code documentation, please follow the <a href="https://github.com/google/styleguide/blob/gh-pages/pyguide.md#38-comments-and-docstrings">Google styleguide</a>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../../reference/authenticate/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Authenticate">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Authenticate
+              </div>
+            </div>
+          </a>
+        
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 DataScienceWorld.Kan, Inc | <a href="#__consent">Consent Preferences</a>
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "announce.dismiss", "content.code.annotate", "content.code.select", "content.tabs.link", "content.action.edit", "content.tooltips", "toc.follow", "navigation.indexes", "navigation.expand", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.footer", "navigation.path", "navigation.prune", "navigation.tracking", "search.highlight", "search.share", "search.suggest"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
