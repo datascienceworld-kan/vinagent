@@ -397,3 +397,4 @@ def calculate_equilibrium_returns(symbols: list, risk_free_rate: float = 0.03, m
 
 if __name__ == "__main__":
     main()
+    
