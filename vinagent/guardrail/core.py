@@ -3,6 +3,7 @@ from pydantic import BaseModel, Field, create_model
 from typing import Optional, Literal, List, Type, ClassVar
 from vinagent.guardrail.basemodel import GuardRailBase, OutputGuardRailBase
 from vinagent.guardrail.authen import AuthenticationGuardrail
+from vinagent.guardrail.os_permision import OSPermissionGuardrail
 
 
 class PIIGuardrail(GuardRailBase):
@@ -108,11 +109,20 @@ class GuardrailDecision(BaseGuardrailDecision):
         return DynamicDecision
 
     @classmethod
-    def build_prompt(cls, user_input: str) -> str:
+    def build_prompt(cls, llm, user_input: str) -> str:
         if not cls._enabled_guardrails:
             raise ValueError("No guardrails enabled")
+        
+        list_guardrails = []
+        for g in cls._enabled_guardrails:
+            if isinstance(g, AuthenticationGuardrail):
+                list_guardrails.append(str(g.prompt_section()))
+            elif isinstance(g, OSPermissionGuardrail):
+                list_guardrails.append(str(g.prompt_section(llm=llm, user_input=user_input)))
+            else:
+                list_guardrails.append(g.prompt_section())
 
-        sections = "\n".join(g.prompt_section() for g in cls._enabled_guardrails)
+        sections = "\n".join(list_guardrails)
 
         return f"""
 You are an AI Input Guardrail.
@@ -136,7 +146,7 @@ User input:
 
     @classmethod
     def validate(cls, llm, user_input: str):
-        prompt = cls.build_prompt(user_input)
+        prompt = cls.build_prompt(llm, user_input)
         guardrail_llm = llm.with_structured_output(cls)
         decision = guardrail_llm.invoke(prompt)
         return decision

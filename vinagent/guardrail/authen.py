@@ -1,6 +1,7 @@
 from typing import Optional
 from pydantic import BaseModel
 from vinagent.guardrail.core import GuardRailBase
+from vinagent.oauth2.client import AuthenCard
 
 
 class AuthenticationGuardrailResult(BaseModel):
@@ -9,10 +10,6 @@ class AuthenticationGuardrailResult(BaseModel):
 
     def __str__(self) -> str:
         return f"AuthenticationGuardrailResult(allowed={self.allowed}, reason={self.reason})"
-
-
-from vinagent.oauth2.client import AuthenCard
-
 
 class AuthenticationGuardrail(GuardRailBase):
     name: str = "authentication"

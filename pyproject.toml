@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "vinagent"
-version = "0.0.6.post3"
+version = "0.0.6.post4"
 description = "This is an AI Agent library"
 authors = ["phamdinhkhanh <phamdinhkhanh.tkt53.neu@gmail.com>"]
 readme = "README.md"
