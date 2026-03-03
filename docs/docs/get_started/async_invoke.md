@@ -11,13 +11,14 @@
 
 ## Initialize LLM and Agent
 
-To use a list of default tools inside [vinagent.tools](https://github.com/datascienceworld-kan/vinagent/tree/main/vinagent/tools) you should set environment varibles inside `.env` including `TOGETHER_API_KEY` to use llm models at togetherai site and `TAVILY_API_KEY` to use tavily websearch tool at tavily site:
+To use a list of default tools inside [vinagent.tools](https://github.com/datascienceworld-kan/vinagent/tree/main/vinagent/tools) you should set environment varibles inside `.env` including `OPENAI_API_KEY` to for OpenAI models, `TOGETHER_API_KEY` for LLM models of togetherai site, and `TAVILY_API_KEY` to use tavily websearch tool at tavily site:
 
 
 ```python
 %%writefile .env
 TOGETHER_API_KEY="Your together API key"
 TAVILY_API_KEY="Your Tavily API key"
+OPENAI_API_KEY="Your OpenAI API Key"
 ```
 
 
@@ -31,6 +32,12 @@ load_dotenv(find_dotenv('.env'))
 # Step 1: Initialize LLM
 llm = ChatTogether(
     model="meta-llama/Llama-3.3-70B-Instruct-Turbo-Free"
+)
+
+# Or you can you OpenAI model
+llm = ChatOpenAI(
+    model="gpt-4o-mini",
+    temperature=0.7
 )
 
 # Step 2: Initialize Agent
@@ -61,6 +68,19 @@ Vinagent supports both synchronous (`agent.invoke`) and asynchronous (`agent.ain
 
 ```python
 message = await agent.ainvoke("What is the weather in New York today?")
+print(message.content)
+```
+    INFO:vinagent.agent.agent:Async tool calling iteration 1/10
+    INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+    INFO:vinagent.register.tool:Completed executing module tool search_api({'query': 'What is the weather in New York today?'})
+    INFO:vinagent.agent.agent:Async tool calling iteration 2/10
+    Today in New York, it is clear with a temperature of 28.9°F. Winds are from the southeast at 6.3 mph. The forecast is for cold weather.
+
+
+```
+# If you run on terminal
+import asyncio
+message = asyncio.run(agent.ainvoke("What is the weather in New York today?"))
 print(message.content)
 ```
 
