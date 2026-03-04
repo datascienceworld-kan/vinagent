@@ -854,6 +854,7 @@ result = crew.invoke(
 )
 ```
 
+??? note "Crew invoking log"
     INFO:vinagent.multi_agent.crew:No authentication card provided, skipping authentication
     INFO:vinagent.agent.agent:No authentication card provided, skipping authentication
     INFO:vinagent.agent.agent:I'am chatting with unknown_user
@@ -948,54 +949,44 @@ for msg in result['messages']:
     print(preview)
     print()
 ```
-
-    ============================================================
-      user
-    ============================================================
+??? note "Agent-to-Agent output"
+    # User Input
     Analyze FPT (FPT) stock. 
     Research the current market situation, recent news, and provide investment recommendations.
     
-    ============================================================
-      Searcher
-    ============================================================
+    # Searcher
     FPT (FPT Corporation) stock has been fluctuating recently, with the latest closing price on March 3, 2026, at approximately 87,000 VND. Over the previous week, the stock ranged from 90,100 VND to 90,900 VND. The company is heavily investing in artificial intelligence (AI) and cybersecurity domains, which is reflective of their strategic initiatives to foster growth. 
     
-    As for investment recommendations, considering the recent performance and developments in the AI and cybersecurity sectors, poten...
+    As for investment recommendations, considering the recent performance and developments in the AI and cybersecurity sectors, potential ...
     
-    ============================================================
-      HypothesisAgent
-    ============================================================
+    # HypothesisAgent
     Based on the provided financial data and news regarding FPT Corporation, the following investment hypotheses can be formulated:
     
     1. **Growth Potential in AI and Cybersecurity**: FPT's significant investments in artificial intelligence and cybersecurity suggest a strong growth trajectory. This aligns with current market trends favoring technological advancements, specifically in these sectors. Investors may view FPT as a potential growth stock, particularly as these areas are expected to expand.
     ...
     
-    ============================================================
-      SignalBuilder
-    ============================================================
+    # SignalBuilder
     Based on the investment hypotheses and market data for FPT Corporation, here are the trading signals:
     
     1. **Signal:** **BUY**
        - **Reasoning:** Given the company's significant investments in AI and cybersecurity, it possesses strong growth potential, making it an attractive long-term investment.
     
     2. **Signal:** **HOLD**
-       - **Reasoning:** With the recent volatility, particularly with a close around 87,000 VND and a range between 90,100 VND and 90,900 VND, maintaining a position while monitori...
+       - **Reasoning:** With the recent volatility, particularly with a close around 87,000 VND and a range between 90,100 VND and 90,900 VND, maintaining a position while monitoring ...
     
-    ============================================================
-      Reporter
-    ============================================================
-    # FPT Corporation Financial Analysis Report
+    # Reporter
+    ## FPT Corporation Financial Analysis Report
     
-    ## Current Market Data
+    ### Current Market Data
     - **Stock Symbol:** FPT (FPT Corporation)
     - **Latest Closing Price:** 87,000 VND (March 3, 2026)
     - **Weekly Trading Range:** 90,100 VND - 90,900 VND
     - **Sector Focus:** Heavy investment in artificial intelligence (AI) and cybersecurity
     
-    ## Investment Hypotheses
+    ### Investment Hypotheses
     
     1. **Growth Potential in AI and Cybersecurity**
-       - FPT's significant investments in artificial intelligence and cybersecurity suggest a strong growth trajectory. This ...
+       - FPT's significant investments in artificial intelligence and cybersecurity suggest a strong growth trajectory. ...
     
 
 
@@ -1012,7 +1003,7 @@ report = result.get('report', 'No report generated.')
 display(Markdown(report))
 ```
 
-!!! note "Final Report"
+??? note "Final Report"
     # FPT Corporation Financial Analysis Report
 
     ## Current Market Data
@@ -1077,10 +1068,9 @@ print(search_results[:1000] if len(search_results) > 1000 else search_results)
 print()
 ```
 
-!!! note "View Search Results"
-    ==================================================
-    SEARCH RESULTS
-    ==================================================
+??? note "View Search Results"
+    # SEARCH RESULTS
+    
     FPT (FPT Corporation) stock has been fluctuating recently, with the latest closing price on March 3, 2026, at approximately 87,000 VND. Over the previous week, the stock ranged from 90,100 VND to 90,900 VND. The company is heavily investing in artificial intelligence (AI) and cybersecurity domains, which is reflective of their strategic initiatives to foster growth. 
     
     As for investment recommendations, considering the recent performance and developments in the AI and cybersecurity sectors, potential investors may view FPT as a growth-oriented opportunity, albeit with the necessity to monitor market volatility and sector trends closely.
@@ -1096,10 +1086,8 @@ print("=" * 50)
 display(Markdown(result.get('hypothesis', 'N/A')))
 ```
 
-!!! note "View Hypotheses"
-    ==================================================
-    INVESTMENT HYPOTHESES
-    ==================================================
+??? note "View Hypotheses"
+    # INVESTMENT HYPOTHESES
 
     Based on the provided financial data and news regarding FPT Corporation, the following investment hypotheses can be formulated:
 
@@ -1127,10 +1115,8 @@ print("=" * 50)
 display(Markdown(result.get('signals', 'N/A')))
 ```
 
-!!! note "Trading Signals"
-    ==================================================
-    TRADING SIGNALS
-    ==================================================
+??? note "Trading Signals"
+    # TRADING SIGNALS
 
     Based on the investment hypotheses and market data for FPT Corporation, here are the trading signals:
 
