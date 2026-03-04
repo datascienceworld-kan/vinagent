@@ -14,7 +14,7 @@ from vinagent.guardrail import (
     OutputPIIGuardrail,
     OutputToxicityGuardrail,
     HallucinationGuardrail,
-    OSPermissionGuardrail
+    OSPermissionGuardrail,
 )
 
 
@@ -92,7 +92,7 @@ class GuardrailManager:
                     user_input=kwargs.get("user_input"),
                 )
             return guardrail.validate(**kwargs)
-        
+
         if tool_name:
             return [_validate(g) for g in self.tool_guardrails.get(tool_name, [])]
 
@@ -100,7 +100,6 @@ class GuardrailManager:
             name: [_validate(g) for g in guardrails]
             for name, guardrails in self.tool_guardrails.items()
         }
-
 
     def validate_output(self, llm, output_text: str, **kwargs):
         DecisionModel = self.add_guardrails(self.output_guardrails)

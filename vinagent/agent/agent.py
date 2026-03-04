@@ -316,7 +316,7 @@ class Agent(AgentMeta):
                 memory = f"- Memory: {memory_content}\n"
 
         prompt = (
-            "You are given a task, a list of available tools, and the memory about user to have precise information.\n"
+            "You are given task, a list of available tools, and user's memory.\n"
             f"- Task: {query}\n"
             f"- Tools list: {json.dumps(tools)}\n"
             f"{memory}\n"
@@ -327,16 +327,20 @@ class Agent(AgentMeta):
             f"- If user used I in Memory, let's replace by name {user_id} in User part.\n"
             "- You need to think about whether the question need to use Tools?\n"
             "- If it was daily normal conversation. Let's directly answer as a human with memory.\n"
-            "- If the task requires a tool, select the appropriate tool with its relevant arguments from Tools list according to following format (no explanations, no markdown):\n"
+            "- If the task requires a tool, filters appropriate tool with full arguments as same as Tools list. For example:"
             "{\n"
             '"tool_name": "Function name",\n'
-            '"tool_type": "Type of tool. Only get one of three values ["function", "module", "mcp"]"\n'
             '"arguments": "A dictionary of keyword-arguments to execute tool_name",\n'
+            '"return": "The return type of tool_name",\n'
             '"module_path": "Path to import the tool"\n'
+            '"tool_type": "Type of tool. Only get one of three values ["function", "module", "mcp"]"\n'
+            '"tool_call_id": "Tool calling ID"\n'
+            '"is_runtime": "runtime value"\n'
             "}\n"
             "- Let's say I don't know and suggest where to search if you are unsure the answer.\n"
             "- Not make up anything.\n"
         )
+
         return prompt
 
     def prompt_tool(
@@ -345,7 +349,7 @@ class Agent(AgentMeta):
         tool_template = (
             f"- Question: {query}\n"
             f"- Tool Used: {tool_call}\n"
-            f"- Tool's Result: {tool_message.artifact}\n"
+            f"""- Tool's Result: {tool_message.artifact if hasattr(tool_message, "artifact") else None}\n"""
             "Let's answer:"
         )
         return tool_template
@@ -383,32 +387,44 @@ class Agent(AgentMeta):
         if self.guardrail_manager:
             decision = self.guardrail_manager.validate_input(self.llm, query)
             if not decision.allowed:
+                logging.error(f"Input is not allowed: {decision.reason}")
                 raise ValueError(decision.reason)
+            return False
         else:
             if self.input_guardrail:
                 decision = self.input_guardrail.validate(self.llm, query)
                 if not decision.allowed:
                     raise ValueError(decision.reason)
+                return False
         return True
 
     def check_output_guardrail(self, output_text: str):
         if self.guardrail_manager:
             decision = self.guardrail_manager.validate_output(self.llm, output_text)
             if not decision.allowed:
+                logging.error(f"Output is not allowed: {decision.reason}")
                 raise ValueError(decision.reason)
+            return False
         else:
             if self.output_guardrail:
                 decision = self.output_guardrail.validate(self.llm, output_text)
                 logger.info(decision)
                 if not decision.allowed:
+                    logging.error(f"Output is not allowed: {decision.reason}")
                     raise ValueError(decision.reason)
+                return False
         return True
 
-    def check_tool_guardrail(self, tool_name: str):
+    def check_tool_guardrail(self, llm, tool_name: str, user_input: str):
         if self.guardrail_manager:
-            decision = self.guardrail_manager.validate_tools(tool_name)
-            if not decision.allowed:
-                raise ValueError(decision.reason)
+            decisions = self.guardrail_manager.validate_tools(
+                llm=self.llm, tool_name=tool_name, user_input=user_input
+            )
+            for decision in decisions:
+                if not decision.allowed:
+                    logging.error(f"Tool {tool_name} is not allowed: {decision.reason}")
+                    raise ValueError(decision.reason)
+                return False
         return True
 
     def invoke(
@@ -479,6 +495,7 @@ class Agent(AgentMeta):
                 iteration = 0
 
                 while iteration < max_iterations:
+                    # --- 1. LLM invoking ---
                     iteration += 1
                     logger.info(f"Tool calling iteration {iteration}/{max_iterations}")
 
@@ -499,8 +516,10 @@ class Agent(AgentMeta):
                     history = self.in_conversation_history.get_history(
                         max_history=max_history
                     )
+
                     response = self.llm.invoke(history)
 
+                    # --- 2. Tool invoking ---
                     # Extract tool call from response
                     tool_data = ""
                     if hasattr(response, "content"):
@@ -523,25 +542,58 @@ class Agent(AgentMeta):
                     logger.info(f"Executing tool call: {tool_call}")
                     # Adapt tool-call for gpt4o model by adding tool_calls argument into response
                     # Note: It must be preceded to adding tool_message into history.
-                    self.check_tool_guardrail(tool_name=tool_call.get("tool_name"))
+                    # Check tool permission
+                    try:
+                        is_valid_tool_permission = self.check_tool_guardrail(
+                            llm=self.llm,
+                            tool_name=tool_call.get("tool_name"),
+                            user_input=query,
+                        )
+                    except Exception as e:
+                        is_valid_tool_permission = False
+
                     response = self.adapter_ai_response_with_tool_calls(
                         response, tool_call
                     )
+
                     self.in_conversation_history.add_message(response)
 
-                    tool_message = asyncio.run(
-                        self.tools_manager._execute_tool(
-                            tool_name=tool_call["tool_name"],
-                            tool_type=tool_call["tool_type"],
-                            arguments=tool_call["arguments"],
-                            module_path=tool_call["module_path"],
-                            mcp_client=self.mcp_client,
-                            mcp_server_name=self.mcp_server_name,
+                    tool_message = None
+                    if is_valid_tool_permission:
+                        try:
+                            tool_message = asyncio.run(
+                                self.tools_manager._execute_tool(
+                                    tool_name=tool_call["tool_name"],
+                                    tool_type=tool_call["tool_type"],
+                                    arguments=tool_call["arguments"],
+                                    module_path=tool_call["module_path"],
+                                    mcp_client=self.mcp_client,
+                                    mcp_server_name=self.mcp_server_name,
+                                )
+                            )
+                            if tool_message is None:
+                                tool_message = ToolMessage(
+                                    content=f"Tool execution success without artifact",
+                                    additional_kwargs={"is_error": False},
+                                    tool_call_id=response.tool_calls[0].get("id"),
+                                )
+                        except Exception as e:
+                            logger.error(f"Error executing tool: {e}")
+                            tool_message = ToolMessage(
+                                content=f"Tool execution failed: {type(e).__name__}: {e}",
+                                additional_kwargs={"is_error": True},
+                                tool_call_id=response.tool_calls[0].get("id"),
+                            )
+                    else:
+                        tool_message = ToolMessage(
+                            content="Tool is not permitted by security rules.",
+                            additional_kwargs={"is_error": True},
+                            tool_call_id=response.tool_calls[0].get("id"),
                         )
-                    )
 
                     # Add AI message and tool result to conversation history
-                    self.in_conversation_history.add_message(tool_message)
+                    if tool_message:
+                        self.in_conversation_history.add_message(tool_message)
                     # Prepare next iteration with tool result context
                     tool_template = self.prompt_tool(
                         current_query, tool_call, tool_message
@@ -553,6 +605,7 @@ class Agent(AgentMeta):
                     f"Reached maximum iterations ({max_iterations}). Stopping tool calling loop."
                 )
 
+                # --- 3. format final response as AIMessage ---
                 if is_tool_formatted:
                     user_query = HumanMessage(
                         content=f"Based on the previous tool executions, please provide a final response to: {query}"
@@ -574,8 +627,9 @@ class Agent(AgentMeta):
                 return final_message
 
         except (json.JSONDecodeError, KeyError, ValueError) as e:
-            logger.error(f"Tool calling failed: {str(e)}")
-            return None
+            logger.error(f"An error occurred: {str(e)}")
+            error_message = AIMessage(content=f"An error occurred: {str(e)}")
+            return error_message
 
     def stream(
         self,
@@ -644,6 +698,7 @@ class Agent(AgentMeta):
                 final_result = None
 
                 while iteration < max_iterations:
+                    # --- 1. LLM invoking ---
                     iteration += 1
                     logger.info(
                         f"Streaming tool calling iteration {iteration}/{max_iterations}"
@@ -673,6 +728,7 @@ class Agent(AgentMeta):
 
                     response = AIMessage(content=full_content.content)
 
+                    # --- 2. Tool invoking ---
                     # After streaming is complete, process tool data
                     tool_data = ""
                     if hasattr(full_content, "content"):
@@ -698,23 +754,54 @@ class Agent(AgentMeta):
                     tool_call = json.loads(tool_data)
                     # Adapt tool-call for gpt4o model by adding tool_calls argument into response
                     # Note: It must be preceded to adding tool_message into history.
-                    self.check_tool_guardrail(tool_name=tool_call.get("tool_name"))
+                    try:
+                        is_valid_tool_permission = self.check_tool_guardrail(
+                            llm=self.llm,
+                            tool_name=tool_call.get("tool_name"),
+                            user_input=query,
+                        )
+                    except Exception as e:
+                        is_valid_tool_permission = False
+
                     response = self.adapter_ai_response_with_tool_calls(
                         response, tool_call
                     )
                     self.in_conversation_history.add_message(response)
 
                     logger.info(f"Executing streaming tool call: {tool_call}")
-                    tool_message = asyncio.run(
-                        self.tools_manager._execute_tool(
-                            tool_name=tool_call["tool_name"],
-                            tool_type=tool_call["tool_type"],
-                            arguments=tool_call["arguments"],
-                            module_path=tool_call["module_path"],
-                            mcp_client=self.mcp_client,
-                            mcp_server_name=self.mcp_server_name,
+
+                    tool_message = None
+                    if is_valid_tool_permission:
+                        try:
+                            tool_message = asyncio.run(
+                                self.tools_manager._execute_tool(
+                                    tool_name=tool_call["tool_name"],
+                                    tool_type=tool_call["tool_type"],
+                                    arguments=tool_call["arguments"],
+                                    module_path=tool_call["module_path"],
+                                    mcp_client=self.mcp_client,
+                                    mcp_server_name=self.mcp_server_name,
+                                )
+                            )
+                            if tool_message is None:
+                                tool_message = ToolMessage(
+                                    content=f"Tool execution success without artifact",
+                                    additional_kwargs={"is_error": False},
+                                    tool_call_id=response.tool_calls[0].get("id"),
+                                )
+                        except Exception as e:
+                            logger.error(f"Error executing tool: {e}")
+                            tool_message = ToolMessage(
+                                content=f"Tool execution failed: {type(e).__name__}: {e}",
+                                additional_kwargs={"is_error": True},
+                                tool_call_id=response.tool_calls[0].get("id"),
+                            )
+                    else:
+                        tool_message = ToolMessage(
+                            content="Tool is not permitted by security rules.",
+                            additional_kwargs={"is_error": True},
+                            tool_call_id=response.tool_calls[0].get("id"),
                         )
-                    )
 
                     # Add AI message and tool result to conversation history
                     self.in_conversation_history.add_message(tool_message)
@@ -730,6 +817,7 @@ class Agent(AgentMeta):
                     logger.warning(
                         f"Reached maximum iterations ({max_iterations}). Stopping streaming tool calling loop."
                     )
+                    # --- 3. format final response as AIMessage ---
                     if is_tool_formatted:
                         final_message_content = HumanMessage(
                             f"Based on the previous tool executions, please provide a final response to: {query}"
@@ -751,8 +839,9 @@ class Agent(AgentMeta):
                         self.save_memory(message=full_content, user_id=self._user_id)
 
         except (json.JSONDecodeError, KeyError, ValueError) as e:
-            logger.error(f"Tool calling failed: {str(e)}")
-            yield None  # Yield None to indicate failure
+            logger.error(f"An error occurred: {str(e)}")
+            error_message = AIMessage(content=f"An error occurred: {str(e)}")
+            return error_message
 
     async def ainvoke(
         self,
@@ -819,6 +908,7 @@ class Agent(AgentMeta):
                 iteration = 0
 
                 while iteration < max_iterations:
+                    # --- 1. LLM invoking ---
                     iteration += 1
                     logger.info(
                         f"Async tool calling iteration {iteration}/{max_iterations}"
@@ -841,8 +931,9 @@ class Agent(AgentMeta):
                     )
 
                     # Get LLM response
-                    response = asyncio.to_thread(self.llm.ainvoke(input=history))
+                    response = await self.llm.ainvoke(input=history)
 
+                    # --- 2. Tool invoking ---
                     # Extract tool call from response
                     tool_data = ""
                     if hasattr(response, "content"):
@@ -865,20 +956,50 @@ class Agent(AgentMeta):
                     logger.info(f"Executing async tool call: {tool_call}")
                     # Adapt tool-call for gpt4o model by adding tool_calls argument into response
                     # Note: It must be preceded to adding tool_message into history.
-                    self.check_tool_guardrail(tool_name=tool_call.get("tool_name"))
+                    # Check tool permission
+                    try:
+                        is_valid_tool_permission = self.check_tool_guardrail(
+                            llm=self.llm,
+                            tool_name=tool_call.get("tool_name"),
+                            user_input=query,
+                        )
+                    except Exception as e:
+                        is_valid_tool_permission = False
+
                     response = self.adapter_ai_response_with_tool_calls(
                         response, tool_call
                     )
                     self.in_conversation_history.add_message(response)
 
-                    tool_message = await self.tools_manager._execute_tool(
-                        tool_name=tool_call["tool_name"],
-                        tool_type=tool_call["tool_type"],
-                        arguments=tool_call["arguments"],
-                        module_path=tool_call["module_path"],
-                        mcp_client=self.mcp_client,
-                        mcp_server_name=self.mcp_server_name,
-                    )
+                    if is_valid_tool_permission:
+                        try:
+                            tool_message = await self.tools_manager._execute_tool(
+                                tool_name=tool_call["tool_name"],
+                                tool_type=tool_call["tool_type"],
+                                arguments=tool_call["arguments"],
+                                module_path=tool_call["module_path"],
+                                mcp_client=self.mcp_client,
+                                mcp_server_name=self.mcp_server_name,
+                            )
+                            if tool_message is None:
+                                tool_message = ToolMessage(
+                                    content=f"Tool execution success without artifact",
+                                    additional_kwargs={"is_error": False},
+                                    tool_call_id=response.tool_calls[0].get("id"),
+                                )
+                        except Exception as e:
+                            logger.error(f"Error executing tool: {e}")
+                            tool_message = ToolMessage(
+                                content=f"Tool execution failed: {type(e).__name__}: {e}",
+                                additional_kwargs={"is_error": True},
+                                tool_call_id=response.tool_calls[0].get("id"),
+                            )
+                    else:
+                        tool_message = ToolMessage(
+                            content="Tool is not permitted by security rules.",
+                            additional_kwargs={"is_error": True},
+                            tool_call_id=response.tool_calls[0].get("id"),
+                        )
 
                     # Add AI message and tool result to conversation history
                     self.in_conversation_history.add_message(tool_message)
@@ -893,6 +1014,8 @@ class Agent(AgentMeta):
                 logger.warning(
                     f"Reached maximum iterations ({max_iterations}). Stopping async tool calling loop."
                 )
+
+                # --- 3. format final response as AIMessage ---
                 user_query = HumanMessage(
                     content=f"Based on the previous tool executions, please provide a final response to: {query}"
                 )
@@ -912,8 +1035,9 @@ class Agent(AgentMeta):
                 return final_message
 
         except (json.JSONDecodeError, KeyError, ValueError) as e:
-            logger.error(f"Tool calling failed: {str(e)}")
-            return None
+            logger.error(f"An error occurred: {str(e)}")
+            error_message = AIMessage(content=f"An error occurred: {str(e)}")
+            return error_message
 
     def save_memory(
         self, message: Union[ToolMessage, AIMessage], user_id: str = "unknown_user"

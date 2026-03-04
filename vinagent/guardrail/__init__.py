@@ -13,8 +13,10 @@ from .core import (
     OutputToxicityGuardrail,
     HallucinationGuardrail,
 )
+from .os_permision import OSPermissionGuardrail
 from .authen import AuthenticationGuardrail
 from .manager import GuardrailManager
+
 
 __all__ = [
     "GuardrailDecision",
@@ -30,4 +32,5 @@ __all__ = [
     "HallucinationGuardrail",
     "AuthenticationGuardrail",
     "GuardrailManager",
+    "OSPermissionGuardrail",
 ]

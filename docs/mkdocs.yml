@@ -46,6 +46,7 @@ nav:
       - Run local ReactJS App: get_started/local_run.md
     - AI Guardrail: 
       - The Foundation of Responsible AI: get_started/ai_guardrail.md
+      - Secure and Sanboxed System Operations Agent: get_started/bash_agent_guide.md
     - Agent Development:
       - Workflow & Agent: get_started/workflow_and_agent.md
       - Agent RAG: get_started/agent_rag.md

@@ -112,13 +112,15 @@ class GuardrailDecision(BaseGuardrailDecision):
     def build_prompt(cls, llm, user_input: str) -> str:
         if not cls._enabled_guardrails:
             raise ValueError("No guardrails enabled")
-        
+
         list_guardrails = []
         for g in cls._enabled_guardrails:
             if isinstance(g, AuthenticationGuardrail):
                 list_guardrails.append(str(g.prompt_section()))
             elif isinstance(g, OSPermissionGuardrail):
-                list_guardrails.append(str(g.prompt_section(llm=llm, user_input=user_input)))
+                list_guardrails.append(
+                    str(g.prompt_section(llm=llm, user_input=user_input))
+                )
             else:
                 list_guardrails.append(g.prompt_section())
 

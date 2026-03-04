@@ -20,6 +20,7 @@ class GuardRailBase(BaseModel, ABC):
     def validate(self, **kwargs) -> Any:
         """Deterministic validation of guardrail"""
 
+
 class OutputGuardRailBase(BaseModel, ABC):
     name: str = Field(description="The name of guardrail")
     reason: Optional[str] = Field(

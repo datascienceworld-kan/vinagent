@@ -11,6 +11,7 @@ class AuthenticationGuardrailResult(BaseModel):
     def __str__(self) -> str:
         return f"AuthenticationGuardrailResult(allowed={self.allowed}, reason={self.reason})"
 
+
 class AuthenticationGuardrail(GuardRailBase):
     name: str = "authentication"
     secret_path: str | None = None
