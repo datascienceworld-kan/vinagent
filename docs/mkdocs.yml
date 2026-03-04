@@ -52,6 +52,8 @@ nav:
       - Agent RAG: get_started/agent_rag.md
     - Multi-Agent Development: 
       - Start with basic Multi-Agent: get_started/multi_agent.md
+      - Sequential Financial Analyst Crew: guides/01_sequential_financial_analyst_crew.md
+
 
   - Guidelines: 
     - Financial Usercase:
@@ -59,6 +61,8 @@ nav:
       - Find Trending New: guides/trending_news.md
     - Banking Agent:
       - Banking SQL: guides/banking_agent.md
+    - Multi-Agent in Finance:
+      - Sequential Financial Analyst Crew: guides/01_sequential_financial_analyst_crew.md
     - Research Usercase:
       - Research Agent: guides/paper_research.md
     - Legal Field:
