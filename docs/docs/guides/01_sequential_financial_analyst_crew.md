@@ -1012,54 +1012,54 @@ report = result.get('report', 'No report generated.')
 display(Markdown(report))
 ```
 
+!!! note "Final Report"
+    # FPT Corporation Financial Analysis Report
 
-# FPT Corporation Financial Analysis Report
+    ## Current Market Data
+    - **Stock Symbol:** FPT (FPT Corporation)
+    - **Latest Closing Price:** 87,000 VND (March 3, 2026)
+    - **Weekly Trading Range:** 90,100 VND - 90,900 VND
+    - **Sector Focus:** Heavy investment in artificial intelligence (AI) and cybersecurity
 
-## Current Market Data
-- **Stock Symbol:** FPT (FPT Corporation)
-- **Latest Closing Price:** 87,000 VND (March 3, 2026)
-- **Weekly Trading Range:** 90,100 VND - 90,900 VND
-- **Sector Focus:** Heavy investment in artificial intelligence (AI) and cybersecurity
+    ## Investment Hypotheses
 
-## Investment Hypotheses
+    1. **Growth Potential in AI and Cybersecurity**
+    - FPT's significant investments in artificial intelligence and cybersecurity suggest a strong growth trajectory. This aligns with current market trends favoring technological advancements in these areas.
 
-1. **Growth Potential in AI and Cybersecurity**
-   - FPT's significant investments in artificial intelligence and cybersecurity suggest a strong growth trajectory. This aligns with current market trends favoring technological advancements in these areas.
+    2. **Market Volatility Monitoring**
+    - The recent fluctuation in FPT's stock price indicates potential volatility. Investors should remain cautious and monitor market conditions and sector-specific developments closely.
 
-2. **Market Volatility Monitoring**
-   - The recent fluctuation in FPT's stock price indicates potential volatility. Investors should remain cautious and monitor market conditions and sector-specific developments closely.
+    3. **Long-term Investment Opportunity**
+    - FPT's strategic focus on high-growth sectors makes it an attractive option for long-term investors, despite short-term price fluctuations.
 
-3. **Long-term Investment Opportunity**
-   - FPT's strategic focus on high-growth sectors makes it an attractive option for long-term investors, despite short-term price fluctuations.
+    4. **Risk Assessment**
+    - The interplay between market volatility and sector-specific investments introduces risk. Establishing a risk management strategy is recommended.
 
-4. **Risk Assessment**
-   - The interplay between market volatility and sector-specific investments introduces risk. Establishing a risk management strategy is recommended.
+    5. **Bull and Bear Scenarios**
+    - **Bull Scenario:** Successful capitalizing on investments in AI and cybersecurity could lead to significant stock appreciation.
+    - **Bear Scenario:** Deteriorating market conditions or setbacks could lead to declines below key support levels.
 
-5. **Bull and Bear Scenarios**
-   - **Bull Scenario:** Successful capitalizing on investments in AI and cybersecurity could lead to significant stock appreciation.
-   - **Bear Scenario:** Deteriorating market conditions or setbacks could lead to declines below key support levels.
+    Overall, FPT Corporation is positioned as a potential growth stock, but careful monitoring of market conditions and risks is recommended.
 
-Overall, FPT Corporation is positioned as a potential growth stock, but careful monitoring of market conditions and risks is recommended.
+    ## Trading Signals
 
-## Trading Signals
+    1. **Signal:** **BUY**
+    - **Reasoning:** Attractive long-term investment potential based on significant investments in AI and cybersecurity.
 
-1. **Signal:** **BUY**
-   - **Reasoning:** Attractive long-term investment potential based on significant investments in AI and cybersecurity.
+    2. **Signal:** **HOLD**
+    - **Reasoning:** Maintain position while monitoring market conditions amid recent volatility.
 
-2. **Signal:** **HOLD**
-   - **Reasoning:** Maintain position while monitoring market conditions amid recent volatility.
+    3. **Signal:** **SELL** if prices approach resistance levels.
+    - **Risk Assessment:** If nearing resistance above 90,900 VND and underperformance is observed, a sell may be prudent.
 
-3. **Signal:** **SELL** if prices approach resistance levels.
-   - **Risk Assessment:** If nearing resistance above 90,900 VND and underperformance is observed, a sell may be prudent.
+    4. **Target Price:**
+    - Short-term target at 90,900 VND for potential profit taking.
 
-4. **Target Price:**
-   - Short-term target at 90,900 VND for potential profit taking.
+    5. **Stop-loss Level:**
+    - Set stop-loss at 84,000 VND to minimize losses in case of significant price drops.
 
-5. **Stop-loss Level:**
-   - Set stop-loss at 84,000 VND to minimize losses in case of significant price drops.
-
-## Summary
-Investors are encouraged to consider FPT as a growth-oriented opportunity, while monitoring market volatility and risks closely. The recommended strategies include a buy for long-term growth, holding amidst volatility, and implementing sell strategies if approaching resistance, complemented by sound risk management practices.
+    ## Summary
+    Investors are encouraged to consider FPT as a growth-oriented opportunity, while monitoring market volatility and risks closely. The recommended strategies include a buy for long-term growth, holding amidst volatility, and implementing sell strategies if approaching resistance, complemented by sound risk management practices.
 
 
 ## Examining Individual Pipeline Outputs
@@ -1077,6 +1077,7 @@ print(search_results[:1000] if len(search_results) > 1000 else search_results)
 print()
 ```
 
+!!! note "View Search Results"
     ==================================================
     SEARCH RESULTS
     ==================================================
@@ -1095,27 +1096,26 @@ print("=" * 50)
 display(Markdown(result.get('hypothesis', 'N/A')))
 ```
 
+!!! note "View Hypotheses"
     ==================================================
     INVESTMENT HYPOTHESES
     ==================================================
 
+    Based on the provided financial data and news regarding FPT Corporation, the following investment hypotheses can be formulated:
 
+    1. **Growth Potential in AI and Cybersecurity**: FPT's significant investments in artificial intelligence and cybersecurity suggest a strong growth trajectory. This aligns with current market trends favoring technological advancements, specifically in these sectors. Investors may view FPT as a potential growth stock, particularly as these areas are expected to expand.
 
-Based on the provided financial data and news regarding FPT Corporation, the following investment hypotheses can be formulated:
+    2. **Market Volatility Monitoring**: The recent fluctuation in FPT's stock price, with a closing price of approximately 87,000 VND and a weekly range between 90,100 VND and 90,900 VND, indicates potential volatility. Investors should remain cautious and continuously monitor market conditions and sector-specific developments which may impact stock performance.
 
-1. **Growth Potential in AI and Cybersecurity**: FPT's significant investments in artificial intelligence and cybersecurity suggest a strong growth trajectory. This aligns with current market trends favoring technological advancements, specifically in these sectors. Investors may view FPT as a potential growth stock, particularly as these areas are expected to expand.
+    3. **Long-term Investment Opportunity**: Given FPT's strategic focus on high-growth sectors, investors with a long-term perspective may find the stock attractive. Despite short-term price fluctuations, the fundamental developments in AI and cybersecurity could underpin the stock's value over time.
 
-2. **Market Volatility Monitoring**: The recent fluctuation in FPT's stock price, with a closing price of approximately 87,000 VND and a weekly range between 90,100 VND and 90,900 VND, indicates potential volatility. Investors should remain cautious and continuously monitor market conditions and sector-specific developments which may impact stock performance.
+    4. **Risk Assessment**: The interplay between market volatility and FPT's sector-specific investments introduces risk. Factors such as competition, regulatory changes, and technological advancements could individually impact performance. Investors could benefit from establishing a risk management strategy while investing in FPT.
 
-3. **Long-term Investment Opportunity**: Given FPT's strategic focus on high-growth sectors, investors with a long-term perspective may find the stock attractive. Despite short-term price fluctuations, the fundamental developments in AI and cybersecurity could underpin the stock's value over time.
+    5. **Bull and Bear Scenarios**:
+    - **Bull Scenario**: If FPT successfully capitalizes on its investments in AI and cybersecurity, and overall market conditions remain favorable, the stock could experience significant appreciation, potentially exceeding initial resistance levels.
+    - **Bear Scenario**: Conversely, if market conditions deteriorate, or FPT faces setbacks in its strategic initiatives, the stock could decline below key support levels identified in recent trading ranges.
 
-4. **Risk Assessment**: The interplay between market volatility and FPT's sector-specific investments introduces risk. Factors such as competition, regulatory changes, and technological advancements could individually impact performance. Investors could benefit from establishing a risk management strategy while investing in FPT.
-
-5. **Bull and Bear Scenarios**:
-   - **Bull Scenario**: If FPT successfully capitalizes on its investments in AI and cybersecurity, and overall market conditions remain favorable, the stock could experience significant appreciation, potentially exceeding initial resistance levels.
-   - **Bear Scenario**: Conversely, if market conditions deteriorate, or FPT faces setbacks in its strategic initiatives, the stock could decline below key support levels identified in recent trading ranges.
-
-Overall, FPT Corporation is positioned as a potential growth stock, although careful monitoring of market conditions and risks is recommended for investors.
+    Overall, FPT Corporation is positioned as a potential growth stock, although careful monitoring of market conditions and risks is recommended for investors.
 
 
 
@@ -1127,30 +1127,29 @@ print("=" * 50)
 display(Markdown(result.get('signals', 'N/A')))
 ```
 
+!!! note "Trading Signals"
     ==================================================
     TRADING SIGNALS
     ==================================================
 
+    Based on the investment hypotheses and market data for FPT Corporation, here are the trading signals:
 
+    1. **Signal:** **BUY**
+    - **Reasoning:** Given the company's significant investments in AI and cybersecurity, it possesses strong growth potential, making it an attractive long-term investment.
 
-Based on the investment hypotheses and market data for FPT Corporation, here are the trading signals:
+    2. **Signal:** **HOLD**
+    - **Reasoning:** With the recent volatility, particularly with a close around 87,000 VND and a range between 90,100 VND and 90,900 VND, maintaining a position while monitoring the market conditions is advisable.
 
-1. **Signal:** **BUY**
-   - **Reasoning:** Given the company's significant investments in AI and cybersecurity, it possesses strong growth potential, making it an attractive long-term investment.
+    3. **Signal:** **SELL** if prices approach resistance levels.
+    - **Risk Assessment:** If FPT's stock price approaches resistance above 90,900 VND and market conditions worsen or underperformance is observed, a sell may be prudent.
 
-2. **Signal:** **HOLD**
-   - **Reasoning:** With the recent volatility, particularly with a close around 87,000 VND and a range between 90,100 VND and 90,900 VND, maintaining a position while monitoring the market conditions is advisable.
+    4. **Target Price:** 
+    - Short-term target at 90,900 VND for potential profit taking.
 
-3. **Signal:** **SELL** if prices approach resistance levels.
-   - **Risk Assessment:** If FPT's stock price approaches resistance above 90,900 VND and market conditions worsen or underperformance is observed, a sell may be prudent.
+    5. **Stop-loss Level:**
+    - Set stop-loss at 84,000 VND to minimize losses in case the stock price drops significantly below current levels.
 
-4. **Target Price:** 
-   - Short-term target at 90,900 VND for potential profit taking.
-
-5. **Stop-loss Level:**
-   - Set stop-loss at 84,000 VND to minimize losses in case the stock price drops significantly below current levels.
-
-In summary, investors are encouraged to buy for long-term growth, hold positions amid volatility, and consider a sell strategy if approaching resistance while also implementing a risk management strategy with target pricing and stop-loss orders.
+    In summary, investors are encouraged to buy for long-term growth, hold positions amid volatility, and consider a sell strategy if approaching resistance while also implementing a risk management strategy with target pricing and stop-loss orders.
 
 
 ## How It Works — Key Concepts
