@@ -53,6 +53,7 @@ nav:
     - Multi-Agent Development: 
       - Start with basic Multi-Agent: get_started/multi_agent.md
       - Sequential Financial Analyst Crew: guides/01_sequential_financial_analyst_crew.md
+      - Branching Active Trading Advisory: guides/02_active_trading_advisory.md
 
 
   - Guidelines: 
@@ -63,6 +64,7 @@ nav:
       - Banking SQL: guides/banking_agent.md
     - Multi-Agent in Finance:
       - Sequential Financial Analyst Crew: guides/01_sequential_financial_analyst_crew.md
+      - Branching Active Trading Advisory: guides/02_active_trading_advisory.md
     - Research Usercase:
       - Research Agent: guides/paper_research.md
     - Legal Field:
