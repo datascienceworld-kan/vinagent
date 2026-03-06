@@ -1,0 +1,127 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 750px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "id": "Kan", "label": "Kan\n(Person)", "shape": "dot", "title": "Person"}, {"color": "#97c2fc", "id": "FPT Software", "label": "FPT Software\n(Company)", "shape": "dot", "title": "Company"}, {"color": "#97c2fc", "id": "Orient Software", "label": "Orient Software\n(Company)", "shape": "dot", "title": "Company"}, {"color": "#97c2fc", "id": "Vingroup", "label": "Vingroup\n(Company)", "shape": "dot", "title": "Company"}, {"color": "#97c2fc", "id": "Techcombank", "label": "Techcombank\n(Company)", "shape": "dot", "title": "Company"}, {"color": "#97c2fc", "id": "VNDIRECT", "label": "VNDIRECT\n(Company)", "shape": "dot", "title": "Company"}, {"color": "#97c2fc", "id": "paper award", "label": "paper award\n(Award)", "shape": "dot", "title": "Award"}, {"color": "#97c2fc", "id": "DataScienceWorld.Kan", "label": "DataScienceWorld.Kan\n(Organization)", "shape": "dot", "title": "Organization"}, {"color": "#97c2fc", "id": "Deep Learning", "label": "Deep Learning\n(Course)", "shape": "dot", "title": "Course"}, {"color": "#97c2fc", "id": "Machine Learning Handson with Python", "label": "Machine Learning Handson with Python\n(Course)", "shape": "dot", "title": "Course"}, {"color": "#97c2fc", "id": "Build Generative AI Applications", "label": "Build Generative AI Applications\n(Course)", "shape": "dot", "title": "Course"}, {"color": "#97c2fc", "id": "MLOps \u2013 Machine Learning in Production", "label": "MLOps \u2013 Machine Learning in Production\n(Course)", "shape": "dot", "title": "Course"}, {"color": "#97c2fc", "id": "6 specialized courses about Deep Learning and Machine Learning", "label": "6 specialized courses about Deep Learning and Machine Learning\n(Course)", "shape": "dot", "title": "Course"}, {"color": "#97c2fc", "id": "Google GDSC", "label": "Google GDSC\n(Organization)", "shape": "dot", "title": "Organization"}, {"color": "#97c2fc", "id": "Machine Learning Algorithms to Practice", "label": "Machine Learning Algorithms to Practice\n(eBook)", "shape": "dot", "title": "eBook"}, {"color": "#97c2fc", "id": "phamdinhkhanh.github.io/deepai-book", "label": "phamdinhkhanh.github.io/deepai-book\n(Website)", "shape": "dot", "title": "Website"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "Kan", "label": "WORKS_FOR\nsince 2024", "title": "WORKS_FOR", "to": "FPT Software"}, {"arrows": "to", "from": "Kan", "label": "WORKS_FOR\nsince 2022", "title": "WORKS_FOR", "to": "Orient Software"}, {"arrows": "to", "from": "Kan", "label": "WORKED_FOR\nstarting in 2017", "title": "WORKED_FOR", "to": "Vingroup"}, {"arrows": "to", "from": "Kan", "label": "WORKED_FOR\nin 2015", "title": "WORKED_FOR", "to": "Techcombank"}, {"arrows": "to", "from": "Kan", "label": "WORKED_FOR\nin 2015", "title": "WORKED_FOR", "to": "VNDIRECT"}, {"arrows": "to", "from": "Kan", "label": "HAS_AWARD\nat the Nvidia GTC Global Conference 2025", "title": "HAS_AWARD", "to": "paper award"}, {"arrows": "to", "from": "Kan", "label": "FOUNDED", "title": "FOUNDED", "to": "DataScienceWorld.Kan"}, {"arrows": "to", "from": "DataScienceWorld.Kan", "label": "OFFERS_COURSES", "title": "OFFERS_COURSES", "to": "Deep Learning"}, {"arrows": "to", "from": "DataScienceWorld.Kan", "label": "OFFERS_COURSES", "title": "OFFERS_COURSES", "to": "Machine Learning Handson with Python"}, {"arrows": "to", "from": "DataScienceWorld.Kan", "label": "OFFERS_COURSES", "title": "OFFERS_COURSES", "to": "Build Generative AI Applications"}, {"arrows": "to", "from": "DataScienceWorld.Kan", "label": "OFFERS_COURSES", "title": "OFFERS_COURSES", "to": "MLOps \u2013 Machine Learning in Production"}, {"arrows": "to", "from": "Kan", "label": "DESIGNED_COURSES", "title": "DESIGNED_COURSES", "to": "6 specialized courses about Deep Learning and Machine Learning"}, {"arrows": "to", "from": "Kan", "label": "PARTICIPATED_IN\nsince 2024", "title": "PARTICIPATED_IN", "to": "Google GDSC"}, {"arrows": "to", "from": "Kan", "label": "PUBLISHED", "title": "PUBLISHED", "to": "Machine Learning Algorithms to Practice"}, {"arrows": "to", "from": "Machine Learning Algorithms to Practice", "label": "PUBLISHED_ON", "title": "PUBLISHED_ON", "to": "phamdinhkhanh.github.io/deepai-book"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"nodes": {"font": {"size": 14}, "shape": "dot"}, "edges": {"font": {"size": 12, "align": "middle"}, "arrows": "to"}, "physics": {"enabled": true, "barnesHut": {"gravitationalConstant": -2000, "centralGravity": 0.3, "springLength": 95}}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

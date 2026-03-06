@@ -1,0 +1,2367 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://datascienceworld-kan.github.io/vinagent/guides/02_active_trading_advisory/">
+      
+      
+        <link rel="prev" href="../01_sequential_financial_analyst_crew/">
+      
+      
+        <link rel="next" href="../03_quantitative_alpha_generation/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../asset/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.4">
+    
+    
+      
+        <title>Branching Active Trading Advisory - Vinagent</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/navigation_title_ovverides.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/version_admonitions.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/sticky_navigation.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <meta property="og:title" content="Vinagent">
+  <meta property="og:description" content="An AI Agent library.">
+  <meta property="og:image" content="https://datascienceworld-kan.github.io/vinagent/assets/images/favicon.png">
+  <meta property="og:image:alt" content="Vinagent Thumbnail">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://datascienceworld-kan.github.io/vinagent">
+
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#intermediate-active-trading-advisory" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Vinagent" class="md-header__button md-logo" aria-label="Vinagent" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Vinagent
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Branching Active Trading Advisory
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/datascienceworld-kan/vinagent" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  
+    
+  
+  Get started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../analyze_stock_trending/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Guidelines
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../reference/agent/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../contributing/contributing/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Contributing
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Vinagent" class="md-nav__button md-logo" aria-label="Vinagent" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Vinagent
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/datascienceworld-kan/vinagent" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../.." class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get started
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guidelines
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guidelines
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Financial Usercase
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Financial Usercase
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../analyze_stock_trending/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visualize and Analyze Stock
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../trending_news/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Find Trending New
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-Agent in Finance
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Multi-Agent in Finance
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01_sequential_financial_analyst_crew/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sequential Financial Analyst Crew
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Branching Active Trading Advisory
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Branching Active Trading Advisory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of Content">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of Content
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#system-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementing-parallel-agents-with-vinagent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementing Parallel Agents with Vinagent
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#environment-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment Setup
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#define-multi-market-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Define Multi-Market State
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#define-data-fetching-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Define Data Fetching Tools
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implement-parallel-agents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implement Parallel Agents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#assemble-the-parallel-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Assemble the Parallel Flow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#execute-multi-market-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Execute Multi-Market Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Execute Multi-Market Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multi-asset-trading-recommendation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📈 Multi-Asset Trading Recommendation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#single-market-vs-multi-market-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Single-market vs Multi-market Analysis
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Takeaways
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03_quantitative_alpha_generation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quantitative Alpha Generation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04_institutional_portfolio_management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Institutional Portfolio Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Banking Agent
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Banking Agent
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../banking_agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Banking SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Research Usercase
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Research Usercase
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../paper_research/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Research Agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Legal Field
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Legal Field
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../legal_assistant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Legal Agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ecommerce Usercase
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Ecommerce Usercase
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../customer_care/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Customer Care Multi-Agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_7" id="__nav_2_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RAG
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    RAG
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../agent_rag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent RAG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../reference/agent/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../contributing/contributing/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of Content">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of Content
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#system-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementing-parallel-agents-with-vinagent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementing Parallel Agents with Vinagent
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#environment-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment Setup
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#define-multi-market-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Define Multi-Market State
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#define-data-fetching-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Define Data Fetching Tools
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implement-parallel-agents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implement Parallel Agents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#assemble-the-parallel-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Assemble the Parallel Flow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#execute-multi-market-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Execute Multi-Market Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Execute Multi-Market Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multi-asset-trading-recommendation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📈 Multi-Asset Trading Recommendation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#single-market-vs-multi-market-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Single-market vs Multi-market Analysis
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Takeaways
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+      
+        
+  
+  
+    
+    
+      
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../analyze_stock_trending/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Guidelines
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../01_sequential_financial_analyst_crew/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Multi-Agent in Finance
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/datascienceworld-kan/vinagent/edit/main/docs/docs/guides/02_active_trading_advisory.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="intermediate-active-trading-advisory">Intermediate - Active Trading &amp; Advisory<a class="headerlink" href="#intermediate-active-trading-advisory" title="Permanent link">&para;</a></h1>
+<p><em>Contributor: Gia Bao; Reviewed &amp; Extended by: Kan Pham</em></p>
+<p><a href="https://colab.research.google.com/github/datascienceworld-kan/vinagent/blob/main/cookbook/multi_agent_in_finance/02_active_trading_advisory.ipynb"><img alt="Open in Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>Modern financial markets move across multiple asset classes simultaneously. Equities, cryptocurrencies, commodities, and macroeconomic signals interact continuously, often influencing each other in subtle ways. Investors who focus on a single market frequently miss critical signals emerging from others.</p>
+<p>For example:</p>
+<ul>
+<li>
+<p>Semiconductor stocks may surge following strong GPU demand.</p>
+</li>
+<li>
+<p>Cryptocurrency markets may react to liquidity shifts or macroeconomic sentiment.</p>
+</li>
+<li>
+<p>Institutional capital may rotate between equities and digital assets.</p>
+</li>
+</ul>
+<p>Successful investment strategies therefore rely on cross-market awareness, not isolated analysis. However, monitoring multiple markets in real time presents a challenge. Most traditional investment workflows still rely on sequential analysis pipelines:</p>
+<ul>
+<li>
+<p>Collect market data</p>
+</li>
+<li>
+<p>Analyze signals</p>
+</li>
+<li>
+<p>Produce a recommendation</p>
+</li>
+</ul>
+<p>This approach becomes inefficient when data sources grow. Analysts must wait for each step to complete before the next begins, creating latency in a world where markets react within seconds.</p>
+<p>To address this limitation, we introduce Active Trading Advisory, an AI-driven system designed to continuously observe multiple markets and synthesize trading recommendations dynamically.</p>
+<h3 id="system-architecture">System Architecture<a class="headerlink" href="#system-architecture" title="Permanent link">&para;</a></h3>
+<p>To achieve these goals, we evolve from simple sequential workflows toward a Parallel Agent Execution model.</p>
+<p>Instead of collecting and analyzing data one source at a time, the system deploys specialized agents that operate concurrently, each responsible for a different market.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>          ┌→ Market Data Provider →┐
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>START ----┤                        ├→ Recommender Agent → END
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>          └→ Binance Tracker ------→┘
+</span></code></pre></div>
+<p>In this architecture:</p>
+<ul>
+<li>
+<p>Independent agents gather insights from separate markets.</p>
+</li>
+<li>
+<p>Analysis occurs in parallel, reducing latency.</p>
+</li>
+<li>
+<p>A synthesis agent aggregates signals into a final recommendation.</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Agent</th>
+<th>Role</th>
+<th>Parallel Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>MarketDataProvider</strong></td>
+<td>Analyzes traditional stock equity (e.g., NVDA)</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><strong>BinanceTracker</strong></td>
+<td>Analyzed crypto assets (e.g., BTC-USD)</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><strong>RecommenderAgent</strong></td>
+<td>Synthesizes a multi-market strategy</td>
+<td>No (Wait for both)</td>
+</tr>
+</tbody>
+</table>
+<p>This design reflects a key principle of modern AI systems: specialized agents collaborating to solve complex tasks efficiently.</p>
+<h3 id="implementing-parallel-agents-with-vinagent">Implementing Parallel Agents with Vinagent<a class="headerlink" href="#implementing-parallel-agents-with-vinagent" title="Permanent link">&para;</a></h3>
+<p>In the following sections, we demonstrate how to build this Active Trading Advisory system using the Vinagent framework. Vinagent can provide structured agent orchestration, tool integration for external data sources into flexible multi-agent workflows that native support for parallel execution. By using these capabilities, we can transform traditional trading pipelines into adaptive AI advisory systems capable of real-time multi-market analysis.</p>
+<h2 id="environment-setup">Environment Setup<a class="headerlink" href="#environment-setup" title="Permanent link">&para;</a></h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">vinagent</span><span class="o">==</span><span class="mf">0.0.6</span><span class="o">.</span><span class="n">post6</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">cache</span><span class="o">-</span><span class="nb">dir</span> <span class="s2">&quot;numpy&lt;2.0&quot;</span> <span class="n">matplotlib</span><span class="o">==</span><span class="mf">3.7.1</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="o">%</span><span class="n">pip</span> <span class="n">install</span> <span class="n">python</span><span class="o">-</span><span class="n">dotenv</span><span class="o">==</span><span class="mf">1.0.0</span> <span class="n">tavily</span><span class="o">-</span><span class="n">python</span><span class="o">==</span><span class="mf">0.7.7</span> <span class="n">plotly</span><span class="o">==</span><span class="mf">5.22.0</span> <span class="n">Vnstock</span><span class="o">==</span><span class="mf">3.4.2</span> <span class="o">-</span><span class="n">q</span>
+</span></code></pre></div>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">langchain_openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatOpenAI</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span><span class="p">,</span> <span class="n">find_dotenv</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">load_dotenv</span><span class="p">(</span><span class="n">find_dotenv</span><span class="p">(</span><span class="s1">&#39;.env&#39;</span><span class="p">))</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">llm</span> <span class="o">=</span> <span class="n">ChatOpenAI</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4o-mini&quot;</span><span class="p">)</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;LLM initialized.&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code>LLM initialized.
+</code></pre></div>
+<h2 id="define-multi-market-state">Define Multi-Market State<a class="headerlink" href="#define-multi-market-state" title="Permanent link">&para;</a></h2>
+<p>Next, let's define a shared state object that all agents read from and write to. This is the "memory" of the system, it holds partial results (equity insight, crypto insight) that flow between agents and accumulate into the final recommendation.</p>
+<p>The state contains specific keys for each market stream, plus a running messages log for traceability.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span><span class="p">,</span> <span class="n">TypedDict</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="k">def</span><span class="w"> </span><span class="nf">append_messages</span><span class="p">(</span><span class="n">existing</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">update</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="k">return</span> <span class="n">existing</span> <span class="o">+</span> <span class="p">[</span><span class="n">update</span><span class="p">]</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="k">class</span><span class="w"> </span><span class="nc">TradingState</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="n">messages</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="n">append_messages</span><span class="p">]</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="n">equity_insight</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    <span class="n">crypto_insight</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>    <span class="n">final_recommendation</span><span class="p">:</span> <span class="nb">str</span>
+</span></code></pre></div>
+<p>By leveraging this structure: <code>equity_insight</code> and <code>crypto_insight</code> are written by parallel agents independently.
+<code>final_recommendation</code> is only written by RecommenderAgent after both insights are available. The <code>append_messages</code> reducer ensures every specialized agent's message entry stacked into history.</p>
+<h2 id="define-data-fetching-tools">Define Data Fetching Tools<a class="headerlink" href="#define-data-fetching-tools" title="Permanent link">&para;</a></h2>
+<p>Creating tools that agents can invoke to retrieve real market data. <code>get_current_time</code> lets agents timestamp their analysis; <code>fetch_btc_market_data</code> pulls live BTC metrics from CoinDesk. Wrapping them with <a class="magiclink magiclink-github magiclink-mention" href="https://github.com/primary_function" title="GitHub User: primary_function">@primary_function</a> makes them compatible with Vinagent's tool registry.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">vinagent.register</span><span class="w"> </span><span class="kn">import</span> <span class="n">primary_function</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="nd">@primary_function</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_current_time</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="sd">    Get the current date and time. Use this to know &#39;today&#39;s&#39; date.</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="sd">    Returns:</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="sd">        str: Current date and time in YYYY-MM-DD HH:MM:SS format.</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>    <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Custom time tool defined.&quot;</span><span class="p">)</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="c1"># You need to have your CoinDesk API in your environment variables</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="nd">@primary_function</span>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="k">def</span><span class="w"> </span><span class="nf">fetch_btc_market_data</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="sd">    Fetch comprehensive Bitcoin (BTC) market data including price, changes (daily/weekly/monthly), and moving averages from the CoinDesk API.</span>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="sd">    Returns:</span>
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="sd">        str: A comprehensive summary of BTC market metrics.</span>
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>    <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;https://data-api.coindesk.com/index/cc/v1/latest/tick&#39;</span><span class="p">,</span>
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>                <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;market&quot;</span><span class="p">:</span><span class="s2">&quot;cadli&quot;</span><span class="p">,</span><span class="s2">&quot;instruments&quot;</span><span class="p">:</span><span class="s2">&quot;BTC-USD&quot;</span><span class="p">,</span><span class="s2">&quot;apply_mapping&quot;</span><span class="p">:</span><span class="s2">&quot;true&quot;</span><span class="p">},</span>
+</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>                <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Content-type&quot;</span><span class="p">:</span><span class="s2">&quot;application/json; charset=UTF-8&quot;</span><span class="p">}</span>
+</span><span id="__span-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a>        <span class="p">)</span>
+</span><span id="__span-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a>        <span class="n">data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;Data&#39;</span><span class="p">][</span><span class="s1">&#39;BTC-USD&#39;</span><span class="p">]</span>
+</span><span id="__span-4-31"><a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a>
+</span><span id="__span-4-32"><a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a>        <span class="n">summary</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-4-33"><a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a>            <span class="sa">f</span><span class="s2">&quot;--- BTC-USD Market Data ---</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span id="__span-4-34"><a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a>            <span class="sa">f</span><span class="s2">&quot;Current Price: $</span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;VALUE&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> USD</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span id="__span-4-35"><a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a>            <span class="sa">f</span><span class="s2">&quot;Day Change: </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;CURRENT_DAY_CHANGE&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;CURRENT_DAY_CHANGE_PERCENTAGE&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%)</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span id="__span-4-36"><a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a>            <span class="sa">f</span><span class="s2">&quot;Week Change: </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;CURRENT_WEEK_CHANGE&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;CURRENT_WEEK_CHANGE_PERCENTAGE&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%)</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span id="__span-4-37"><a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a>            <span class="sa">f</span><span class="s2">&quot;Month Change: </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;CURRENT_MONTH_CHANGE&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;CURRENT_MONTH_CHANGE_PERCENTAGE&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%)</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span id="__span-4-38"><a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a>            <span class="sa">f</span><span class="s2">&quot;24h Range: $</span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;MOVING_24_HOUR_LOW&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> - $</span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;MOVING_24_HOUR_HIGH&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span id="__span-4-39"><a id="__codelineno-4-39" name="__codelineno-4-39" href="#__codelineno-4-39"></a>            <span class="sa">f</span><span class="s2">&quot;Year Change: </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;CURRENT_YEAR_CHANGE_PERCENTAGE&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span id="__span-4-40"><a id="__codelineno-4-40" name="__codelineno-4-40" href="#__codelineno-4-40"></a>            <span class="sa">f</span><span class="s2">&quot;Volatility Context: Day High $</span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;CURRENT_DAY_HIGH&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> / Low $</span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;CURRENT_DAY_LOW&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span id="__span-4-41"><a id="__codelineno-4-41" name="__codelineno-4-41" href="#__codelineno-4-41"></a>        <span class="p">)</span>
+</span><span id="__span-4-42"><a id="__codelineno-4-42" name="__codelineno-4-42" href="#__codelineno-4-42"></a>        <span class="k">return</span> <span class="n">summary</span>
+</span><span id="__span-4-43"><a id="__codelineno-4-43" name="__codelineno-4-43" href="#__codelineno-4-43"></a>    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="__span-4-44"><a id="__codelineno-4-44" name="__codelineno-4-44" href="#__codelineno-4-44"></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Error fetching BTC price: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span id="__span-4-45"><a id="__codelineno-4-45" name="__codelineno-4-45" href="#__codelineno-4-45"></a>
+</span><span id="__span-4-46"><a id="__codelineno-4-46" name="__codelineno-4-46" href="#__codelineno-4-46"></a><span class="nb">print</span><span class="p">(</span><span class="n">fetch_btc_market_data</span><span class="p">())</span>
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code>Custom time tool defined.
+--- BTC-USD Market Data ---
+Current Price: $72498.60 USD
+Day Change: -192.65 (-0.27%)
+Week Change: 6712.50 (10.20%)
+Month Change: 5458.29 (8.14%)
+24h Range: $67469.42 - $74036.08
+Year Change: -17.18%
+Volatility Context: Day High $73264.09 / Low $72350.48
+</code></pre></div>
+<h2 id="implement-parallel-agents">Implement Parallel Agents<a class="headerlink" href="#implement-parallel-agents" title="Permanent link">&para;</a></h2>
+<p>Three agent classes: <code>MarketDataProvider</code>, <code>BinanceTracker</code>, and <code>RecommenderAgent</code> will join in a branching static workflow. The first two inherit from <code>AgentNode</code> and are designed to run concurrently (they do not depend on each other). <code>RecommenderAgent</code> reads both their outputs from the shared state to synthesize a final recommendation. Each agent's exec method defines its logic and what it writes back to the state.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">vinagent.multi_agent</span><span class="w"> </span><span class="kn">import</span> <span class="n">AgentNode</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">vinagent.logger.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">logging_message</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="k">class</span><span class="w"> </span><span class="nc">MarketDataProvider</span><span class="p">(</span><span class="n">AgentNode</span><span class="p">):</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Fetches and analyzes stock market data.&quot;&quot;&quot;</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    <span class="nd">@logging_message</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">exec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">TradingState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>        <span class="c1"># In a real scenario, this would use fetch_stock_data tool</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>        <span class="n">prompt</span> <span class="o">=</span> <span class="s2">&quot;Analyze FPT&#39;s current market sentiment and technical outlook. Provide a summary for a trader.&quot;</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>        <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>        <span class="k">return</span> <span class="p">{</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>            <span class="s2">&quot;messages&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;MarketDataProvider&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">output</span><span class="o">.</span><span class="n">content</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">output</span><span class="p">)},</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>            <span class="s2">&quot;equity_insight&quot;</span><span class="p">:</span> <span class="n">output</span><span class="o">.</span><span class="n">content</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>        <span class="p">}</span>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="k">class</span><span class="w"> </span><span class="nc">BinanceTracker</span><span class="p">(</span><span class="n">AgentNode</span><span class="p">):</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Fetches and analyzes crypto market data.&quot;&quot;&quot;</span>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>    <span class="nd">@logging_message</span>
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">exec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">TradingState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>        <span class="c1"># Instruction to use the dedicated BTC tool for performance metrics</span>
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a>        <span class="n">prompt</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>            <span class="s2">&quot;Analyze Bitcoin (BTC-USD) current performance, trends, and volatility. &quot;</span>
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>            <span class="s2">&quot;IMPORTANT: Use the &#39;fetch_btc_market_data&#39; tool to get comprehensive metrics &quot;</span>
+</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a>            <span class="s2">&quot;(daily/weekly/monthly changes and ranges). Provide a professional summary for a trader.&quot;</span>
+</span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a>        <span class="p">)</span>
+</span><span id="__span-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a>        <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+</span><span id="__span-5-27"><a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a>        <span class="k">return</span> <span class="p">{</span>
+</span><span id="__span-5-28"><a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a>            <span class="s2">&quot;messages&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;BinanceTracker&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">output</span><span class="o">.</span><span class="n">content</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">output</span><span class="p">)},</span>
+</span><span id="__span-5-29"><a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a>            <span class="s2">&quot;crypto_insight&quot;</span><span class="p">:</span> <span class="n">output</span><span class="o">.</span><span class="n">content</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+</span><span id="__span-5-30"><a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a>        <span class="p">}</span>
+</span><span id="__span-5-31"><a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a>
+</span><span id="__span-5-32"><a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a><span class="k">class</span><span class="w"> </span><span class="nc">RecommenderAgent</span><span class="p">(</span><span class="n">AgentNode</span><span class="p">):</span>
+</span><span id="__span-5-33"><a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Merges insights into a unified strategy.&quot;&quot;&quot;</span>
+</span><span id="__span-5-34"><a id="__codelineno-5-34" name="__codelineno-5-34" href="#__codelineno-5-34"></a>    <span class="nd">@logging_message</span>
+</span><span id="__span-5-35"><a id="__codelineno-5-35" name="__codelineno-5-35" href="#__codelineno-5-35"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">exec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">TradingState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+</span><span id="__span-5-36"><a id="__codelineno-5-36" name="__codelineno-5-36" href="#__codelineno-5-36"></a>        <span class="n">equity</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;equity_insight&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</span><span id="__span-5-37"><a id="__codelineno-5-37" name="__codelineno-5-37" href="#__codelineno-5-37"></a>        <span class="n">crypto</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;crypto_insight&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</span><span id="__span-5-38"><a id="__codelineno-5-38" name="__codelineno-5-38" href="#__codelineno-5-38"></a>
+</span><span id="__span-5-39"><a id="__codelineno-5-39" name="__codelineno-5-39" href="#__codelineno-5-39"></a>        <span class="n">prompt</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-5-40"><a id="__codelineno-5-40" name="__codelineno-5-40" href="#__codelineno-5-40"></a>            <span class="sa">f</span><span class="s2">&quot;Equity Analysis: </span><span class="se">\n</span><span class="si">{</span><span class="n">equity</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+</span><span id="__span-5-41"><a id="__codelineno-5-41" name="__codelineno-5-41" href="#__codelineno-5-41"></a>            <span class="sa">f</span><span class="s2">&quot;Crypto Analysis: </span><span class="se">\n</span><span class="si">{</span><span class="n">crypto</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+</span><span id="__span-5-42"><a id="__codelineno-5-42" name="__codelineno-5-42" href="#__codelineno-5-42"></a>            <span class="sa">f</span><span class="s2">&quot;Based on both markets, provide a unified multi-asset trading recommendation.&quot;</span>
+</span><span id="__span-5-43"><a id="__codelineno-5-43" name="__codelineno-5-43" href="#__codelineno-5-43"></a>        <span class="p">)</span>
+</span><span id="__span-5-44"><a id="__codelineno-5-44" name="__codelineno-5-44" href="#__codelineno-5-44"></a>        <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+</span><span id="__span-5-45"><a id="__codelineno-5-45" name="__codelineno-5-45" href="#__codelineno-5-45"></a>        <span class="k">return</span> <span class="p">{</span>
+</span><span id="__span-5-46"><a id="__codelineno-5-46" name="__codelineno-5-46" href="#__codelineno-5-46"></a>            <span class="s2">&quot;messages&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;Recommender&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">output</span><span class="o">.</span><span class="n">content</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">output</span><span class="p">)},</span>
+</span><span id="__span-5-47"><a id="__codelineno-5-47" name="__codelineno-5-47" href="#__codelineno-5-47"></a>            <span class="s2">&quot;final_recommendation&quot;</span><span class="p">:</span> <span class="n">output</span><span class="o">.</span><span class="n">content</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+</span><span id="__span-5-48"><a id="__codelineno-5-48" name="__codelineno-5-48" href="#__codelineno-5-48"></a>        <span class="p">}</span>
+</span></code></pre></div>
+<p>In there, <code>MarketDataProvider</code> and <code>BinanceTracker</code> are stateless with respect to each other, they only read the initial query from <code>state["messages"]</code> and write to separate keys. This is what makes safe parallelism possible. <code>RecommenderAgent</code> explicitly reads <code>equity_insight</code> and <code>crypto_insight</code> from state that it only runs after both are populated (enforced by the graph topology below).</p>
+<h2 id="assemble-the-parallel-flow">Assemble the Parallel Flow<a class="headerlink" href="#assemble-the-parallel-flow" title="Permanent link">&para;</a></h2>
+<p>Instantiating the agents with their LLM, tools, and instructions, then wiring them together into a directed graph using Vinagent's <code>FlowStateGraph</code>. The key here is the <code>START &gt;&gt; market_agent</code> and <code>START &gt;&gt; crypto_agent</code> edges, which tell the graph to launch both agents simultaneously from the initial state.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">vnstock_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">fetch_stock_data_vn</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">vinagent.multi_agent</span><span class="w"> </span><span class="kn">import</span> <span class="n">CrewAgent</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">vinagent.graph.operator</span><span class="w"> </span><span class="kn">import</span> <span class="n">FlowStateGraph</span><span class="p">,</span> <span class="n">START</span><span class="p">,</span> <span class="n">END</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">langgraph.checkpoint.memory</span><span class="w"> </span><span class="kn">import</span> <span class="n">MemorySaver</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="n">instr</span> <span class="o">=</span> <span class="s2">&quot;CRITICAL: Format tool arguments as JSON object. NEVER use plain strings.&quot;</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="n">market_agent</span> <span class="o">=</span> <span class="n">MarketDataProvider</span><span class="p">(</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;market_agent&quot;</span><span class="p">,</span> 
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>    <span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span> 
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>    <span class="n">tools</span><span class="o">=</span><span class="p">[],</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>    <span class="n">instruction</span><span class="o">=</span><span class="n">instr</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="p">)</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="n">crypto_agent</span> <span class="o">=</span> <span class="n">BinanceTracker</span><span class="p">(</span>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;crypto_agent&quot;</span><span class="p">,</span> 
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>    <span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span> 
+</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>    <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;vinagent.tools.websearch_tools&#39;</span><span class="p">],</span> 
+</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>    <span class="n">instruction</span><span class="o">=</span><span class="n">instr</span>
+</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="p">)</span>
+</span><span id="__span-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>
+</span><span id="__span-6-22"><a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="c1"># 1. FIX: Give the recommender a specific instruction so it stops trying to act like a data agent</span>
+</span><span id="__span-6-23"><a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="n">recommender</span> <span class="o">=</span> <span class="n">RecommenderAgent</span><span class="p">(</span>
+</span><span id="__span-6-24"><a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;recommender&quot;</span><span class="p">,</span> 
+</span><span id="__span-6-25"><a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a>    <span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span> 
+</span><span id="__span-6-26"><a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a>    <span class="n">tools</span><span class="o">=</span><span class="p">[],</span> 
+</span><span id="__span-6-27"><a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a>    <span class="n">instruction</span><span class="o">=</span><span class="s2">&quot;You are a Portfolio Manager. Synthesize the provided market insights into a final recommendation.&quot;</span> \
+</span><span id="__span-6-28"><a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a>    <span class="s2">&quot; DO NOT fetch new data or use tools.&quot;</span>
+</span><span id="__span-6-29"><a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a><span class="p">)</span>
+</span><span id="__span-6-30"><a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a>
+</span><span id="__span-6-31"><a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a><span class="n">global_tools</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="__span-6-32"><a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a>    <span class="n">get_current_time</span><span class="p">,</span>
+</span><span id="__span-6-33"><a id="__codelineno-6-33" name="__codelineno-6-33" href="#__codelineno-6-33"></a>    <span class="n">fetch_btc_market_data</span><span class="p">,</span>
+</span><span id="__span-6-34"><a id="__codelineno-6-34" name="__codelineno-6-34" href="#__codelineno-6-34"></a>    <span class="n">primary_function</span><span class="p">(</span><span class="n">fetch_stock_data_vn</span><span class="p">)</span>
+</span><span id="__span-6-35"><a id="__codelineno-6-35" name="__codelineno-6-35" href="#__codelineno-6-35"></a><span class="p">]</span>
+</span><span id="__span-6-36"><a id="__codelineno-6-36" name="__codelineno-6-36" href="#__codelineno-6-36"></a>
+</span><span id="__span-6-37"><a id="__codelineno-6-37" name="__codelineno-6-37" href="#__codelineno-6-37"></a><span class="c1"># 2. FIX: Register tools to ALL agents as a safety net to prevent NoneType crashes</span>
+</span><span id="__span-6-38"><a id="__codelineno-6-38" name="__codelineno-6-38" href="#__codelineno-6-38"></a><span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="p">[</span><span class="n">market_agent</span><span class="p">,</span> <span class="n">crypto_agent</span><span class="p">,</span> <span class="n">recommender</span><span class="p">]:</span>
+</span><span id="__span-6-39"><a id="__codelineno-6-39" name="__codelineno-6-39" href="#__codelineno-6-39"></a>    <span class="k">for</span> <span class="n">tool</span> <span class="ow">in</span> <span class="n">global_tools</span><span class="p">:</span>
+</span><span id="__span-6-40"><a id="__codelineno-6-40" name="__codelineno-6-40" href="#__codelineno-6-40"></a>        <span class="n">agent</span><span class="o">.</span><span class="n">tools_manager</span><span class="o">.</span><span class="n">register_function_tool</span><span class="p">(</span><span class="n">tool</span><span class="p">)</span>
+</span><span id="__span-6-41"><a id="__codelineno-6-41" name="__codelineno-6-41" href="#__codelineno-6-41"></a>
+</span><span id="__span-6-42"><a id="__codelineno-6-42" name="__codelineno-6-42" href="#__codelineno-6-42"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Agents instantiated with standardized tool registration.&quot;</span><span class="p">)</span>
+</span><span id="__span-6-43"><a id="__codelineno-6-43" name="__codelineno-6-43" href="#__codelineno-6-43"></a>
+</span><span id="__span-6-44"><a id="__codelineno-6-44" name="__codelineno-6-44" href="#__codelineno-6-44"></a><span class="c1"># 3. Build the crew</span>
+</span><span id="__span-6-45"><a id="__codelineno-6-45" name="__codelineno-6-45" href="#__codelineno-6-45"></a><span class="n">crew</span> <span class="o">=</span> <span class="n">CrewAgent</span><span class="p">(</span>
+</span><span id="__span-6-46"><a id="__codelineno-6-46" name="__codelineno-6-46" href="#__codelineno-6-46"></a>    <span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span>
+</span><span id="__span-6-47"><a id="__codelineno-6-47" name="__codelineno-6-47" href="#__codelineno-6-47"></a>    <span class="n">checkpoint</span><span class="o">=</span><span class="n">MemorySaver</span><span class="p">(),</span>
+</span><span id="__span-6-48"><a id="__codelineno-6-48" name="__codelineno-6-48" href="#__codelineno-6-48"></a>    <span class="n">graph</span><span class="o">=</span><span class="n">FlowStateGraph</span><span class="p">(</span><span class="n">TradingState</span><span class="p">),</span>
+</span><span id="__span-6-49"><a id="__codelineno-6-49" name="__codelineno-6-49" href="#__codelineno-6-49"></a>    <span class="n">flow</span><span class="o">=</span><span class="p">[</span>
+</span><span id="__span-6-50"><a id="__codelineno-6-50" name="__codelineno-6-50" href="#__codelineno-6-50"></a>        <span class="n">START</span> <span class="o">&gt;&gt;</span> <span class="n">market_agent</span><span class="p">,</span>    <span class="c1"># ─┐ Run in parallel</span>
+</span><span id="__span-6-51"><a id="__codelineno-6-51" name="__codelineno-6-51" href="#__codelineno-6-51"></a>        <span class="n">START</span> <span class="o">&gt;&gt;</span> <span class="n">crypto_agent</span><span class="p">,</span>    <span class="c1"># ─┘</span>
+</span><span id="__span-6-52"><a id="__codelineno-6-52" name="__codelineno-6-52" href="#__codelineno-6-52"></a>        <span class="n">market_agent</span> <span class="o">&gt;&gt;</span> <span class="n">recommender</span><span class="p">,</span>   <span class="c1"># ─┐ Both must complete</span>
+</span><span id="__span-6-53"><a id="__codelineno-6-53" name="__codelineno-6-53" href="#__codelineno-6-53"></a>        <span class="n">crypto_agent</span> <span class="o">&gt;&gt;</span> <span class="n">recommender</span><span class="p">,</span>   <span class="c1"># ─┘ before recommender runs</span>
+</span><span id="__span-6-54"><a id="__codelineno-6-54" name="__codelineno-6-54" href="#__codelineno-6-54"></a>        <span class="n">recommender</span> <span class="o">&gt;&gt;</span> <span class="n">END</span>
+</span><span id="__span-6-55"><a id="__codelineno-6-55" name="__codelineno-6-55" href="#__codelineno-6-55"></a>    <span class="p">]</span>
+</span><span id="__span-6-56"><a id="__codelineno-6-56" name="__codelineno-6-56" href="#__codelineno-6-56"></a>    <span class="p">]</span>
+</span><span id="__span-6-57"><a id="__codelineno-6-57" name="__codelineno-6-57" href="#__codelineno-6-57"></a><span class="p">)</span>
+</span><span id="__span-6-58"><a id="__codelineno-6-58" name="__codelineno-6-58" href="#__codelineno-6-58"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Crew Assembled with Direct Parallel Flow.&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code>INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions &quot;HTTP/1.1 200 OK&quot;
+INFO:vinagent.register.tool:Registered search_api:
+{&#39;tool_name&#39;: &#39;search_api&#39;, &#39;arguments&#39;: &#39;query (Union[str, dict[str, str]])&#39;, &#39;return&#39;: &#39;The answer from search query&#39;, &#39;docstring&#39;: &#39;Search for an answer from a query string\n    Args:\n        query (dict[str, str]):  The input query to search\n    Returns:\n        The answer from search query&#39;, &#39;dependencies&#39;: [&#39;os&#39;, &#39;dotenv&#39;, &#39;tavily&#39;, &#39;dataclasses&#39;, &#39;typing&#39;, &#39;vinagent&#39;], &#39;module_path&#39;: &#39;vinagent.tools.websearch_tools&#39;, &#39;tool_type&#39;: &#39;module&#39;, &#39;tool_call_id&#39;: &#39;tool_d9ac2cfe-f13a-47be-a8cc-093bf0575ef&#39;}
+INFO:vinagent.register.tool:Completed registration for module vinagent.tools.websearch_tools
+INFO:vinagent.register.tool:Registered tool: get_current_time (runtime)
+INFO:vinagent.register.tool:Registered tool: fetch_btc_market_data (runtime)
+INFO:vinagent.register.tool:Registered tool: fetch_stock_data_vn (runtime)
+INFO:vinagent.register.tool:Registered tool: get_current_time (runtime)
+INFO:vinagent.register.tool:Registered tool: fetch_btc_market_data (runtime)
+INFO:vinagent.register.tool:Registered tool: fetch_stock_data_vn (runtime)
+INFO:vinagent.register.tool:Registered tool: get_current_time (runtime)
+INFO:vinagent.register.tool:Registered tool: fetch_btc_market_data (runtime)
+INFO:vinagent.register.tool:Registered tool: fetch_stock_data_vn (runtime)
+
+
+Agents instantiated with standardized tool registration.
+Phase 2 Crew Assembled with Direct Parallel Flow.
+</code></pre></div>
+<p>Here is how the graph executes in technical viewpoint:</p>
+<ol>
+<li><code>START</code> fans out to <code>market_agent</code> and <code>crypto_agent</code> simultaneously.</li>
+<li>The graph waits until both write their insights into <code>TradingState</code>.</li>
+<li>recommender is unblocked and receives the fully populated state.</li>
+<li>The final recommendation is written to <code>state["final_recommendation"]</code>.</li>
+</ol>
+<h2 id="execute-multi-market-analysis">Execute Multi-Market Analysis<a class="headerlink" href="#execute-multi-market-analysis" title="Permanent link">&para;</a></h2>
+<p>Run the system to see parallel processing in action.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">Markdown</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;Compare FPT and BTC performance for this week and suggest a 70/30 split strategy.&quot;</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="n">result</span> <span class="o">=</span> <span class="n">crew</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    <span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>    <span class="n">user_id</span><span class="o">=</span><span class="s2">&quot;analyst&quot;</span><span class="p">,</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>    <span class="n">thread_id</span><span class="o">=</span><span class="mi">23</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="p">)</span>
+</span></code></pre></div>
+<details class="note">
+<summary>Crew Running Logs</summary>
+<p>INFO:vinagent.multi_agent.crew:No authentication card provided, skipping authentication
+INFO:vinagent.agent.agent:No authentication card provided, skipping authentication
+INFO:vinagent.agent.agent:I'am chatting with unknown_user
+INFO:vinagent.agent.agent:Tool calling iteration 1/10</p>
+<p>{'input': {'messages': {'role': 'user', 'content': 'Compare FPT and BTC performance for this week and suggest a 70/30 split strategy.'}}, 'config': {'configurable': {'user_id': 'analyst'}, 'thread_id': 23}}</p>
+<p>INFO:httpx:HTTP Request: POST <a href="https://api.openai.com/v1/chat/completions">https://api.openai.com/v1/chat/completions</a> "HTTP/1.1 200 OK"
+INFO:vinagent.agent.agent:Executing tool call: {'tool_name': 'fetch_btc_market_data', 'arguments': {}, 'return': "<class 'str'>", 'module_path': '<strong>runtime</strong>', 'tool_type': 'function', 'tool_call_id': 'tool_8fe201a1-7333-4d34-8260-b75a25e88b4', 'is_runtime': True}
+INFO:vinagent.register.tool:Completed executing function tool fetch_btc_market_data({})
+INFO:vinagent.agent.agent:Tool calling iteration 2/10
+INFO:httpx:HTTP Request: POST <a href="https://api.openai.com/v1/chat/completions">https://api.openai.com/v1/chat/completions</a> "HTTP/1.1 200 OK"
+INFO:vinagent.agent.agent:No more tool calls needed. Completed in 2 iterations.
+INFO:vinagent.logger.logger:</p>
+<p>============ BinanceTracker Response ============
+{'messages': {'role': 'BinanceTracker', 'content': 'Bitcoin (BTC-USD) is currently trading at <span class="arithmatex">\(72,480.28 USD. \n\n**Market Performance:**\n- **Daily Change:** -\)</span>210.97 (-0.29%)\n- <strong>Weekly Change:</strong> +<span class="arithmatex">\(6,694.17 (+10.18%)\n- **Monthly Change:** +\)</span>5,439.97 (+8.11%)\n- <strong>Yearly Change:</strong> -17.20%\n\n**Volatility Analysis:<strong>\n- The price has ranged between $67,469.42 and $74,036.08 in the last 24 hours.\n- The highest price reached in the last day was $73,264.09, while the lowest was $72,350.48.\n\n**Summary for Traders:</strong>\nOverall, Bitcoin has shown a moderate recovery over the past week and month after facing significant losses over the year. The volatility remains evident with a daily fluctuation, suggesting both opportunities and risks for traders in the market.'}, 'crypto_insight': 'Bitcoin (BTC-USD) is currently trading at <span class="arithmatex">\(72,480.28 USD. \n\n**Market Performance:**\n- **Daily Change:** -\)</span>210.97 (-0.29%)\n- <strong>Weekly Change:</strong> +<span class="arithmatex">\(6,694.17 (+10.18%)\n- **Monthly Change:** +\)</span>5,439.97 (+8.11%)\n- <strong>Yearly Change:</strong> -17.20%\n\n**Volatility Analysis:<strong>\n- The price has ranged between $67,469.42 and $74,036.08 in the last 24 hours.\n- The highest price reached in the last day was $73,264.09, while the lowest was $72,350.48.\n\n**Summary for Traders:</strong>\nOverall, Bitcoin has shown a moderate recovery over the past week and month after facing significant losses over the year. The volatility remains evident with a daily fluctuation, suggesting both opportunities and risks for traders in the market.'}</p>
+<p>INFO:vinagent.agent.agent:No authentication card provided, skipping authentication
+INFO:vinagent.agent.agent:I'am chatting with unknown_user
+INFO:vinagent.agent.agent:Tool calling iteration 1/10
+INFO:httpx:HTTP Request: POST <a href="https://api.openai.com/v1/chat/completions">https://api.openai.com/v1/chat/completions</a> "HTTP/1.1 200 OK"
+INFO:vinagent.agent.agent:No more tool calls needed. Completed in 1 iterations.
+INFO:vinagent.logger.logger:</p>
+<p>============ RecommenderAgent Response ============
+{'messages': {'role': 'Recommender', 'content': 'Based on the current market insights, the following multi-asset trading recommendation can be made:\n\n1. <strong>Equities</strong>: Given the recent volatility in the stock market, it would be prudent to adopt a cautious stance. Look for diversified equities that have shown moderate recovery and are less susceptible to short-term market fluctuations. Focus on sectors like technology and consumer goods that tend to perform well in recovery phases.\n\n2. <strong>Cryptocurrency (Bitcoin)</strong>: Bitcoin has demonstrated a recovery trend over the past week with a notable +10.18% increase, despite its yearly decline of -17.20%. Given the significant daily volatility, traders should consider short-term trading strategies, capitalizing on the price fluctuations within the range of $67,469.42 to $74,036.08. A cautious approach is advised, with potential allocations in Bitcoin but also setting clear exit strategies to manage risks.\n\nIn conclusion, maintain a balanced approach by including both equities and Bitcoin in your portfolio, while monitoring market movements closely and being prepared to adjust positions based on short-term trends.'}, 'final_recommendation': 'Based on the current market insights, the following multi-asset trading recommendation can be made:\n\n1. <strong>Equities</strong>: Given the recent volatility in the stock market, it would be prudent to adopt a cautious stance. Look for diversified equities that have shown moderate recovery and are less susceptible to short-term market fluctuations. Focus on sectors like technology and consumer goods that tend to perform well in recovery phases.\n\n2. <strong>Cryptocurrency (Bitcoin)</strong>: Bitcoin has demonstrated a recovery trend over the past week with a notable +10.18% increase, despite its yearly decline of -17.20%. Given the significant daily volatility, traders should consider short-term trading strategies, capitalizing on the price fluctuations within the range of $67,469.42 to $74,036.08. A cautious approach is advised, with potential allocations in Bitcoin but also setting clear exit strategies to manage risks.\n\nIn conclusion, maintain a balanced approach by including both equities and Bitcoin in your portfolio, while monitoring market movements closely and being prepared to adjust positions based on short-term trends.'}</p>
+</details>
+<p>Display the result:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>display(Markdown(f&quot;&quot;&quot;
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>### 📈 Multi-Asset Trading Recommendation
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>---
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>{result[&#39;final_recommendation&#39;]}
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>&quot;&quot;&quot;))
+</span></code></pre></div>
+<details class="note">
+<summary>Result of Multi-Asset Trading Recommendation</summary>
+<h3 id="multi-asset-trading-recommendation">📈 Multi-Asset Trading Recommendation<a class="headerlink" href="#multi-asset-trading-recommendation" title="Permanent link">&para;</a></h3>
+<hr />
+<p>Based on the current market insights, the following multi-asset trading recommendation can be made:</p>
+<ol>
+<li>
+<p><strong>Equities</strong>: Given the recent volatility in the stock market, it would be prudent to adopt a cautious stance. Look for diversified equities that have shown moderate recovery and are less susceptible to short-term market fluctuations. Focus on sectors like technology and consumer goods that tend to perform well in recovery phases.</p>
+</li>
+<li>
+<p><strong>Cryptocurrency (Bitcoin)</strong>: Bitcoin has demonstrated a recovery trend over the past week with a notable +10.18% increase, despite its yearly decline of -17.20%. Given the significant daily volatility, traders should consider short-term trading strategies, capitalizing on the price fluctuations within the range of $67,469.42 to $74,036.08. A cautious approach is advised, with potential allocations in Bitcoin but also setting clear exit strategies to manage risks.</p>
+</li>
+</ol>
+<p>In conclusion, maintain a balanced approach by including both equities and Bitcoin in your portfolio, while monitoring market movements closely and being prepared to adjust positions based on short-term trends.</p>
+</details>
+<h2 id="single-market-vs-multi-market-analysis">Single-market vs Multi-market Analysis<a class="headerlink" href="#single-market-vs-multi-market-analysis" title="Permanent link">&para;</a></h2>
+<p>This table compares the result from the single-market analysis agent (on equity only) and multi-market analysis on the same query: <code>Compare FPT and BTC performance for this week and suggest a 70/30 split strategy.</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Single-Market Analysis (Equity Only)</th>
+<th>Multi-Market Analysis (Equity + Crypto)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Market Focus</strong><br><br> The equity market is experiencing <strong>moderate volatility</strong>, suggesting a cautious but constructive outlook.<br><br> <strong>Key observations:</strong><br> - Technology stocks tend to perform well during early recovery phases.<br> - <strong>FPT</strong>, as a leading technology company, aligns well with this trend.<br><br> <strong>Implications for this week:</strong><br> - FPT may provide <strong>stable and predictable returns</strong>.<br> - Strong long-term fundamentals in <strong>digital transformation and IT services</strong>.<br> - <strong>Lower short-term volatility</strong>, making it suitable as a <strong>core portfolio allocation</strong>.</td>
+<td><strong>Cross-Market Perspective</strong><br><br> <strong>1. Equities</strong><br> - Market volatility suggests maintaining a <strong>cautious stance</strong>.<br> - Prefer <strong>diversified equities</strong> with moderate recovery signals.<br> - Focus on sectors such as <strong>technology</strong> and <strong>consumer goods</strong>.<br><br> <strong>2. Cryptocurrency (Bitcoin)</strong><br> - Bitcoin showed a <strong>+10.18% weekly recovery</strong>, despite <strong>-17.20% yearly decline</strong>.<br> - High daily volatility creates <strong>short-term trading opportunities</strong>.<br> - Observed trading range: <strong>$67,469 – $74,036</strong>.<br><br> <strong>Strategy Insight</strong><br> - Combine <strong>equity stability</strong> with <strong>crypto upside potential</strong>.<br> - Maintain diversification and <strong>clear exit strategies</strong> to manage risk.</td>
+</tr>
+</tbody>
+</table>
+<p>While single-market analysis provides focused insights into equity performance, it may overlook opportunities emerging in other financial markets. Multi-market analysis expands the perspective by incorporating signals from both equities and cryptocurrencies. This broader view enables more diversified portfolio strategies, better risk balancing, and the ability to capture short-term opportunities such as Bitcoin’s recent volatility-driven gains. As a result, multi-market analysis produces more robust and adaptable investment recommendations, especially when designing strategies like a 70/30 portfolio allocation across different asset classes.</p>
+<h2 id="key-takeaways">Key Takeaways<a class="headerlink" href="#key-takeaways" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>Parallel execution reduces latency. Market analysis that would take N seconds sequentially now takes max(agent_time), which is dramatically faster as the number of data sources scales.</p>
+</li>
+<li>
+<p>Shared state is the coordination mechanism. Agents communicate not by calling each other, but by writing to and reading from a typed state object. This makes the system easy to extend (add a new asset class → add a new agent and key).</p>
+</li>
+<li>
+<p>Agent specialization improves quality. Each agent is given a narrow, well-defined role and is instructed to stay within it.</p>
+</li>
+<li>
+<p>Cross-market recommendations are qualitatively richer. A single-asset system can only say "buy FPT." An active advisory system can say "allocate 70% to FPT for stability and 30% to BTC to capture crypto momentum, with a stop-loss at..." — a fundamentally more actionable insight.</p>
+</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../01_sequential_financial_analyst_crew/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Sequential Financial Analyst Crew">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Sequential Financial Analyst Crew
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../03_quantitative_alpha_generation/" class="md-footer__link md-footer__link--next" aria-label="Next: Quantitative Alpha Generation">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Quantitative Alpha Generation
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 DataScienceWorld.Kan, Inc | <a href="#__consent">Consent Preferences</a>
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "announce.dismiss", "content.code.annotate", "content.code.select", "content.tabs.link", "content.action.edit", "content.tooltips", "toc.follow", "navigation.indexes", "navigation.expand", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.footer", "navigation.path", "navigation.prune", "navigation.tracking", "search.highlight", "search.share", "search.suggest"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
