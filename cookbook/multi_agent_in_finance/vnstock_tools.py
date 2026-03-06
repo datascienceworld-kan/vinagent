@@ -3,6 +3,7 @@ import datetime
 import requests
 import numpy as np
 import pandas as pd
+from scipy.stats import skew
 import yfinance as yf
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
@@ -239,6 +240,74 @@ def fetch_btc_market_data() -> str:
     except Exception as e:
         return f"Error fetching BTC price: {e}"
 
+@primary_function
+def calculate_stock_statistics(df: pd.DataFrame, symbol: str) -> dict:
+    """
+    Calculate statistical metrics for a stock over the last 2 years.
+
+    Metrics:
+        - Annualized volatility
+        - Skewness of returns
+        - Maximum drawdown
+        - Mean daily return
+        - Total return
+
+    Args:
+        df (pd.DataFrame): Historical price dataframe from fetch_stock_data_vn
+        symbol (str): Stock symbol
+
+    Returns:
+        dict: Statistical summary
+    """
+
+    if not isinstance(df, pd.DataFrame) or df.empty:
+        raise ValueError("Invalid dataframe provided")
+
+    # Ensure datetime
+    df = df.copy()
+    df["time"] = pd.to_datetime(df["time"])
+    df = df.sort_values("time")
+
+    # Filter last 2 years
+    end_date = df["time"].max()
+    start_date = end_date - pd.DateOffset(years=2)
+    df = df[df["time"] >= start_date]
+
+    # Use close price
+    prices = df["close"]
+
+    # Daily returns
+    returns = prices.pct_change().dropna()
+
+    # Annualized volatility
+    volatility = returns.std() * np.sqrt(252)
+
+    # Skewness
+    skewness = skew(returns)
+
+    # Maximum drawdown
+    cumulative = (1 + returns).cumprod()
+    peak = cumulative.cummax()
+    drawdown = (cumulative - peak) / peak
+    max_drawdown = drawdown.min()
+
+    # Mean return
+    mean_return = returns.mean()
+
+    # Total return
+    total_return = prices.iloc[-1] / prices.iloc[0] - 1
+
+    stats = {
+        "symbol": symbol,
+        "period": "last_2_years",
+        "mean_daily_return": float(mean_return),
+        "annualized_volatility": float(volatility),
+        "skewness": float(skewness),
+        "max_drawdown": float(max_drawdown),
+        "total_return": float(total_return),
+    }
+
+    return stats
 
 @primary_function
 def calculate_black_litterman(

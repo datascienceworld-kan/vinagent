@@ -62,7 +62,10 @@ In the following sections, we demonstrate how to build this Active Trading Advis
 
 
 ```python
-%pip install vinagent==0.0.6.post6
+%pip install -U vinagent==0.0.6.post6
+%pip install --no-cache-dir "numpy<2.0" matplotlib==3.7.1
+%pip install python-dotenv==1.0.0 tavily-python==0.7.7 plotly==5.22.0 Vnstock==3.4.2 -q
+
 ```
 
 ```python

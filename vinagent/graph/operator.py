@@ -22,8 +22,6 @@ class FlowStateGraph(StateGraph):
             raise ValueError(f"'{name}' is already being used as a state key")
         if name in self.nodes:
             raise ValueError(f"Node '{name}' already exists")
-        # if name in (START.name, END.name):
-        #     raise ValueError(f"Node '{name}' is reserved")
         self.node_instances[name] = node
         if hasattr(node, "config") and (node.config is not None):
             runnable = coerce_to_runnable(
@@ -95,3 +93,11 @@ class FlowStateGraph(StateGraph):
         self.validate()
         compiled = super().compile(checkpointer=checkpointer, **kwargs)
         return compiled
+    
+    def _apply_runtime_config(self, config: dict):
+        """
+        Inject runtime configuration into node instances.
+        """
+        for node in self.node_instances.values():
+            if hasattr(node, "config"):
+                node.with_config(config)

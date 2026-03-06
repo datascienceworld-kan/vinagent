@@ -64,7 +64,8 @@ nav:
       - Banking SQL: guides/banking_agent.md
     - Multi-Agent in Finance:
       - Sequential Financial Analyst Crew: guides/01_sequential_financial_analyst_crew.md
-      - Branching Active Trading Advisory: guides/02_active_trading_advisory.md
+      - Intermediate Active Trading Advisory: guides/02_active_trading_advisory.md
+      - Advanced Quantitative Alpha Generation: guides/03_quantitative_alpha_generation.md
     - Research Usercase:
       - Research Agent: guides/paper_research.md
     - Legal Field:

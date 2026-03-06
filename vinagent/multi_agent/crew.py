@@ -1,4 +1,5 @@
 from typing import Union, List, Awaitable, Any
+import copy
 from abc import ABC, abstractmethod
 import logging
 from vinagent.logger.logger import logging_message, logging_user_input
@@ -78,8 +79,14 @@ class CrewAgent:
         self.checkpoint = checkpoint
         self.graph = graph
         self.flow = flow
+        self.config = {
+            "configurable": {"user_id": "unknown_user"},
+            "thread_id": 123,
+        }
+        self.graph._apply_runtime_config(self.config)
         self.compiled_graph = self.graph.compile(
-            checkpointer=self.checkpoint, flow=self.flow
+            checkpointer=self.checkpoint,
+            flow=self.flow
         )
         self.authen_card = authen_card
         self.in_conversation_history = InConversationHistory(
@@ -155,7 +162,9 @@ class CrewAgent:
         """
         self.authenticate()
         input_state = self.initialize_state(query, user_id, thread_id)
-        print(input_state)
+        config = input_state.get("config", {})
+        if config:
+            self._compile_graph_with_config(config)
         return self.compiled_graph.invoke(**input_state)
 
     async def ainvoke(self, query: str, user_id: str, thread_id: str, **kwargs) -> dict:
@@ -171,6 +180,9 @@ class CrewAgent:
         """
         self.authenticate()
         input_state = self.initialize_state(query, user_id, thread_id)
+        config = input_state.get("config", {})
+        if config:
+            self._compile_graph_with_config(config)
         result = await self.compiled_graph.ainvoke(**input_state)
         return result
 
@@ -187,6 +199,9 @@ class CrewAgent:
         """
         self.authenticate()
         input_state = self.initialize_state(query, user_id, thread_id)
+        config = input_state.get("config", {})
+        if config:
+            self._compile_graph_with_config(config)
         result = []
         for chunk in self.compiled_graph.stream(**input_state):
             for v in chunk.values():
@@ -194,3 +209,13 @@ class CrewAgent:
                     result += v["messages"]
                     yield v
         return result
+
+    def _compile_graph_with_config(self, config: dict):
+        if config == self.config:
+            return
+        self.graph._apply_runtime_config(config)
+        self.compiled_graph = self.graph.compile(
+            checkpointer=self.checkpoint,
+            flow=self.flow
+        )
+        self.config = copy.deepcopy(config)

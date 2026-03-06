@@ -1,4 +1,5 @@
-# Financial AI Multi-Agent System with Vinagent
+# Financial AI Multi-Agent System
+
 _Contributor: Gia Bao; Reviewed & Extended by: Kan Pham_
 
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/datascienceworld-kan/vinagent/blob/main/cookbook/multi_agent_in_finance/01_sequential_financial_analyst_crew.ipynb)
