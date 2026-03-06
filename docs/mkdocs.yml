@@ -54,18 +54,20 @@ nav:
       - Start with basic Multi-Agent: get_started/multi_agent.md
       - Sequential Financial Analyst Crew: guides/01_sequential_financial_analyst_crew.md
       - Branching Active Trading Advisory: guides/02_active_trading_advisory.md
-
+      - Quantitative Alpha Generation: guides/03_quantitative_alpha_generation.md
+      - Institutional Portfolio Management: guides/04_institutional_portfolio_management.md
 
   - Guidelines: 
     - Financial Usercase:
       - Visualize and Analyze Stock: guides/analyze_stock_trending.md
       - Find Trending New: guides/trending_news.md
-    - Banking Agent:
-      - Banking SQL: guides/banking_agent.md
     - Multi-Agent in Finance:
       - Sequential Financial Analyst Crew: guides/01_sequential_financial_analyst_crew.md
-      - Intermediate Active Trading Advisory: guides/02_active_trading_advisory.md
-      - Advanced Quantitative Alpha Generation: guides/03_quantitative_alpha_generation.md
+      - Branching Active Trading Advisory: guides/02_active_trading_advisory.md
+      - Quantitative Alpha Generation: guides/03_quantitative_alpha_generation.md
+      - Institutional Portfolio Management: guides/04_institutional_portfolio_management.md
+    - Banking Agent:
+      - Banking SQL: guides/banking_agent.md
     - Research Usercase:
       - Research Agent: guides/paper_research.md
     - Legal Field:
