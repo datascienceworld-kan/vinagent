@@ -24,7 +24,7 @@ With its modular tool system, you can easily extend your agent's capabilities by
 * Date 12-03-2026: [Version 0.0.7](https://github.com/datascienceworld-kan/vinagent/releases/tag/v0.0.7) is a big upgrade with many new features:
     - Refactor code to decouple Agent class's invoking logic into multiple executors: InvokeExecutor, AsyncInvokeExecutor, - StreamInvokeExecutor, AsyncStreamInvokeExecutor, GraphExecutor.
     - Guardrail System for input, output, and tools
-    - Integrate any Agentskill Anthropic Template as a tool type `agentskill`.
+    - Integrate any [Agentskill Anthropic](https://agentskills.io/home) Template as a tool type `agentskill`.
     - LLM with structured AgentResponse.
     - Logic for asynchronous streaming.
 
