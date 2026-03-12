@@ -18,6 +18,22 @@ With its modular tool system, you can easily extend your agent's capabilities by
 
 ![](asset/agent_system_design_v2.png)
 
+
+# 2. Version
+
+* Date 12-03-2026: [Version 0.0.7](https://github.com/datascienceworld-kan/vinagent/releases/tag/v0.0.7) is a big upgrade with many new features:
+    - Refactor code to decouple Agent class's invoking logic into multiple executors: InvokeExecutor, AsyncInvokeExecutor, - StreamInvokeExecutor, AsyncStreamInvokeExecutor, GraphExecutor.
+    - Guardrail System for input, output, and tools
+    - Integrate any Agentskill Anthropic Template as a tool type `agentskill`.
+    - LLM with structured AgentResponse.
+    - Logic for asynchronous streaming.
+
+* Date 13-09-2025: [Version 0.0.6](https://github.com/datascienceworld-kan/vinagent/releases/tag/v0.0.7) have many new advanced features:
+    - Multi-Agent system support: Agents can communicate in static workflow.
+    - Knowledge Graph Agent Memory: Transform conversation history into knowledge graph.
+    - MCP server support: Agent can connect to MCP server as a tool type `mcp`.
+
+# 3. Installation
 To install and use this library please following:
 
 ```
@@ -42,7 +58,8 @@ OPENAI_API_KEY="Your OpenAI API key"
 ```
 Let's create your acounts first and then create your relevant key for each website.
 
-# 2. Set up Agent
+
+# 4. Set up Agent
 
 `vinagent` is a flexible library for creating intelligent agents. You can configure your agent with tools, each encapsulated in a Python module under `vinagent.tools`. This provides a workspace of tools that agents can use to interact with and operate in the realistic world. Each tool is a Python file with full documentation and it can be independently ran. For example, the [vinagent.tools.websearch_tools](vinagent/tools/websearch_tools.py) module contains code for interacting with a search API.
 
@@ -137,7 +154,7 @@ plot = agent.invoke("Let's visualize the return of Tesla stock in 2024?")
 ![png](asset/return_plot.png)
     
 
-# 3. Register Tool
+# 5. Register Tool
 
 Vinagent stands out for its flexibility in registering different types of tools, including:
 
@@ -145,7 +162,7 @@ Vinagent stands out for its flexibility in registering different types of tools,
 - Module tools: These are added via Python module files placed in the vinagent.tools directory. Once registered, the modules can be imported and used in your runtime environment.
 - MCP tools: These are tools registered through an [MCP (Model Context Protocol) server](https://github.com/modelcontextprotocol/servers), enabling external tool integration.
 
-## 3.1. Function Tool
+## 5.1. Function Tool
 
 You can customize any function in your runtime code as a powerful tool by using the `@agent.tools_manager.register_function_tool` decorator.
 
@@ -168,7 +185,7 @@ message
 ToolMessage(content="Completed executing tool sum_of_series({'x': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]})", tool_call_id='tool_56f40902-33dc-45c6-83a7-27a96589d528', artifact='Sum of list is 55')
 ```
 
-## 3.2. Module Tool
+## 5.2. Module Tool
 Many complex tools cannot be implemented within a single function. In such cases, organizing the tool as a python module becomes necessary. To support this, `vinagent` allows tools to be registered via python module files placed in the `vinagent.tools` directory. This approach makes it easier to manage and execute more sophisticated tasks. Once registered, these modules can be imported and used directly in the runtime environment.
 
 ```
@@ -195,7 +212,7 @@ agent = Agent(
 )
 ```
 
-## 3.3. MCP Tool
+## 5.3. MCP Tool
 
 MCP (model context protocal) is a new AI protocal offfered by Anthropic that allows any AI model to interact with any tools distributed acrooss different platforms. These tools are provided by platform's [MCP Server](https://github.com/modelcontextprotocol/servers). There are many MCP servers available out there such as `google drive, gmail, slack, notions, spotify, etc.`, and `vinagent` can be used to connect to these servers and execute the tools within the agent.
 
@@ -267,9 +284,9 @@ agent.invoke("What is the sum of 1993 and 709?")
 agent.invoke("Let's multiply of 1993 and 709?")
 ```
 
-# 4. Invoke and streaming
+# 6. Invoke and streaming
 
-## 4.1. Synchronous and Asynchronous Invocation
+## 6.1. Synchronous and Asynchronous Invocation
 Vinagent offers both synchronous (agent.invoke) and asynchronous (agent.ainvoke) invocation methods. While synchronous calls halt the main thread until a response is returned, asynchronous calls enable the main thread to proceed without waiting. In practice, asynchronous invocations can be up to twice as fast as synchronous ones.
 
 ```
@@ -282,7 +299,7 @@ message = agent.invoke("What is the sum of 1993 and 709?")
 message = await agent.ainvoke("What is the sum of 1993 and 709?")
 ```
 
-## 4.2. Streaming Invocation
+## 6.2. Streaming Invocation
 In addition to synchronous and asynchronous invocation, vinagent also supports streaming invocation. This means that the response is generated in real-time on token-by-token basis, allowing for a more interactive and responsive experience. To use streaming, simply use `agent.stream`:
 
 ```
@@ -290,7 +307,7 @@ for chunk in agent.stream("Where is the capital of the Vietnam?"):
     print(chunk)
 ```
 
-## 4.3. Async Streaming Invocation
+## 6.3. Async Streaming Invocation
 Vinagent offer an `astream` method that is async version of `stream` to accelerate the speed of response. It is particularly useful for I/O bound tasks that needs waiting for data from external sources.
 
 ```
@@ -307,9 +324,9 @@ async def run_agent():
 asyncio.run(run_agent())
 ```
 
-# 5. Advance Features
+# 7. Advance Features
 
-## 5.1. Deep Search
+## 7.1. Deep Search
 
 With vinagent, you can invent a complex workflow by combining multiple tools into a single agent. This allows you to create a more sophisticated and flexible agent that can adapt to different task. Let's see how an agent can be created to help with financial analysis by using `deepsearch` tool, which allows you to search for information in a structured manner. This tool is particularly useful for tasks that require a deep understanding of the data and the ability to navigate through complex information.
 
@@ -341,7 +358,7 @@ print(message.artifact)
 
 The output is available at [vinagent/examples/deepsearch.md](vinagent/examples/deepsearch.md)
 
-## 5.2. Trending Search
+## 7.2. Trending Search
 
 Exceptionally, vinagent also offers a feature to summarize and highlight the top daily news on the internet based on any topic you are looking for, regardless of the language used. This is achieved by using the `trending_news` tool.
 
@@ -373,7 +390,7 @@ print(message.artifact)
 The output is available at [vinagent/examples/todaytrend.md](vinagent/examples/todaytrend.md)
 
 
-# 6. Agent with Memory
+# 8. Agent with Memory
 
 There is a special feature that allows to adhere Memory for each Agent. This is useful when you want to keep track of the user's behavior and conceptualize them as a knowledge graph for the agent. Therefore, it helps agent become more intelligent and capable of understanding personality and responding to user queries with greater accuracy.
 
@@ -466,7 +483,7 @@ message = agent.invoke("Hello how are you?")
 message.content
 ```
 
-# 7. Design Agent flow 
+# 9. Design Agent flow 
 
 The Vinagent library enables the integration of workflows built upon the nodes and edges of LangGraph. What sets it apart is our major improvement in representing a LangGraph workflow through a more intuitive syntax for connecting nodes using the right shift operator (`>>`). All agent patterns such as ReAct, chain-of-thought, and reflection can be easily constructed using this simple and readable syntax.
 
@@ -474,7 +491,7 @@ We support two styles of creating a workflow:
 - `FlowStateGraph`: Create nodes by concrete class nodes inherited from class Node of vinagent.
 - `FunctionStateGraph`: Create a workflow from function, which are decorated with @node to convert this function as a node. 
 
-## 7.1. FlowStateGraph
+## 9.1. FlowStateGraph
 
 These are steps to create a workflow:
 
@@ -580,7 +597,7 @@ agent.compiled_graph
 ![](asset/langgraph_output.png)
 
 
-## 7.2. FunctionStateGraph
+## 9.2. FunctionStateGraph
 
 We can simplify the coding style of a graph by converting each function into a node and assigning it a name.
 
@@ -729,13 +746,13 @@ An experiment dashboard of Agent will be available on your `jupyter notebook` fo
 
 [![Watch the video](https://img.youtube.com/vi/UgZLhoIgc94/0.jpg)](https://youtu.be/UgZLhoIgc94?si=qidf9fX3i4Cf0ETp)
 
-# 9. License
+# 11. License
 `vinagent` is released under the MIT License. You are free to use, modify, and distribute the code for both commercial and non-commercial purposes.
 
-# 10. Contributing
+# 12. Contributing
 We welcome contributions from the community. If you would like to contribute, please read our [Contributing Guide](https://github.com/datascienceworld-kan/vinagent/blob/main/CONTRIBUTING.md). If you have any questions or need help, feel free to join [Discord Channel](https://discord.com/channels/1036147288994758717/1358017320970358864).
 
-# 11. Credits
+# 13. Credits
 
 We acknowledge the contributions of previous open-source library and platform that inspired the development of `vinagent`:
 
