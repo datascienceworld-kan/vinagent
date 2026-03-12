@@ -104,13 +104,12 @@ print(message.content)
 
 ## Function Tool
 
-In the following sections, let's explore how to register each type of tools in `vinagent` library. First, let's see how to register a function tool. You can customize any function in your runtime code as a powerful tool by using the `@function_tool` decorator.
+In the following sections, let's explore how to register each type of tools in `vinagent` library. First, let's see how to register a function tool. You can customize any function in your runtime code as a powerful tool by using the `@agent.tools_manager.register_function_tool` decorator.
 
 ```python
-from vinagent.register.tool import function_tool
 from typing import List
 
-@agent.function_tool # Note: agent must be initialized first
+@agent.tools_manager.register_function_tool # Note: agent must be initialized first
 def sum_of_series(x: List[float]):
     return f"Sum of list is {sum(x)}"
 ```

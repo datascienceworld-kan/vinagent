@@ -24,7 +24,7 @@ nav:
         - 1. Add tools: get_started/add_tool.md
         - 2. Add memory: get_started/add_memory.md
         - 3. Async Invoking: get_started/async_invoke.md
-        - 4. Streaming: get_started/streaming.md
+        - - 4. Streaming & Async Streaming: get_started/streaming.md
         - 5. Prebuilt Agent: get_started/react_agent.md
         - 6. Security: get_started/authen_layer.md
         - 7. Observability: get_started/observability.md

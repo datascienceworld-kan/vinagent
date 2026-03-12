@@ -147,13 +147,12 @@ Vinagent stands out for its flexibility in registering different types of tools,
 
 ## 3.1. Function Tool
 
-You can customize any function in your runtime code as a powerful tool by using the @function_tool decorator.
+You can customize any function in your runtime code as a powerful tool by using the `@agent.tools_manager.register_function_tool` decorator.
 
 ```python
-from vinagent.register.tool import function_tool
 from typing import List
 
-@agent.function_tool # Note: agent must be initialized first
+@agent.tools_manager.register_function_tool # Note: agent must be initialized first
 def sum_of_series(x: List[float]):
     return f"Sum of list is {sum(x)}"
 ```
@@ -289,6 +288,23 @@ In addition to synchronous and asynchronous invocation, vinagent also supports s
 ```
 for chunk in agent.stream("Where is the capital of the Vietnam?"):
     print(chunk)
+```
+
+## 4.3. Async Streaming Invocation
+Vinagent offer an `astream` method that is async version of `stream` to accelerate the speed of response. It is particularly useful for I/O bound tasks that needs waiting for data from external sources.
+
+```
+import asyncio
+async def run_agent():
+    content = ""
+
+    async for chunk in agent.astream(query="Where is the capital of the Vietnam?"):
+        content += chunk.content or ""
+        print(chunk.content, end="", flush=True)
+
+    print("\nFinal content:", content)
+
+asyncio.run(run_agent())
 ```
 
 # 5. Advance Features
