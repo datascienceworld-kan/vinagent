@@ -1,8 +1,12 @@
+from abc import ABC, abstractmethod
+from typing import Any, Awaitable, List, AsyncGenerator, Generator, TypedDict, Optional, Union
+from typing_extensions import is_typeddict
 import asyncio
 import json
-from abc import ABC, abstractmethod
-from typing import Any, Awaitable, List, AsyncGenerator, TypedDict
-from typing_extensions import is_typeddict
+import re
+import yaml
+from pydantic import BaseModel, Field
+from pathlib import Path
 from langchain_together import ChatTogether
 from langchain_core.language_models.base import BaseLanguageModel
 from langchain_openai.chat_models.base import BaseChatOpenAI
@@ -12,11 +16,8 @@ from langchain_core.messages.ai import AIMessageChunk
 from langchain_core.tools import BaseTool
 from langgraph.checkpoint.memory import MemorySaver
 import logging
-from pathlib import Path
-from typing import Union
 import mlflow
 from mlflow.entities import SpanType
-
 from vinagent.register.tool import ToolManager
 from vinagent.memory.memory import Memory
 from vinagent.memory.history import InConversationHistory
@@ -30,10 +31,39 @@ from vinagent.guardrail import (
     OutputGuardrailDecision,
     GuardrailManager,
 )
+from vinagent.register.tool import ToolCall
+from vinagent.prompt.agent_prompt import PromptHandler
+from vinagent.message.adapter import adapter_ai_response_with_tool_calls
+from vinagent.executor.guardrail import GuardrailExecutor
+from vinagent.executor.graph_executor import GraphExecutor
+from vinagent.executor.invoke import InvokeExecutor
+from vinagent.executor.ainvoke import AsyncInvokeExecutor
+from vinagent.executor.stream import StreamInvokeExecutor
+from vinagent.executor.astream import AsyncStreamInvokeExecutor
+from vinagent.executor.base import AgentResponse
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+
+def is_jupyter_notebook():
+    try:
+        from IPython import get_ipython
+
+        ipython = get_ipython()
+        if ipython is None:
+            return False
+        # Check if it's a Jupyter Notebook (ZMQInteractiveShell is used in Jupyter)
+        return "ZMQInteractiveShell" in str(type(ipython))
+    except ImportError:
+        return False
+
+
+if is_jupyter_notebook():
+    import nest_asyncio
+
+    nest_asyncio.apply()
 
 
 class AgentMeta(ABC):
@@ -61,36 +91,165 @@ class AgentMeta(ABC):
         pass
 
     @abstractmethod
-    def stream(self, query: str, *args, **kwargs) -> Any:
+    def stream(self, query: str, *args, **kwargs) -> Generator[Any, None, None]:
         """Streaming the agent's main function"""
         pass
 
-
-def is_jupyter_notebook():
-    try:
-        from IPython import get_ipython
-
-        ipython = get_ipython()
-        if ipython is None:
-            return False
-        # Check if it's a Jupyter Notebook (ZMQInteractiveShell is used in Jupyter)
-        return "ZMQInteractiveShell" in str(type(ipython))
-    except ImportError:
-        return False
-
-
-if is_jupyter_notebook():
-    import nest_asyncio
-
-    nest_asyncio.apply()
+    @abstractmethod
+    async def astream(self, query: str, *args, **kwargs) -> AsyncGenerator[Any, None]:
+        """Asynchronously stream the agent's main function"""
+        pass
 
 
 class Agent(AgentMeta):
     """The Agent class is a concrete implementation of an AI agent with tool-calling capabilities, inheriting from AgentMeta. It integrates a language model, tools, memory, and flow management to process queries, execute tools, and maintain conversational context."""
 
+    @classmethod
+    def load_agent(
+        cls,
+        agent_paths: Union[List[Union[str, Path]], Union[str, Path], None] = None,
+        llm: Union["ChatTogether", "BaseLanguageModel", "BaseChatOpenAI", None] = None,
+        **kwargs,
+    ) -> "Agent":
+        """
+        Load an Agent from one or more AgentSkill directories (Anthropic structure).
+
+        The directory must follow the layout::
+
+            <agent_path>/
+            ├── SKILL.md      # YAML front-matter + markdown usage guidance
+            └── scripts/      # Shell scripts / Python helpers invoked by the agent
+
+        **SKILL.md structure**::
+
+            ---
+            name: <skill_name>
+            description: "<short description shown to the user>"
+            license: ...
+            ---
+
+            # <Skill title>
+
+            <Full markdown body — examples, shell commands, workflow steps.>
+            This becomes the agent's `instruction` AND the tool's `docstring`
+            so the LLM knows exactly which commands to construct.
+
+        If `agent_paths` is provided, the metadata, descriptions, instructions,
+        and tools are merged into a single capable agent.
+
+        Args:
+            agent_paths (List[Union[str, Path]], optional): List of paths to multiple agentskills.
+            llm: Language model instance.
+            **kwargs: Additional keyword arguments forwarded to :class:`Agent`.
+
+        Returns:
+            Agent: A fully initialised Agent with the skills registered as tools.
+
+        Raises:
+            FileNotFoundError: If ``SKILL.md`` is not found in a provided path.
+            ValueError: If the YAML front-matter cannot be parsed or no paths are given.
+        """
+        paths_to_load = []
+        if agent_paths:
+            if isinstance(agent_paths, list):
+                paths_to_load.extend(agent_paths)
+            else:
+                paths_to_load.append(agent_paths)
+
+        if not paths_to_load:
+            raise ValueError("Must provide at least one `agent_paths`.")
+
+        names = []
+        descriptions = []
+        instructions = []
+        tools_list = []
+
+        for p in paths_to_load:
+            agent_dir = Path(p).resolve()
+            skill_file = agent_dir / "SKILL.md"
+            if not skill_file.exists():
+                raise FileNotFoundError(f"SKILL.md not found in {agent_dir}")
+
+            content = skill_file.read_text(encoding="utf-8")
+
+            # --- Parse YAML front-matter ---
+            match = re.match(r"^---\s*\n(.*?)\n---\s*\n(.*)", content, re.DOTALL)
+            if not match:
+                # No front-matter: treat the whole file as instruction
+                instructions.append(
+                    f"=== Instructions for {agent_dir.name} ===\n{content.strip()}"
+                )
+                tools_list.append(str(agent_dir))
+                names.append(agent_dir.name)
+                continue
+
+            frontmatter_text, markdown_body = match.groups()
+            try:
+                metadata = yaml.safe_load(frontmatter_text) or {}
+            except yaml.YAMLError as e:
+                raise ValueError(
+                    f"Failed to parse YAML front-matter in {skill_file}: {e}"
+                )
+
+            name = metadata.get("name", agent_dir.name)
+            desc = metadata.get(
+                "description",
+                "You are a helpful assistant who can use the following tools to complete a task.",
+            )
+
+            names.append(name)
+            descriptions.append(f"{name}: {desc}")
+
+            inst = markdown_body.strip()
+            if inst:
+                instructions.append(f"=== Instructions for {name} ===\n{inst}")
+
+            tools_list.append(str(agent_dir))
+
+        # Join the collected metadata
+        final_name = "_".join(names) if names else "MultiSkillAgent"
+
+        if len(descriptions) == 1:
+            final_description = descriptions[0].split(": ", 1)[-1]
+        elif descriptions:
+            final_description = (
+                "You are a helpful assistant with these skills:\n"
+                + "\n".join(f"- {d}" for d in descriptions)
+            )
+        else:
+            final_description = "You are a helpful assistant who can use the following tools to complete a task."
+
+        if len(instructions) == 1:
+            # Strip the added header for backwards compatibility on single tools
+            idx = instructions[0].find("===\n")
+            if idx != -1:
+                final_instruction = instructions[0][idx + 4 :].strip()
+            else:
+                final_instruction = instructions[0]
+        else:
+            final_instruction = (
+                "\n\n".join(instructions)
+                if instructions
+                else (
+                    "You should answer the question relying on your determined skills."
+                )
+            )
+
+        return cls(
+            name=final_name,
+            llm=llm,
+            tools=tools_list,
+            tools_path=Path("templates/tools.json"),
+            is_reset_tools=True,
+            description=final_description,
+            instruction=final_instruction,
+            **kwargs,
+        )
+
     def __init__(
         self,
         llm: Union[ChatTogether, BaseLanguageModel, BaseChatOpenAI],
+        name: str = "default_name",
         tools: List[Union[str, BaseTool]] = [],
         tools_path: Path = Path("templates/tools.json"),
         is_reset_tools=False,
@@ -100,6 +259,7 @@ class Agent(AgentMeta):
         flow: list[str] = [],
         state_schema: type[Any] = None,
         config_schema: type[Any] = None,
+        thread_id: str = "123",
         memory_path: Path = None,
         is_reset_memory: bool = False,
         num_buffered_messages: int = 10,
@@ -117,6 +277,8 @@ class Agent(AgentMeta):
         Initialize the agent with a language model, a list of tools, a description, and a set of skills.
         Parameters:
         ----------
+        name : str = "default_name"
+            Name of agent
         llm : Union[ChatTogether, BaseLanguageModel, BaseChatOpenAI]
             An instance of a language model used by the agent to process and generate responses.
 
@@ -137,6 +299,20 @@ class Agent(AgentMeta):
 
         flow: list[str], optional
             A list of routes in the graph that defines start_node >> end_node. Defaults empty.
+
+        state_schema: type[Any] = None,
+            Only define if flow exists. It setups a state storage for agent workflow.
+            This will save all intermediate messages which is returned at each node to access them after the graph execution is finished.
+            By default, the state_schema is langgraph.graph.MessageState.
+
+        config_schema: type[Any] = None,
+            A schema for the config of the graph. Defaults to None.
+             Define a config schema which pass before the workflow triggering to manage the thread_id and user_id the agent is chatting with.
+            class ConfigSchema(TypedDict):
+                user_id: str
+
+        thread_id: str = None,
+            A thread id for the graph. Defaults to 123.
 
         is_reset_tools : bool, optional
             A flag indicating whether the agent should override its existing tools with the provided list of tools. Defaults to False.
@@ -175,6 +351,7 @@ class Agent(AgentMeta):
             Additional arguments passed to the superclass or future extensions.
         """
         # Initialize Agent llm and tools
+        self.name = name
         self.llm = llm
         self.tools = tools
         self.description = description
@@ -182,6 +359,7 @@ class Agent(AgentMeta):
         self.skills = skills
 
         # Initialize Agent flow by Langgraph
+        self.compiled_graph = None
         self.flow = flow
         if self.flow:
             self.initialize_flow(state_schema=state_schema, config_schema=config_schema)
@@ -230,13 +408,36 @@ class Agent(AgentMeta):
         self._user_id = None
         if not self.is_pii:
             self._user_id = "unknown_user"
-
+        self._thread_id = thread_id
         # OAuth2 authentication if enabled
         self.authen_card = authen_card
 
         self.input_guardrail = input_guardrail
         self.output_guardrail = output_guardrail
         self.guardrail_manager = guardrail_manager
+        self.guardrail_executor = GuardrailExecutor(
+            input_guardrail=self.input_guardrail,
+            output_guardrail=self.output_guardrail,
+            guardrail_manager=self.guardrail_manager,
+        )
+        self.invoke_executor = InvokeExecutor(
+            llm=self.llm, guardrail_executor=self.guardrail_executor
+        )
+        self.async_invoke_executor = AsyncInvokeExecutor(
+            llm=self.llm, guardrail_executor=self.guardrail_executor
+        )
+        self.graph_executor = GraphExecutor(
+            compiled_graph=self.compiled_graph,
+            guardrail_executor=self.guardrail_executor,
+            user_id=self._user_id,
+            thread_id=self._thread_id,
+        )
+        self.stream_invoke_executor = StreamInvokeExecutor(
+            llm=self.llm, guardrail_executor=self.guardrail_executor
+        )
+        self.async_stream_invoke_executor = AsyncStreamInvokeExecutor(
+            llm=self.llm, guardrail_executor=self.guardrail_executor
+        )
 
     def authenticate(self):
         if self.authen_card is None:
@@ -285,10 +486,20 @@ class Agent(AgentMeta):
 
     def register_tools(self, tools: List[str]) -> Any:
         """
-        Register a list of tools
+        Register a list of tools.
+
+        Automatically detects whether each entry is an AgentSkill directory
+        (contains a ``SKILL.md`` file) and routes it to
+        :meth:`~vinagent.register.tool.ToolManager.register_agentskill_tool`.
+        All other paths are treated as regular Python modules and forwarded to
+        :meth:`~vinagent.register.tool.ToolManager.register_module_tool`.
         """
         for tool in tools:
-            self.tools_manager.register_module_tool(tool)
+            tool_path = Path(tool)
+            if tool_path.is_dir() and (tool_path / "SKILL.md").exists():
+                self.tools_manager.register_agentskill_tool(tool)
+            else:
+                self.tools_manager.register_module_tool(tool)
 
     @property
     def user_id(self):
@@ -298,746 +509,537 @@ class Agent(AgentMeta):
     def user_id(self, new_user_id):
         self._user_id = new_user_id
 
-    def prompt_template(
-        self, query: str, user_id: str = "unknown_user", *args, **kwargs
-    ) -> str:
-        try:
-            tools = json.loads(self.tools_path.read_text(encoding="utf-8"))
-        except json.JSONDecodeError:
-            tools = {}
-            self.tools_path.write_text(json.dumps({}, indent=4), encoding="utf-8")
-
-        memory = ""
-        if self.memory:
-            memory_content = self.memory.load_memory_by_user(
-                load_type="string", user_id=user_id
-            )
-            if memory_content:
-                memory = f"- Memory: {memory_content}\n"
-
-        prompt = (
-            "You are given task, a list of available tools, and user's memory.\n"
-            f"- Task: {query}\n"
-            f"- Tools list: {json.dumps(tools)}\n"
-            f"{memory}\n"
-            f"- User: {user_id}\n"
-            "------------------------\n"
-            "Instructions:\n"
-            "- Let's answer in a natural, clear, and detailed way without providing reasoning or explanation.\n"
-            f"- If user used I in Memory, let's replace by name {user_id} in User part.\n"
-            "- You need to think about whether the question need to use Tools?\n"
-            "- If it was daily normal conversation. Let's directly answer as a human with memory.\n"
-            "- If the task requires a tool, filters appropriate tool with full arguments as same as Tools list. For example:"
-            "{\n"
-            '"tool_name": "Function name",\n'
-            '"arguments": "A dictionary of keyword-arguments to execute tool_name",\n'
-            '"return": "The return type of tool_name",\n'
-            '"module_path": "Path to import the tool"\n'
-            '"tool_type": "Type of tool. Only get one of three values ["function", "module", "mcp"]"\n'
-            '"tool_call_id": "Tool calling ID"\n'
-            '"is_runtime": "runtime value"\n'
-            "}\n"
-            "- Let's say I don't know and suggest where to search if you are unsure the answer.\n"
-            "- Not make up anything.\n"
-        )
-
-        return prompt
-
-    def prompt_tool(
-        self, query: str, tool_call: str, tool_message: ToolMessage, *args, **kwargs
-    ) -> str:
-        tool_template = (
-            f"- Question: {query}\n"
-            f"- Tool Used: {tool_call}\n"
-            f"""- Tool's Result: {tool_message.artifact if hasattr(tool_message, "artifact") else None}\n"""
-            "Let's answer:"
-        )
-        return tool_template
-
-    def system_prompt(self):
-        skills = "- " + "- ".join(self.skills)
-        content = (
-            f"{self.description}\nYour skills:\n{skills}\nInstruction:\n{self.instruction}"
-            if self.instruction
-            else f"{self.description}\nYour skills:\n{skills}"
-        )
-        system_prompt = SystemMessage(content=content)
-        return system_prompt
-
-    def initialize_state(
-        self, query: str, user_id: str, thread_id: str = 123, **kwargs
-    ):
-        input_state = (
-            kwargs["input_state"]
-            if "input_state" in kwargs
-            else {"messages": [{"role": "user", "content": query}]}
-        )
-
-        config = (
-            kwargs["config"]
-            if "config" in kwargs
-            else {
-                "configurable": {"user_id": user_id},
-                "thread_id": thread_id,
-            }
-        )
-        return {"input": input_state, "config": config}
-
-    def check_input_guardrail(self, query: str):
-        if self.guardrail_manager:
-            decision = self.guardrail_manager.validate_input(self.llm, query)
-            if not decision.allowed:
-                logging.error(f"Input is not allowed: {decision.reason}")
-                raise ValueError(decision.reason)
-            return False
-        else:
-            if self.input_guardrail:
-                decision = self.input_guardrail.validate(self.llm, query)
-                if not decision.allowed:
-                    raise ValueError(decision.reason)
-                return False
-        return True
-
-    def check_output_guardrail(self, output_text: str):
-        if self.guardrail_manager:
-            decision = self.guardrail_manager.validate_output(self.llm, output_text)
-            if not decision.allowed:
-                logging.error(f"Output is not allowed: {decision.reason}")
-                raise ValueError(decision.reason)
-            return False
-        else:
-            if self.output_guardrail:
-                decision = self.output_guardrail.validate(self.llm, output_text)
-                logger.info(decision)
-                if not decision.allowed:
-                    logging.error(f"Output is not allowed: {decision.reason}")
-                    raise ValueError(decision.reason)
-                return False
-        return True
-
-    def check_tool_guardrail(self, llm, tool_name: str, user_input: str):
-        if self.guardrail_manager:
-            decisions = self.guardrail_manager.validate_tools(
-                llm=self.llm, tool_name=tool_name, user_input=user_input
-            )
-            for decision in decisions:
-                if not decision.allowed:
-                    logging.error(f"Tool {tool_name} is not allowed: {decision.reason}")
-                    raise ValueError(decision.reason)
-                return False
-        return True
-
     def invoke(
         self,
         query: str,
         is_save_memory: bool = False,
         user_id: str = "unknown_user",
-        max_iterations: int = 10,  # Add max iterations to prevent infinite loops
+        max_iterations: int = 10,
         is_tool_formatted: bool = True,
         max_history: int = None,
         **kwargs,
     ) -> Any:
-        """
-        Answer the user query synchronously with continuous tool calling capability.
-
-        Args:
-            query (str): The input query or task description provided by the user.
-            is_save_memory (bool, optional): Flag to determine if the conversation should be saved to memory. Defaults to False.
-            user_id (str, optional): Identifier for the user making the request. Defaults to "unknown_user".
-            max_iterations (int, optional): Maximum number of tool call iterations to prevent infinite loops. Defaults to 10.
-            is_tool_formatted (bool, optional): Modifying the output Tool to become more human-preferred. If True, it needs one next llm invoke to format answer, else directly return tool_message. Defaults to True.
-            max_history (int, optional): The maximum number of messages. Defaults to None.
-            **kwargs: Additional keyword arguments, including an optional `config` dictionary for graph execution.
-
-        Returns:
-            Any: The result of the tool execution, LLM response, or None if an error occurs during tool execution.
-
-        Raises:
-            json.JSONDecodeError: If the tool data cannot be parsed as valid JSON.
-            KeyError: If required keys are missing in the tool data.
-            ValueError: If the tool data is invalid or cannot be processed.
-        """
+        # --- Auth & user setup ---
         self.authenticate()
-        if self._user_id:
-            pass
-        if user_id:  # user clarify their name
-            self._user_id = user_id
-        logger.info(f"I'am chatting with {self._user_id}")
-
-        if self.memory and is_save_memory:
-            self.save_memory(query, user_id=self._user_id)
-
-        # Check guardrail
-        self.check_input_guardrail(query)
-
-        # Question and answering
-        try:
-            if hasattr(self, "compiled_graph"):
-                thread_id = (
-                    kwargs.get("thread_id") if hasattr(self, "thread_id") else "123"
-                )
-                input_state = self.initialize_state(
-                    query=query, user_id=user_id, thread_id=thread_id
-                )
-
-                try:
-                    result = self.compiled_graph.invoke(**input_state)
-                    self.check_output_guardrail(result)
-                    self.in_conversation_history.add_message(result)
-                    if self.memory and is_save_memory:
-                        self.save_memory(message=result, user_id=self._user_id)
-                    return result
-                except ValueError as e:
-                    logger.error(f"Error in compiled_graph.invoke: {e}")
-            else:
-                # Initialize conversation with original query
-                current_query = query
-                iteration = 0
-
-                while iteration < max_iterations:
-                    # --- 1. LLM invoking ---
-                    iteration += 1
-                    logger.info(f"Tool calling iteration {iteration}/{max_iterations}")
-
-                    # Create messages for current iteration
-                    prompt = self.prompt_template(
-                        query=current_query, user_id=self._user_id
-                    )
-                    system_prompt = self.system_prompt()
-                    messages = [
-                        system_prompt,
-                        HumanMessage(content=prompt),
-                    ]
-
-                    # Add conversation history to messages
-                    self.in_conversation_history.add_messages(messages)
-
-                    # Get LLM response
-                    history = self.in_conversation_history.get_history(
-                        max_history=max_history
-                    )
-
-                    response = self.llm.invoke(history)
-
-                    # --- 2. Tool invoking ---
-                    # Extract tool call from response
-                    tool_data = ""
-                    if hasattr(response, "content"):
-                        tool_data = self.tools_manager.extract_tool(response.content)
-                    else:
-                        tool_data = self.tools_manager.extract_tool(response)
-
-                    # If no tool call is found, return the final response
-                    if not tool_data or ("None" in tool_data) or (tool_data == "{}"):
-                        logger.info(
-                            f"No more tool calls needed. Completed in {iteration} iterations."
-                        )
-                        self.check_output_guardrail(response)
-                        if self.memory and is_save_memory:
-                            self.save_memory(message=response, user_id=self._user_id)
-                        return response
-
-                    # Parse and execute tool call
-                    tool_call = json.loads(tool_data)
-                    logger.info(f"Executing tool call: {tool_call}")
-                    # Adapt tool-call for gpt4o model by adding tool_calls argument into response
-                    # Note: It must be preceded to adding tool_message into history.
-                    # Check tool permission
-                    try:
-                        is_valid_tool_permission = self.check_tool_guardrail(
-                            llm=self.llm,
-                            tool_name=tool_call.get("tool_name"),
-                            user_input=query,
-                        )
-                    except Exception as e:
-                        is_valid_tool_permission = False
-
-                    response = self.adapter_ai_response_with_tool_calls(
-                        response, tool_call
-                    )
-
-                    self.in_conversation_history.add_message(response)
-
-                    tool_message = None
-                    if is_valid_tool_permission:
-                        try:
-                            tool_message = asyncio.run(
-                                self.tools_manager._execute_tool(
-                                    tool_name=tool_call["tool_name"],
-                                    tool_type=tool_call["tool_type"],
-                                    arguments=tool_call["arguments"],
-                                    module_path=tool_call["module_path"],
-                                    mcp_client=self.mcp_client,
-                                    mcp_server_name=self.mcp_server_name,
-                                )
-                            )
-                            if tool_message is None:
-                                tool_message = ToolMessage(
-                                    content=f"Tool execution success without artifact",
-                                    additional_kwargs={"is_error": False},
-                                    tool_call_id=response.tool_calls[0].get("id"),
-                                )
-                        except Exception as e:
-                            logger.error(f"Error executing tool: {e}")
-                            tool_message = ToolMessage(
-                                content=f"Tool execution failed: {type(e).__name__}: {e}",
-                                additional_kwargs={"is_error": True},
-                                tool_call_id=response.tool_calls[0].get("id"),
-                            )
-                    else:
-                        tool_message = ToolMessage(
-                            content="Tool is not permitted by security rules.",
-                            additional_kwargs={"is_error": True},
-                            tool_call_id=response.tool_calls[0].get("id"),
-                        )
-
-                    # Add AI message and tool result to conversation history
-                    if tool_message:
-                        self.in_conversation_history.add_message(tool_message)
-                    # Prepare next iteration with tool result context
-                    tool_template = self.prompt_tool(
-                        current_query, tool_call, tool_message
-                    )
-                    current_query = tool_template
-
-                # If we reach max iterations, return the last tool message with a warning
-                logger.warning(
-                    f"Reached maximum iterations ({max_iterations}). Stopping tool calling loop."
-                )
-
-                # --- 3. format final response as AIMessage ---
-                if is_tool_formatted:
-                    user_query = HumanMessage(
-                        content=f"Based on the previous tool executions, please provide a final response to: {query}"
-                    )
-                    self.in_conversation_history.add_message(user_query)
-                    history = self.in_conversation_history.get_history(
-                        max_history=max_history
-                    )
-                    final_message = self.llm.invoke(history)
-                    self.in_conversation_history.add_message(final_message)
-                else:
-                    final_message = tool_message
-
-                self.check_output_guardrail(final_message)
-                # Save memory
-                if self.memory and is_save_memory:
-                    self.save_memory(message=final_message, user_id=self._user_id)
-
-                return final_message
-
-        except (json.JSONDecodeError, KeyError, ValueError) as e:
-            logger.error(f"An error occurred: {str(e)}")
-            error_message = AIMessage(content=f"An error occurred: {str(e)}")
-            return error_message
-
-    def stream(
-        self,
-        query: str,
-        is_save_memory: bool = False,
-        user_id: str = "unknown_user",
-        max_iterations: int = 10,  # Add max iterations to prevent infinite loops
-        is_tool_formatted: bool = True,
-        max_history: int = None,
-        **kwargs,
-    ) -> AsyncGenerator[Any, None]:
-        """
-        Answer the user query by streaming with continuous tool calling capability. Yields streamed responses or the final tool execution result.
-
-        Args:
-            query (str): The input query or task description provided by the user.
-            is_save_memory (bool, optional): Flag to determine if the conversation should be saved to memory. Defaults to False.
-            user_id (str, optional): Identifier for the user making the request. Defaults to "unknown_user".
-            max_iterations (int, optional): Maximum number of tool call iterations to prevent infinite loops. Defaults to 10.
-            is_tool_formatted (bool, optional): Modifying the output Tool to become more human-preferred. If True, it needs one next llm invoke to format answer, else directly return tool_message. Defaults to True.
-            max_history (int, optional): Number of last messages in the history. Defaults to None.
-            **kwargs: Additional keyword arguments, including an optional `config` dictionary for graph execution.
-
-        Returns:
-            Any: The result of the tool execution, LLM response, or None if an error occurs during tool execution.
-
-        Raises:
-            json.JSONDecodeError: If the tool data cannot be parsed as valid JSON.
-            KeyError: If required keys are missing in the tool data.
-            ValueError: If the tool data is invalid or cannot be processed.
-        """
-        self.authenticate()
-        if not self._user_id:
-            self._user_id = user_id
+        self._user_id = user_id or self._user_id
         logger.info(f"I am chatting with {self._user_id}")
 
         if self.memory and is_save_memory:
             self.save_memory(query, user_id=self._user_id)
 
-        self.check_input_guardrail(query)
-        try:
-            if hasattr(self, "compiled_graph"):
-                result = []
-                thread_id = (
-                    kwargs.get("thread_id") if hasattr(self, "thread_id") else "123"
-                )
-                input_state = self.initialize_state(
-                    query=query, user_id=user_id, thread_id=thread_id
-                )
+        self.guardrail_executor.check_input_guardrail(query)
 
-                for chunk in self.compiled_graph.stream(**input_state):
-                    for v in chunk.values():
-                        if v:
-                            result += v["messages"]
-                            yield v
+        # --- Compiled graph path ---
+        if getattr(self, "compiled_graph", None):
+            return self.graph_executor._invoke_compiled_graph(
+                query=query,
+                user_id=user_id,
+                history=self.in_conversation_history,
+                memory=self.memory,
+                is_save_memory=is_save_memory,
+                **kwargs,
+            )
 
-                self.check_output_guardrail(result)
-                # Save memory
+        # --- Tool calling loop ---
+        current_query = query
+        tool_message = None
+
+        for iteration in range(1, max_iterations + 1):
+            logger.info(f"Tool calling iteration {iteration}/{max_iterations}")
+
+            # Step 1: LLM invoke
+            response = self.invoke_executor._step1_llm_define_tool(
+                iteration=iteration,
+                max_history=max_history,
+                user_id=user_id,
+                message=current_query,
+                tools_manager=self.tools_manager,
+                memory=self.memory,
+                skills=self.skills,
+                description=self.description,
+                instruction=self.instruction,
+                history=self.in_conversation_history,
+            )
+
+            # Early exit: direct answer with no tool needed
+            if not getattr(response, "requires_tool", False) and getattr(
+                response, "answer", None
+            ):
+                answer = response.answer
+                logger.info(
+                    f"No more tool calls needed. Completed in {iteration} iterations."
+                )
+                self.guardrail_executor.check_output_guardrail(answer)
                 if self.memory and is_save_memory:
-                    self.save_memory(message=result, user_id=self._user_id)
-                yield result
-            else:
-                # Initialize conversation with original query
-                current_query = query
-                iteration = 0
-                final_result = None
+                    self.save_memory(message=answer, user_id=self._user_id)
+                return AIMessage(content=answer)
 
-                while iteration < max_iterations:
-                    # --- 1. LLM invoking ---
-                    iteration += 1
-                    logger.info(
-                        f"Streaming tool calling iteration {iteration}/{max_iterations}"
-                    )
+            # Step 2: Tool invoke
+            current_query, tool_message, should_continue = (
+                self.invoke_executor._step2_tool_invoke(
+                    current_query=current_query,
+                    response=response,
+                    tools_manager=self.tools_manager,
+                    history=self.in_conversation_history,
+                    mcp_client=self.mcp_client,
+                    mcp_server_name=self.mcp_server_name,
+                )
+            )
 
-                    # Create messages for current iteration
-                    prompt = self.prompt_template(
-                        query=current_query, user_id=self._user_id
-                    )
-                    system_prompt = self.system_prompt()
-                    messages = [
-                        system_prompt,
-                        HumanMessage(content=prompt),
-                    ]
+            if not should_continue:
+                # Step 2 found a direct answer (no tool needed)
+                answer = getattr(response, "answer", None) or ""
+                self.guardrail_executor.check_output_guardrail(answer)
+                if self.memory and is_save_memory:
+                    self.save_memory(message=answer, user_id=self._user_id)
+                return AIMessage(content=answer)
 
-                    # Add conversation history to messages
-                    self.in_conversation_history.add_messages(messages)
-
-                    # Accumulate streamed content
-                    full_content = AIMessageChunk(content="")
-                    history = self.in_conversation_history.get_history(
-                        max_history=max_history
-                    )
-                    for chunk in self.llm.stream(history):
-                        full_content += chunk
-                        yield chunk
-
-                    response = AIMessage(content=full_content.content)
-
-                    # --- 2. Tool invoking ---
-                    # After streaming is complete, process tool data
-                    tool_data = ""
-                    if hasattr(full_content, "content"):
-                        tool_data = self.tools_manager.extract_tool(
-                            full_content.content
-                        )
-                    else:
-                        tool_data = self.tools_manager.extract_tool(full_content)
-
-                    if (tool_data is None) or (tool_data == "{}"):
-                        logger.info(
-                            f"No more tool calls needed. Completed in {iteration} iterations."
-                        )
-                        self.check_output_guardrail(response)
-                        final_result = full_content
-                        if self.memory and is_save_memory:
-                            self.save_memory(
-                                message=full_content, user_id=self._user_id
-                            )
-                        return final_result
-
-                    # Parse and execute tool
-                    tool_call = json.loads(tool_data)
-                    # Adapt tool-call for gpt4o model by adding tool_calls argument into response
-                    # Note: It must be preceded to adding tool_message into history.
-                    try:
-                        is_valid_tool_permission = self.check_tool_guardrail(
-                            llm=self.llm,
-                            tool_name=tool_call.get("tool_name"),
-                            user_input=query,
-                        )
-                    except Exception as e:
-                        is_valid_tool_permission = False
-
-                    response = self.adapter_ai_response_with_tool_calls(
-                        response, tool_call
-                    )
-                    self.in_conversation_history.add_message(response)
-
-                    logger.info(f"Executing streaming tool call: {tool_call}")
-
-                    tool_message = None
-                    if is_valid_tool_permission:
-                        try:
-                            tool_message = asyncio.run(
-                                self.tools_manager._execute_tool(
-                                    tool_name=tool_call["tool_name"],
-                                    tool_type=tool_call["tool_type"],
-                                    arguments=tool_call["arguments"],
-                                    module_path=tool_call["module_path"],
-                                    mcp_client=self.mcp_client,
-                                    mcp_server_name=self.mcp_server_name,
-                                )
-                            )
-                            if tool_message is None:
-                                tool_message = ToolMessage(
-                                    content=f"Tool execution success without artifact",
-                                    additional_kwargs={"is_error": False},
-                                    tool_call_id=response.tool_calls[0].get("id"),
-                                )
-                        except Exception as e:
-                            logger.error(f"Error executing tool: {e}")
-                            tool_message = ToolMessage(
-                                content=f"Tool execution failed: {type(e).__name__}: {e}",
-                                additional_kwargs={"is_error": True},
-                                tool_call_id=response.tool_calls[0].get("id"),
-                            )
-                    else:
-                        tool_message = ToolMessage(
-                            content="Tool is not permitted by security rules.",
-                            additional_kwargs={"is_error": True},
-                            tool_call_id=response.tool_calls[0].get("id"),
-                        )
-
-                    # Add AI message and tool result to conversation history
-                    self.in_conversation_history.add_message(tool_message)
-
-                    # Prepare next iteration with tool result context
-                    tool_template = self.prompt_tool(
-                        current_query, tool_call, tool_message
-                    )
-                    current_query = tool_template
-
-                # If we reach max iterations without natural completion
-                if iteration >= max_iterations and final_result is None:
-                    logger.warning(
-                        f"Reached maximum iterations ({max_iterations}). Stopping streaming tool calling loop."
-                    )
-                    # --- 3. format final response as AIMessage ---
-                    if is_tool_formatted:
-                        final_message_content = HumanMessage(
-                            f"Based on the previous tool executions, please provide a final response to: {query}"
-                        )
-                        self.in_conversation_history.add_message(final_message_content)
-                        history = self.in_conversation_history.get_history(
-                            max_history=max_history
-                        )
-                        full_content = AIMessageChunk(content="")
-                        for chunk in self.llm.stream(history):
-                            full_content += chunk
-                            yield chunk
-                        self.in_conversation_history.add_message(full_content)
-                    else:
-                        full_content = tool_message
-                        self.check_output_guardrail(full_content)
-                    if self.memory and is_save_memory:
-                        # Create a message from the streamed content for memory
-                        self.save_memory(message=full_content, user_id=self._user_id)
-
-        except (json.JSONDecodeError, KeyError, ValueError) as e:
-            logger.error(f"An error occurred: {str(e)}")
-            error_message = AIMessage(content=f"An error occurred: {str(e)}")
-            return error_message
+        # Step 3: Max iterations reached — format final response
+        logger.warning(
+            f"Reached maximum iterations ({max_iterations}). Stopping tool calling loop."
+        )
+        return self.invoke_executor._step3_final_response(
+            query=current_query,
+            tool_message=tool_message,
+            is_tool_formatted=is_tool_formatted,
+            is_save_memory=is_save_memory,
+            max_history=max_history,
+            history=self.in_conversation_history,
+            memory=self.memory,
+            user_id=user_id,
+        )
 
     async def ainvoke(
         self,
         query: str,
         is_save_memory: bool = False,
         user_id: str = "unknown_user",
-        max_iterations: int = 10,  # Add max iterations to prevent infinite loops
+        max_iterations: int = 10,
         is_tool_formatted: bool = True,
         max_history: int = None,
         **kwargs,
-    ) -> Any:
-        """
-        Answer the user query asynchronously with continuous tool calling capability.
-
-        Args:
-            query (str): The input query or task description provided by the user.
-            is_save_memory (bool, optional): Flag to determine if the conversation should be saved to memory. Defaults to False.
-            user_id (str, optional): Identifier for the user making the request. Defaults to "unknown_user".
-            max_iterations (int, optional): Maximum number of tool call iterations to prevent infinite loops. Defaults to 10.
-            is_tool_formatted (bool, optional): Modifying the output Tool to become more human-preferred. If True, it needs one next llm invoke to format answer, else directly return tool_message. Defaults to True.
-            max_history (int, None): Number of maximum history messages. Defaults to None.
-            **kwargs: Additional keyword arguments, including an optional `config` dictionary for graph execution.
-
-        Returns:
-            Any: The result of the tool execution, LLM response, or None if an error occurs during tool execution.
-
-        Raises:
-            json.JSONDecodeError: If the tool data cannot be parsed as valid JSON.
-            KeyError: If required keys are missing in the tool data.
-            ValueError: If the tool data is invalid or cannot be processed.
-        """
+    ) -> Awaitable[Any]:
+        # --- Auth & user setup ---
         self.authenticate()
-        if self._user_id:
-            pass
-        else:  # user clarify their name
-            self._user_id = user_id
-        logger.info(f"I'am chatting with {self._user_id}")
+        self._user_id = user_id or self._user_id
+        logger.info(f"I am chatting with {self._user_id}")
 
-        self.check_input_guardrail(query)
         if self.memory and is_save_memory:
             self.save_memory(query, user_id=self._user_id)
 
-        try:
-            if hasattr(self, "compiled_graph"):
-                thread_id = (
-                    kwargs.get("thread_id") if hasattr(self, "thread_id") else "123"
+        self.guardrail_executor.check_input_guardrail(query)
+
+        # --- Compiled graph path ---
+        if getattr(self, "compiled_graph", None):
+            return await self.graph_executor._invoke_compiled_graph_async(
+                query=query,
+                user_id=user_id,
+                history=self.in_conversation_history,
+                memory=self.memory,
+                is_save_memory=is_save_memory,
+                **kwargs,
+            )
+
+        # --- Tool calling loop ---
+        current_query = query
+        tool_message = None
+
+        for iteration in range(1, max_iterations + 1):
+            logger.info(f"Async tool calling iteration {iteration}/{max_iterations}")
+
+            # Step 1: LLM invoke (reused directly — sync, no await needed)
+            response = await self.async_invoke_executor._step1_llm_define_tool_async(
+                iteration=iteration,
+                max_history=max_history,
+                user_id=user_id,
+                message=current_query,
+                tools_manager=self.tools_manager,
+                memory=self.memory,
+                skills=self.skills,
+                description=self.description,
+                instruction=self.instruction,
+                history=self.in_conversation_history,
+            )
+
+            # Early exit: direct answer with no tool needed
+            if not getattr(response, "requires_tool", False) and getattr(
+                response, "answer", None
+            ):
+                answer = response.answer
+                logger.info(
+                    f"No more tool calls needed. Completed in {iteration} iterations."
                 )
-                input_state = self.initialize_state(
+                self.guardrail_executor.check_output_guardrail(answer)
+                if self.memory and is_save_memory:
+                    self.save_memory(message=answer, user_id=self._user_id)
+                return AIMessage(content=answer)
+
+            # Step 2: Tool invoke (async variant — await replaces asyncio.run)
+            current_query, tool_message, should_continue = (
+                await self.async_invoke_executor._step2_tool_invoke_async(
+                    current_query=current_query,
+                    response=response,
+                    tools_manager=self.tools_manager,
+                    history=self.in_conversation_history,
+                    mcp_client=self.mcp_client,
+                    mcp_server_name=self.mcp_server_name,
+                )
+            )
+
+            if not should_continue:
+                answer = getattr(response, "answer", None) or ""
+                self.guardrail_executor.check_output_guardrail(answer)
+                if self.memory and is_save_memory:
+                    self.save_memory(message=answer, user_id=self._user_id)
+                return AIMessage(content=answer)
+
+        # Step 3: Max iterations reached — format final response (async variant)
+        logger.warning(
+            f"Reached maximum iterations ({max_iterations}). Stopping async tool calling loop."
+        )
+        return await self.async_invoke_executor._step3_final_response_async(
+            query=current_query,
+            tool_message=tool_message,
+            is_tool_formatted=is_tool_formatted,
+            is_save_memory=is_save_memory,
+            max_history=max_history,
+            history=self.in_conversation_history,
+            memory=self.memory,
+            user_id=user_id,
+        )
+
+    def stream(
+        self,
+        query: str,
+        is_save_memory: bool = False,
+        user_id: str = "unknown_user",
+        max_iterations: int = 10,
+        is_tool_formatted: bool = True,
+        max_history: int = None,
+        **kwargs,
+    ) -> Generator[Any, None, None]:
+        """
+        Stream the agent response token-by-token with continuous tool-calling
+        capability.  Follows the same 3-step loop as :meth:`invoke` but yields
+        ``AIMessageChunk`` objects so the caller can push tokens to a live
+        connection (WebSocket, SSE, etc.) as soon as they arrive.
+
+        Workflow
+        --------
+        1. **Step 1** – Call the LLM with structured output to determine
+           whether a tool is needed (``AgentResponse``).
+           - If *no tool needed*: stream the direct answer token-by-token
+             and return.
+        2. **Step 2** – Execute the tool synchronously (same as ``invoke``).
+        3. **Step 3** – After all tool iterations, stream the final LLM
+           summary token-by-token.
+
+        Args:
+            query (str): User query.
+            is_save_memory (bool): Save conversation to long-term memory.
+            user_id (str): Identifier for the current user.
+            max_iterations (int): Maximum tool-calling iterations.
+            is_tool_formatted (bool): If True, streams a final LLM summary
+                after tool execution; if False, yields the raw ToolMessage.
+            max_history (int): Number of history messages to include.
+            **kwargs: Forwarded to the compiled-graph path when applicable.
+
+        Yields:
+            AIMessageChunk | AIMessage | ToolMessage: Streamed LLM tokens
+            or the final tool/LLM message.
+        """
+        # --- Auth & user setup ---
+        self.authenticate()
+        self._user_id = user_id or self._user_id
+        logger.info(f"I am chatting with {self._user_id}")
+
+        if self.memory and is_save_memory:
+            self.save_memory(query, user_id=self._user_id)
+
+        self.guardrail_executor.check_input_guardrail(query)
+
+        try:
+            # --- Compiled graph path ---
+            if (
+                getattr(self, "compiled_graph", None)
+                and self.compiled_graph is not None
+            ):
+                result = []
+                thread_id = kwargs.get("thread_id", self._thread_id)
+                input_state = self.graph_executor.initialize_state(
                     query=query, user_id=user_id, thread_id=thread_id
                 )
-
-                try:
-                    result = await self.compiled_graph.ainvoke(**input_state)
-                    self.in_conversation_history.add_message(result)
-                    self.check_output_guardrail(result)
-                    if self.memory and is_save_memory:
-                        self.save_memory(message=result, user_id=self._user_id)
-                    return result
-                except ValueError as e:
-                    logger.error(f"Error in compiled_graph.invoke: {e}")
-            else:
-                # Initialize conversation with original query
-                current_query = query
-                iteration = 0
-
-                while iteration < max_iterations:
-                    # --- 1. LLM invoking ---
-                    iteration += 1
-                    logger.info(
-                        f"Async tool calling iteration {iteration}/{max_iterations}"
-                    )
-
-                    # Create messages for current iteration
-                    prompt = self.prompt_template(
-                        query=current_query, user_id=self._user_id
-                    )
-                    system_prompt = self.system_prompt()
-                    messages = [
-                        system_prompt,
-                        HumanMessage(content=prompt),
-                    ]
-
-                    # Add conversation history to messages
-                    self.in_conversation_history.add_messages(messages)
-                    history = self.in_conversation_history.get_history(
-                        max_history=max_history
-                    )
-
-                    # Get LLM response
-                    response = await self.llm.ainvoke(input=history)
-
-                    # --- 2. Tool invoking ---
-                    # Extract tool call from response
-                    tool_data = ""
-                    if hasattr(response, "content"):
-                        tool_data = self.tools_manager.extract_tool(response.content)
-                    else:
-                        tool_data = self.tools_manager.extract_tool(response)
-
-                    # If no tool call is found, return the final response
-                    if not tool_data or ("None" in tool_data) or (tool_data == "{}"):
-                        logger.info(
-                            f"No more tool calls needed. Completed in {iteration} iterations."
-                        )
-                        self.check_output_guardrail(response)
-                        if self.memory and is_save_memory:
-                            self.save_memory(message=response, user_id=self._user_id)
-                        return response
-
-                    # Parse and execute tool call
-                    tool_call = json.loads(tool_data)
-                    logger.info(f"Executing async tool call: {tool_call}")
-                    # Adapt tool-call for gpt4o model by adding tool_calls argument into response
-                    # Note: It must be preceded to adding tool_message into history.
-                    # Check tool permission
-                    try:
-                        is_valid_tool_permission = self.check_tool_guardrail(
-                            llm=self.llm,
-                            tool_name=tool_call.get("tool_name"),
-                            user_input=query,
-                        )
-                    except Exception as e:
-                        is_valid_tool_permission = False
-
-                    response = self.adapter_ai_response_with_tool_calls(
-                        response, tool_call
-                    )
-                    self.in_conversation_history.add_message(response)
-
-                    if is_valid_tool_permission:
-                        try:
-                            tool_message = await self.tools_manager._execute_tool(
-                                tool_name=tool_call["tool_name"],
-                                tool_type=tool_call["tool_type"],
-                                arguments=tool_call["arguments"],
-                                module_path=tool_call["module_path"],
-                                mcp_client=self.mcp_client,
-                                mcp_server_name=self.mcp_server_name,
-                            )
-                            if tool_message is None:
-                                tool_message = ToolMessage(
-                                    content=f"Tool execution success without artifact",
-                                    additional_kwargs={"is_error": False},
-                                    tool_call_id=response.tool_calls[0].get("id"),
-                                )
-                        except Exception as e:
-                            logger.error(f"Error executing tool: {e}")
-                            tool_message = ToolMessage(
-                                content=f"Tool execution failed: {type(e).__name__}: {e}",
-                                additional_kwargs={"is_error": True},
-                                tool_call_id=response.tool_calls[0].get("id"),
-                            )
-                    else:
-                        tool_message = ToolMessage(
-                            content="Tool is not permitted by security rules.",
-                            additional_kwargs={"is_error": True},
-                            tool_call_id=response.tool_calls[0].get("id"),
-                        )
-
-                    # Add AI message and tool result to conversation history
-                    self.in_conversation_history.add_message(tool_message)
-
-                    # Prepare next iteration with tool result context
-                    tool_template = self.prompt_tool(
-                        current_query, tool_call, tool_message
-                    )
-                    current_query = tool_template
-
-                # If we reach max iterations, return the last tool message with a warning
-                logger.warning(
-                    f"Reached maximum iterations ({max_iterations}). Stopping async tool calling loop."
-                )
-
-                # --- 3. format final response as AIMessage ---
-                user_query = HumanMessage(
-                    content=f"Based on the previous tool executions, please provide a final response to: {query}"
-                )
-                self.in_conversation_history.add_message(user_query)
-                history = self.in_conversation_history.get_history(
-                    max_history=max_history
-                )
-                if is_tool_formatted:
-                    final_message = self.llm.invoke(history)
-                    self.in_conversation_history.add_message(final_message)
-                else:
-                    final_message = tool_message
-                self.check_output_guardrail(final_message)
+                for chunk in self.compiled_graph.stream(**input_state):
+                    for v in chunk.values():
+                        if v:
+                            result += v["messages"]
+                            yield v
+                self.guardrail_executor.check_output_guardrail(result)
                 if self.memory and is_save_memory:
-                    self.save_memory(message=final_message, user_id=self._user_id)
+                    self.save_memory(message=result, user_id=self._user_id)
+                yield result
+                return
 
-                return final_message
+            # --- Tool calling loop ---
+            current_query = query
+            tool_message = None
+
+            for iteration in range(1, max_iterations + 1):
+                logger.info(
+                    f"Streaming tool calling iteration {iteration}/{max_iterations}"
+                )
+
+                # Step 1: Ask LLM (structured output) whether a tool is needed
+                response = self.stream_invoke_executor._step1_llm_define_tool(
+                    iteration=iteration,
+                    max_history=max_history,
+                    user_id=user_id,
+                    message=current_query,
+                    tools_manager=self.tools_manager,
+                    memory=self.memory,
+                    skills=self.skills,
+                    description=self.description,
+                    instruction=self.instruction,
+                    history=self.in_conversation_history,
+                )
+                logger.info(f"response: {response}")
+                # Early exit: direct answer — stream it token-by-token
+                if not getattr(response, "requires_tool", False) and getattr(
+                    response, "answer", None
+                ):
+                    logger.info(
+                        f"No tool needed. Streaming direct answer (iteration {iteration})."
+                    )
+                    answer_text = response.answer
+                    for chunk in answer_text:
+                        chunk = AIMessageChunk(content=chunk)
+                        yield chunk
+                    self.guardrail_executor.check_output_guardrail(answer_text)
+                    full_chunk = AIMessage(content=answer_text)
+                    self.in_conversation_history.add_message(full_chunk)
+                    # Stream the direct answer chunk-by-chunk via a short llm.stream call
+                    # Re-add message to history so the next prompt is correct
+                    if self.memory and is_save_memory:
+                        self.save_memory(
+                            message=full_chunk.content, user_id=self._user_id
+                        )
+                    if answer_text:
+                        try:
+                            tool_call = json.loads(answer_text)
+                            logger.info(
+                                "Detected JSON tool call in answer, preparing next iteration."
+                            )
+                            current_query = AIMessage(
+                                content=f"Let's call tool: {json.dumps(tool_call)}"
+                            )
+                            continue
+
+                        except json.JSONDecodeError:
+                            return
+
+                # Step 2: Execute the tool (synchronous — no streaming here)
+                logging.info(f"current_query: {current_query}")
+                current_query, tool_message, should_continue = (
+                    self.stream_invoke_executor._step2_tool_invoke(
+                        current_query=current_query,
+                        response=response,
+                        tools_manager=self.tools_manager,
+                        history=self.in_conversation_history,
+                        mcp_client=self.mcp_client,
+                        mcp_server_name=self.mcp_server_name,
+                    )
+                )
+
+                if not should_continue:
+                    # No tool was executed — yield the direct answer
+                    answer_text = getattr(response, "answer", None) or ""
+                    self.guardrail_executor.check_output_guardrail(answer_text)
+                    if self.memory and is_save_memory:
+                        self.save_memory(message=answer_text, user_id=self._user_id)
+                    yield AIMessage(content=answer_text)
+                    return
+
+            # Step 3: Max iterations — stream the final LLM summary
+            logger.warning(
+                f"Reached maximum iterations ({max_iterations}). Stopping streaming loop."
+            )
+            yield from self.stream_invoke_executor._step3_final_response_stream(
+                query=current_query,
+                tool_message=tool_message,
+                is_tool_formatted=is_tool_formatted,
+                is_save_memory=is_save_memory,
+                max_history=max_history,
+                history=self.in_conversation_history,
+                memory=self.memory,
+                user_id=user_id,
+            )
 
         except (json.JSONDecodeError, KeyError, ValueError) as e:
-            logger.error(f"An error occurred: {str(e)}")
-            error_message = AIMessage(content=f"An error occurred: {str(e)}")
-            return error_message
+            logger.error(f"An error occurred during streaming: {str(e)}")
+            yield AIMessage(content=f"An error occurred: {str(e)}")
+
+    async def astream(
+        self,
+        query: str,
+        is_save_memory: bool = False,
+        user_id: str = "unknown_user",
+        max_iterations: int = 10,
+        is_tool_formatted: bool = True,
+        max_history: int = None,
+        **kwargs,
+    ) -> AsyncGenerator[Any, None]:
+        """
+        Asynchronously stream the agent response token-by-token with
+        continuous tool-calling capability.  Mirrors :meth:`stream` but uses
+        ``async for`` / ``await`` throughout so it can run inside an existing
+        async event loop (FastAPI, Starlette, etc.).
+
+        Workflow
+        --------
+        1. **Step 1** – Async structured-output call to determine tool need.
+           - If *no tool needed*: async-stream direct answer, then return.
+        2. **Step 2** – Async tool execution (``await``).
+        3. **Step 3** – Async-stream the final LLM summary.
+
+        Args:
+            query (str): User query.
+            is_save_memory (bool): Save conversation to long-term memory.
+            user_id (str): Identifier for the current user.
+            max_iterations (int): Maximum tool-calling iterations.
+            is_tool_formatted (bool): Stream a final LLM summary (True) or
+                yield the raw ToolMessage (False) after tool execution.
+            max_history (int): Number of history messages to include.
+            **kwargs: Forwarded to the compiled-graph path when applicable.
+
+        Yields:
+            AIMessageChunk | AIMessage | ToolMessage: Async-streamed tokens
+            or the final tool/LLM message.
+        """
+        # --- Auth & user setup ---
+        self.authenticate()
+        self._user_id = user_id or self._user_id
+        logger.info(f"I am chatting with {self._user_id}")
+
+        if self.memory and is_save_memory:
+            self.save_memory(query, user_id=self._user_id)
+
+        self.guardrail_executor.check_input_guardrail(query)
+
+        try:
+            # --- Compiled graph path ---
+            if (
+                getattr(self, "compiled_graph", None)
+                and self.compiled_graph is not None
+            ):
+                result = await self.graph_executor._invoke_compiled_graph_async(
+                    query=query,
+                    user_id=user_id,
+                    history=self.in_conversation_history,
+                    memory=self.memory,
+                    is_save_memory=is_save_memory,
+                    **kwargs,
+                )
+                yield result
+                return
+
+            # --- Tool calling loop ---
+            current_query = query
+            tool_message = None
+
+            for iteration in range(1, max_iterations + 1):
+                logger.info(
+                    f"Async streaming tool calling iteration {iteration}/{max_iterations}"
+                )
+
+                response = await self.async_stream_invoke_executor._step1_llm_define_tool_async(
+                    iteration=iteration,
+                    max_history=max_history,
+                    user_id=user_id,
+                    message=current_query,
+                    tools_manager=self.tools_manager,
+                    memory=self.memory,
+                    skills=self.skills,
+                    description=self.description,
+                    instruction=self.instruction,
+                    history=self.in_conversation_history,
+                )
+
+                logger.info(f"Response from LLM: {response}")
+                # Early exit: direct answer — async-stream it token-by-token
+                if not getattr(response, "requires_tool", False) and getattr(
+                    response, "answer", None
+                ):
+                    logger.info(
+                        f"No tool needed. Async-streaming direct answer (iteration {iteration})."
+                    )
+                    answer_text = response.answer
+                    for chunk in answer_text:
+                        chunk = AIMessageChunk(content=chunk)
+                        yield chunk
+                    self.guardrail_executor.check_output_guardrail(answer_text)
+                    full_chunk = AIMessage(content=answer_text)
+                    self.in_conversation_history.add_message(full_chunk)
+                    # Stream the direct answer chunk-by-chunk via a short llm.stream call
+                    # Re-add message to history so the next prompt is correct
+                    if self.memory and is_save_memory:
+                        self.save_memory(
+                            message=full_chunk.content, user_id=self._user_id
+                        )
+                    if answer_text:
+                        try:
+                            tool_call = json.loads(answer_text)
+                            logger.info(
+                                "Detected JSON tool call in answer, preparing next iteration."
+                            )
+                            current_query = AIMessage(
+                                content=f"Let's call tool: {json.dumps(tool_call)}"
+                            )
+                            continue
+
+                        except json.JSONDecodeError:
+                            return
+
+                # Step 2: Execute tool asynchronously
+                current_query, tool_message, should_continue = (
+                    await self.async_stream_invoke_executor._step2_tool_invoke_async(
+                        current_query=current_query,
+                        response=response,
+                        tools_manager=self.tools_manager,
+                        history=self.in_conversation_history,
+                        mcp_client=self.mcp_client,
+                        mcp_server_name=self.mcp_server_name,
+                    )
+                )
+
+                if not should_continue:
+                    answer_text = getattr(response, "answer", None) or ""
+                    self.guardrail_executor.check_output_guardrail(answer_text)
+                    if self.memory and is_save_memory:
+                        self.save_memory(message=answer_text, user_id=self._user_id)
+                    yield AIMessage(content=answer_text)
+                    return
+
+            # Step 3: Max iterations — async-stream final LLM summary
+            logger.warning(
+                f"Reached maximum iterations ({max_iterations}). Stopping async streaming loop."
+            )
+            async for (
+                chunk
+            ) in self.async_stream_invoke_executor._step3_final_response_astream(
+                query=current_query,
+                tool_message=tool_message,
+                is_tool_formatted=is_tool_formatted,
+                is_save_memory=is_save_memory,
+                max_history=max_history,
+                history=self.in_conversation_history,
+                memory=self.memory,
+                user_id=user_id,
+            ):
+                yield chunk
+
+        except (json.JSONDecodeError, KeyError, ValueError) as e:
+            logger.error(f"An error occurred during async streaming: {str(e)}")
+            yield AIMessage(content=f"An error occurred: {str(e)}")
 
     def save_memory(
         self, message: Union[ToolMessage, AIMessage], user_id: str = "unknown_user"
@@ -1067,14 +1069,3 @@ class Agent(AgentMeta):
 
     def function_tool(self, func: Any):
         return self.tools_manager.register_function_tool(func)
-
-    def adapter_ai_response_with_tool_calls(self, response, tool_call):
-        adapt_tool = {}
-        all_tools = self.tools_manager.load_tools()
-        selected_tool = all_tools[tool_call["tool_name"]]
-        adapt_tool["name"] = selected_tool["tool_name"]
-        adapt_tool["args"] = tool_call["arguments"]
-        adapt_tool["type"] = "tool_call"
-        adapt_tool["id"] = selected_tool["tool_call_id"]
-        response.tool_calls = [adapt_tool]
-        return response

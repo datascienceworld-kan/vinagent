@@ -1,7 +1,11 @@
-"""SQLAlchemy wrapper around a database."""
+"""SQLAlchemy wrapper around a database.
 
-"""Reference from: https://python.langchain.com/api_reference/_modules/langchain_community/utilities/sql_database.html#SQLDatabase"""
+Reference from: 
+https://python.langchain.com/api_reference/_modules/langchain_community/utilities/sql_database.html#SQLDatabase
+"""
+
 from __future__ import annotations
+
 import re
 from typing import Any, Dict, Iterable, List, Literal, Optional, Sequence, Union
 

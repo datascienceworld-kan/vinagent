@@ -240,6 +240,7 @@ def fetch_btc_market_data() -> str:
     except Exception as e:
         return f"Error fetching BTC price: {e}"
 
+
 @primary_function
 def calculate_stock_statistics(df: pd.DataFrame, symbol: str) -> dict:
     """
@@ -308,6 +309,7 @@ def calculate_stock_statistics(df: pd.DataFrame, symbol: str) -> dict:
     }
 
     return stats
+
 
 @primary_function
 def calculate_black_litterman(

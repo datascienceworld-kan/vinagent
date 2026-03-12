@@ -13,10 +13,10 @@ class AgentNode(Agent, Node):
         self.config = config
         self._current_user_id = "unknown_user"
         self._current_thread_id = 123
-        
-    def __call__(self, state: Any, config: RunnableConfig = None) -> dict: 
+
+    def __call__(self, state: Any, config: RunnableConfig = None) -> dict:
         return self.exec(state, config)
-    
+
     def with_config(self, config):
         self.config = config
 
@@ -27,19 +27,23 @@ class AgentNode(Agent, Node):
                 if "user_id" in self.config["configurable"]:
                     self._current_user_id = self.config["configurable"]["user_id"]
                 else:
-                    raise ValueError("""config must be {'configurable': {'user_id': 'unknown_user'}, 'thread_id': 123"}""")
+                    raise ValueError(
+                        """config must be {'configurable': {'user_id': 'unknown_user'}, 'thread_id': 123"}"""
+                    )
             if "thread_id" in self.config:
                 self._current_thread_id = self.config["thread_id"]
             else:
-                raise ValueError("""config must be {'configurable': {'user_id': 'unknown_user'}, 'thread_id': 123"}""")
+                raise ValueError(
+                    """config must be {'configurable': {'user_id': 'unknown_user'}, 'thread_id': 123"}"""
+                )
         return super().invoke(
             prompt,
             max_iterations=max_iterations,
             user_id=self._current_user_id,
             thread_id=self._current_thread_id,
-            **kwargs
+            **kwargs,
         )
-    
+
     def branching(self, state: Any, config: Optional[RunnableConfig] = None) -> str:
         pass
 

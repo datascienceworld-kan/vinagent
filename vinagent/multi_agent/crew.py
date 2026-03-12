@@ -85,8 +85,7 @@ class CrewAgent:
         }
         self.graph._apply_runtime_config(self.config)
         self.compiled_graph = self.graph.compile(
-            checkpointer=self.checkpoint,
-            flow=self.flow
+            checkpointer=self.checkpoint, flow=self.flow
         )
         self.authen_card = authen_card
         self.in_conversation_history = InConversationHistory(
@@ -215,7 +214,6 @@ class CrewAgent:
             return
         self.graph._apply_runtime_config(config)
         self.compiled_graph = self.graph.compile(
-            checkpointer=self.checkpoint,
-            flow=self.flow
+            checkpointer=self.checkpoint, flow=self.flow
         )
         self.config = copy.deepcopy(config)

@@ -93,7 +93,7 @@ class FlowStateGraph(StateGraph):
         self.validate()
         compiled = super().compile(checkpointer=checkpointer, **kwargs)
         return compiled
-    
+
     def _apply_runtime_config(self, config: dict):
         """
         Inject runtime configuration into node instances.
